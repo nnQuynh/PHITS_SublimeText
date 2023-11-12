@@ -1,2 +1,2 @@
-# PHITS_sublime
+# Syntax highlight for PHITS code
 Syntax highlight for PHITS code
