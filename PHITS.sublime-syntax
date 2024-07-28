@@ -4,17 +4,18 @@
 # See http://www.sublimetext.com/docs/3/syntax.html
 name: PHITS
 file_extensions: [inp]
-scope: source.inp
+scope: source.phits
 
 
 variables:
   decimal: '\+?[0-9]+\.*[0-9]*'
   neg_decimal: '-{1}[0-9]+\.*[0-9]*'
+  scientific_number: '/^[+\-]?(?=.)(?:0|[1-9]\d*)?(?:\.\d*)?(?:\d[eE][+\-]?\d+)?$/'
   blank_line: ^\s*\n
   pos_int: '[0-9]*[1-9][0-9]*'
 
   surface_mnemonic: (?i)\b(p|px|py|pz|so|s|sx|sy|sz|c/x|c/y|c/z|cx|cy|cz|k/x|k/y|k/z|kx|ky|kz|sq|gq|tx|ty|tz|xyzp|box|rpp|sph|rcc|rhp|hex|rec|trc|ell|wed|arb)\b
-
+  particle_symbol: (?i)\b(proton|neutron|electron|positron|photon|deuteron|triton|3he|alpha)\b
 
 
 contexts:
@@ -47,6 +48,7 @@ contexts:
     - include: calculation_mode
     - include: number_history_bank
     - include: cut_switch_energy
+    - include: transport_option
     - include: cut_time_weight_window
     #- include: stopping_power
     - include: event_generator_kerma
@@ -75,6 +77,11 @@ contexts:
       captures:
         1: keyword.declaration.parameters.card.number_history_bank.phits
 
+    - match: (?i)\s*(istdev)(\s+=\s+)(-2|-1|0|1|2)    
+      captures:
+        1: keyword.declaration.parameters.card.number_history_bank.phits
+        3: constant.language.parameters.phits
+
   cut_switch_energy: # sub parameters section
     # cut-off energy
     - match: (?i)\s*(emin|dmax|cmin)\(([0-9]+)\)    
@@ -86,8 +93,13 @@ contexts:
       captures:
         1: keyword.declaration.parameters.card.cut_switch_energy.phits
 
-    #transport_option:
-    - match: (?i)\s*(negs|nucdata|ieleh)(\s+=\s+)()  
+  transport_option:
+    - match: (?i)\s*(negs)(\s+=\s+)(-1|0|1|2)    
+      captures:
+        1: keyword.declaration.parameters.card.number_history_bank.phits
+        3: constant.language.parameters.phits
+
+    - match: (?i)\s*(nucdata|ieleh)(\s+=\s+)()  
       captures:
         1: keyword.declaration.parameters.card.cut_switch_energy.phits
 
@@ -193,10 +205,14 @@ contexts:
 
 
   common_parameters:
-    - match: (?i)\s*(proj|sx|sy|sz|reg|ntmax|trcl|wgt|wgt|izst|ispfs)(\s+=\s+)()  
+    - match: (?i)\s*(sx|sy|sz|reg|ntmax|trcl|wgt|wgt|izst|ispfs)(\s+=\s+)()  
       captures:
         1: keyword.declaration.source.card.common_parameters.phits    
 
+    - match:   (?i)\s*(proj)(\s+=\s+)({{particle_symbol}})  # source type
+      captures: 
+        1: keyword.declaration.source.phits
+        3: constant.language.particle_symbol.phits
 
     - match: (?i)\s*(cnt)\((.)\)  
       captures:
@@ -258,7 +274,7 @@ contexts:
 
   SaB2_ENDFVIII.0:
     - match: (?i)(al-27|d-d2o|fe-56|grph|grph10|grph30|h-h2o|h-luci|h-poly|h-yh2|h-zrh|o-d2o|)(.40t)
-      scope: variable.parameter.crossSection.SaB.phits
+      scope: constant.language.crossSection.SaB.phits
   
 
 
@@ -272,7 +288,7 @@ contexts:
     - include: begin_section 
 
       #          (  group1          )   (  group 2 )   ( group 3                   )      
-    - match: (?i)(^\s{0,4}[0-9]{1,8})\s+({{pos_int}})\s+({{decimal}}|{{neg_decimal}})   # cell with material
+    - match: (?i)(^\s{0,4}[0-9]{1,8})\s+({{pos_int}})\s+({{scientific_number}}|{{neg_decimal}}|{{scientific_number}})   # cell with material
       captures:
         1: entity.name.cellNumber.phits
         2: keyword.declaration.mat.number.phits
@@ -338,7 +354,41 @@ contexts:
         2: keyword.declaration.tally.phits
 
 
+  ############################################################################################
+  # [I m p o r t a n c e]
+  ############################################################################################
+  importance_section:
+    - meta_scope: importance-section
+    - include: comments
+    - include: begin_section
 
+    - match:   (?i)\s*(part)(\s+=\s+)({{particle_symbol}})  # source type
+      captures: 
+        1: keyword.declaration.importance.phits
+        3: constant.language.particle_symbol.phits
+
+    - match: (?i)\s*(reg)\s+(imp)  
+      captures:
+        1: keyword.declaration.importance.phits
+        2: keyword.declaration.importance.phits
+
+  ############################################################################################
+  # [M u l t i p l i e r]
+  ############################################################################################
+  multiplier_section:
+    - meta_scope: multiplier-section
+    - include: comments
+    - include: begin_section
+
+    - match:   (?i)\s*(part)(\s+=\s+)({{particle_symbol}})  # source type
+      captures: 
+        1: keyword.declaration.importance.phits
+        3: constant.language.particle_symbol.phits
+
+    - match: (?i)\s*(number|ne|interpolation)  
+      captures:
+        1: keyword.declaration.importance.phits
+        2: keyword.declaration.importance.phits
 
   ############################################################################################
   # Others
@@ -389,6 +439,14 @@ contexts:
       scope: keyword.begin.section.phits
       set: surface_section
 
+    - match:  (?i)(^\s*)(\[I\s*m\s*p\s*o\s*r\s*t\s*a\s*n\s*c\s*e\s*]\s*)\n
+      scope: keyword.begin.section.phits
+      set: importance_section
+
+    - match:  (?i)(^\s*)(\[\s*M\s*u\s*l\s*t\s*i\s*p\s*l\s*i\s*e\s*r\s*]\s*)\n
+      scope: keyword.begin.section.phits
+      set: multiplier_section
+
     - match:  (?i)(^\s*)(\[\s*T\s*\-.*]\s*)\n
       scope: keyword.begin.section.phits
       set: tally_section
@@ -397,4 +455,3 @@ contexts:
     - match:  (?i)(^\s*)(\[E\s*n\s*d]\s*)
       scope: keyword.begin.section.phits
       set: end_section
-
