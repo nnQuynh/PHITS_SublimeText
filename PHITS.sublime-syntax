@@ -2,6 +2,7 @@
 ---
 # Last update: 22-July-2021
 # See http://www.sublimetext.com/docs/3/syntax.html
+# https://jdhao.github.io/2019/02/28/sublime_text_regex_cheat_sheet/
 name: PHITS
 file_extensions: [inp]
 scope: source.inp
@@ -14,8 +15,9 @@ variables:
   pos_int: '[0-9]*[1-9][0-9]*'
 
   surface_mnemonic: (?i)\b(p|px|py|pz|so|s|sx|sy|sz|c/x|c/y|c/z|cx|cy|cz|k/x|k/y|k/z|kx|ky|kz|sq|gq|tx|ty|tz|xyzp|box|rpp|sph|rcc|rhp|hex|rec|trc|ell|wed|arb)\b
-
-
+  color_name: (?i)(white|darkred|darkbrown|purple|orange|bluegreen)
+  intrinsic_functions: (?i)\b(FLOAT|INT|ABS|EXP|LOG|LOG10|MAX|MIN|MOD|NINT|SIGN|SQRT|ACOS|ASIN|ATAN|ATAN2|COS|COSH|SIN|SINH|TAN|TANH)\b
+  particles: (?i)\b(electron|photon)\b
 
 contexts:
   main:
@@ -26,18 +28,18 @@ contexts:
     #   scope: keyword.begin-section.phits
     #   push: title_section
 
-  ############################################################################################
-  # [ T i t l e ]
-  ############################################################################################
+############################################################################################
+# [ T i t l e ]
+############################################################################################
   title_section:
     - meta_scope: title_section
 
     - include: comments
     - include: begin_section
 
-  ############################################################################################
-  # [ P a r a m e t e r s ]
-  ############################################################################################
+############################################################################################
+# [ P a r a m e t e r s ]
+############################################################################################
   parameters_section:
     - meta_scope: parameters-section
 
@@ -172,9 +174,9 @@ contexts:
 
 
 
-  ############################################################################################
-  # [ S o u r c e ]
-  ############################################################################################
+############################################################################################
+# [ S o u r c e ]
+############################################################################################
   source_section:
     - meta_scope: source-section
 
@@ -220,9 +222,9 @@ contexts:
     #     2: constant.numeric.card.source_shape.phits
 
 
-  ############################################################################################
-  # [ M a t e r i a l ]
-  ############################################################################################
+############################################################################################
+# [ M a t e r i a l ]
+############################################################################################
   material_section:
     - meta_scope: source-section
 
@@ -256,20 +258,48 @@ contexts:
   # S(alpha,bea)
   SaB:
     - include: SaB2_ENDFVIII.0
-    - include: SaB_ENDFVII.0
+    - include: SaB_ENDFVII.1
 
   SaB2_ENDFVIII.0:
     - match: (?i)(al-27|d-d2o|fe-56|grph|grph10|grph30|h-h2o|h-luci|h-poly|h-yh2|h-zrh|o-d2o|)(.40t)
       scope: constant.language.crossSection.SaB.phits
 
-  SaB_ENDFVII.0:
-    - match: (?i)(al-27|d-d2o|fe-56|grph|grph10|grph30|h-h2o|h-luci|h-poly|h-yh2|h-zrh|o-d2o|lwtr)(.20t)
+  # source: https://nucleardata.lanl.gov/ace/endf71sab
+  SaB_ENDFVII.1:
+    - match: (?i)(al27|be|be-o|be/o|benz|lwtr|lwtr|o-be)(.20t|.12t|.10t)
       scope: constant.language.crossSection.SaB.phits  
 
 
-  ############################################################################################
-  # [ C e l l ]
-  ############################################################################################
+
+############################################################################################
+# [ M a t  N a m e  C o l o r ]
+############################################################################################
+  material_name_color_section:
+    - meta_scope: material_name_color_section-section
+
+    - include: comments
+    - include: begin_section      
+    - include: colume_name      
+    - include: mat_name_color      
+
+  colume_name:
+    - match: (?i)\s*(mat)\s+(name)\s+(color)
+      captures:
+        1: keyword.declaration.material.name_color.phits
+        2: variable.language.material.name_color.phits 
+        3: constant.language.material.name_color.phits
+
+  mat_name_color:
+    - match: (?i)\s*([0-9]+)\s+([a-z]+)\s+({{color_name}})
+      captures:
+        1: keyword.declaration.material.name_color.phits
+        2: variable.language.material.name_color.phits 
+        3: constant.language.material.name_color.phits
+        #constant.language.parameters.card.input_output_filename.phits
+
+############################################################################################
+# [ C e l l ]
+############################################################################################
   cell_section:
     - meta_scope: cell-section
 
@@ -295,9 +325,9 @@ contexts:
 
 
 
-  ############################################################################################
-  # [ S u r f a c e ]
-  ############################################################################################
+############################################################################################
+# [ S u r f a c e ]
+############################################################################################
   surface_section:
     - meta_scope: surface-section
     - include: comments
@@ -318,21 +348,51 @@ contexts:
 
 
 
-  ############################################################################################
-  # [I m p o r t a n c e]
-  ############################################################################################
+############################################################################################
+# [I m p o r t a n c e]
+############################################################################################
   importance_section:
     - meta_scope: importance-section
     - include: comments
     - include: begin_section
 
+    - match: (?i)\s*(part)\s*=\s*({{particles}})     
+      captures:
+        1: keyword.declaration.source.card.multi_source.phits
+        2: variable.language.card.material_definition.phits
+
+    - match: (?i)\s*(reg)\s+(imp)     
+      captures:
+        1: keyword.declaration.source.card.multi_source.phits
+        2: variable.language.card.material_definition.phits
+
+############################################################################################
+# [ M u l t i p l i e r ]  
+############################################################################################
+  multiplier_section:
+    - meta_scope: importance-section
+    - include: comments
+    - include: begin_section
+
+    - match: (?i)\s*(part|interpolation)\s*=\s*({{particles}}|log)     
+      captures:
+        1: keyword.declaration.source.card.multi_source.phits
+        2: variable.language.card.material_definition.phits
+
+    - match: (?i)\s*(number)\s*=\s*(-200|-201|-202|-203|-204|-210|-211|-212|)     
+      captures:
+        1: keyword.declaration.source.card.multi_source.phits
+        2: variable.language.card.material_definition.phits
+
+    - match: (?i)\s*(ne)
+      captures:
+        1: keyword.declaration.source.card.multi_source.phits
+        2: variable.language.card.material_definition.phits
 
 
-
-
-  ############################################################################################
-  # [ T a l l y]
-  ############################################################################################
+############################################################################################
+# [ T a l l y]
+############################################################################################
   tally_section:
     - meta_scope: tally-section
     - include: comments
@@ -343,7 +403,7 @@ contexts:
         2: keyword.declaration.tally.title.phits
         #3: string.unquoted.tally.title.phits
 
-    - match: (^\s*)(x0|y0|z0|point|mesh|reg|x-type|y-type|z-type|r-type|e-type|nx|ny|nz|nr|ne|xmin|xmax|ymin|rmin|ymax|zmin|zmax|rmax|emin|edel|emax|part|unit|2D-type|gshow|axis|file|material|output|epsout|zdel|xdel|ydel)\s*=
+    - match: (^\s*)(x0|y0|z0|point|mesh|reg|x-type|y-type|z-type|r-type|e-type|nx|ny|nz|nr|ne|xmin|xmax|ymin|rmin|ymax|zmin|zmax|rmax|emin|edel|emax|part|unit|2D-type|gshow|axis|file|material|output|epsout|zdel|xdel|ydel|trcl)\s*=
       captures:
         2: keyword.declaration.tally.phits
 
@@ -358,9 +418,9 @@ contexts:
 
 
 
-  ############################################################################################
-  # Others
-  ############################################################################################
+############################################################################################
+# Others
+############################################################################################
   end_section:
     - match: (.*)
       scope: comment.end.input.phits
@@ -398,6 +458,9 @@ contexts:
       scope: keyword.begin.section.phits
       set: material_section
 
+    - match:  (?i)(^\s*)(\[\s*M\s*a\s*t\s*N\s*a\s*m\s*e\s*C\s*o\s*l\s*o\s*r\s*]\s*)\n
+      scope: keyword.begin.section.phits
+      set: material_name_color_section
 
     - match:  (?i)(^\s*)(\[\s*C\s*e\s*l\s*l\s*]\s*)\n
       scope: keyword.begin.section.phits
@@ -414,6 +477,11 @@ contexts:
     - match:  (?i)(^\s*)(\[\s*I\s*m\s*p\s*o\s*r\s*t\s*a\s*n\s*c\s*e\s*\]\s*)\n    
       scope: keyword.begin.section.phits
       set: importance_section
+
+    - match:  (?i)(^\s*)(\[\s*M\s*u\s*l\s*t\s*i\s*p\s*l\s*i\s*e\s*r\s*\]\s*)\n    
+      scope: keyword.begin.section.phits
+      set: multiplier_section
+
 
     - match:  (?i)(^\s*)(\[E\s*n\s*d]\s*)
       scope: keyword.begin.section.phits
