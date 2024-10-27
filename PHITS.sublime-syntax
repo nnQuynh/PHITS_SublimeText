@@ -16,7 +16,7 @@ variables:
 
   surface_mnemonic: (?i)\b(p|px|py|pz|so|s|sx|sy|sz|c/x|c/y|c/z|cx|cy|cz|k/x|k/y|k/z|kx|ky|kz|sq|gq|tx|ty|tz|xyzp|box|rpp|sph|rcc|rhp|hex|rec|trc|ell|wed|arb)\b
   color_name: (?i)(white|darkred|darkbrown|purple|orange|bluegreen)
-  intrinsic_functions: (?i)\b(FLOAT|INT|ABS|EXP|LOG|LOG10|MAX|MIN|MOD|NINT|SIGN|SQRT|ACOS|ASIN|ATAN|ATAN2|COS|COSH|SIN|SINH|TAN|TANH)\b
+  intrinsic_functions: (?i)\b(pi|FLOAT|INT|ABS|EXP|LOG|LOG10|MAX|MIN|MOD|NINT|SIGN|SQRT|ACOS|ASIN|ATAN|ATAN2|COS|COSH|SIN|SINH|TAN|TANH)\b
   particles: (?i)(\b)(all|proton|neutron|electron|positron|photon|alpha|triton|3he|deuteron|pion+)(\b)
 
 contexts:
@@ -45,6 +45,8 @@ contexts:
 
     - include: comments
     - include: begin_section
+    - include: set_parameter        
+    - include: intrinsic_functions        
 
     - include: calculation_mode
     - include: number_history_bank
@@ -79,10 +81,15 @@ contexts:
 
   cut_switch_energy: # sub parameters section
     # cut-off energy
-    - match: (?i)\s*(emin|dmax|cmin)\(([0-9]+)\)    
+    - match: (?i)\s*(emin)\(([0-9]+)\)  
       captures:
-        1: support.constant.cut_switch_energy
-        2: constant.numeric.parameters.card.cut_switch_energy
+        1: support.constant.input_output_filename
+        2: constant.numeric.parameters.card.input_output_filename
+
+    # - match: (?i)\s*(emin|dmax|cmin)\(([0-9]+)\)    
+    #   captures:
+    #     1: support.constant.cut_switch_energy
+    #     2: constant.numeric.parameters.card.cut_switch_energy
 
     - match: (?i)\s*(esmin|esmax|etsmin|etsmax|tsmax)(\s+=\s+)() 
       captures:
@@ -172,8 +179,6 @@ contexts:
       captures:
         1: support.constant.Others
 
-
-
 ############################################################################################
 # [ S o u r c e ]
 ############################################################################################
@@ -182,6 +187,8 @@ contexts:
 
     - include: comments
     - include: begin_section
+    - include: set_parameter     
+    - include: intrinsic_functions   
 
     - include: multi_source
     - include: common_parameters
@@ -210,21 +217,21 @@ contexts:
         2: constant.numeric.source.card.common_parameters
 
   source_type:    # cylinder, sphere,...
-    - match:   (?i)\s*(s-type)(\s+=\s+)(1|2|3|7|13|15|9|11|12|18|20|22|24|26|17|100)  # source type
+    # - match:   (?i)\s*(s-type)\s*=\s*(1|2|3|7|13|15|9|11|12|18|20|22|24|26|17|100)  # source type
+    - match:   (?i)\s*(s-type)\s*=\s* # source type
       captures: 
         1: support.constant.source_type
-        3: variable.parameter.source_type
+        2: variable.parameter.source_type
 
 
 
-    - match:  (?i)\s*(x0|y0|y0|z0|r0|x1|y1|z1|r1|r2|e0|dir|phi|dom|e-type|rn|rx|ry|x2|y2|z2|x3|y3|z3|xmrad1|ymrad1|xmrad2|ymrad2|file|xp|yp|xq|yq|wt0|pz0|isbias|mesh|tetreg|suf|cut|dump|sx|sy|sz|wgt|factor|t-type|reg|mtmax|trcl|idmpmode|dmpmulti)(\s+=\s+)
+    - match:  (?i)\s*(ne|x0|y0|y0|z0|r0|x1|y1|z1|r1|r2|e0|dir|phi|dom|e-type|rn|rx|ry|x2|y2|z2|x3|y3|z3|xmrad1|ymrad1|xmrad2|ymrad2|file|xp|yp|xq|yq|wt0|pz0|isbias|mesh|tetreg|suf|cut|dump|sx|sy|sz|wgt|factor|t-type|reg|mtmax|trcl|idmpmode|dmpmulti)(\s+=\s+)
       captures: 
         1: support.constant.source_type
 
     # - match: (?i)(=\s*)(c[1-9][0-9]*)          TODO
     #   captures: 
     #     2: constant.numeric.card.source_shape
-
 
 ############################################################################################
 # [ M a t e r i a l ]
@@ -234,6 +241,8 @@ contexts:
 
     - include: comments
     - include: begin_section      
+    - include: set_parameter      
+    - include: intrinsic_functions   
 
     - include: material_definition
     - include: material_thermal_scattering
@@ -273,8 +282,6 @@ contexts:
     - match: (?i)(al27|be|be-o|be/o|benz|lwtr|lwtr|o-be)(.20t|.12t|.10t)
       scope: constant.numeric.crossSection.SaB  
 
-
-
 ############################################################################################
 # [ M a t  N a m e  C o l o r ]
 ############################################################################################
@@ -307,8 +314,10 @@ contexts:
   cell_section:
     - meta_scope: cell-section
 
-    - include: comments
+    - include: comments_in_cell_section
     - include: begin_section 
+    - include: set_parameter     
+    - include: intrinsic_functions   
 
       #          (  group1          )   (  group 2 )   ( group 3                   )      
     - match: (?i)(^\s{0,4}[0-9]{1,8})\s+({{pos_int}})\s+({{decimal}}|{{neg_decimal}})   # cell with material
@@ -328,7 +337,6 @@ contexts:
         2: support.constant.mat.void 
 
 
-
 ############################################################################################
 # [ S u r f a c e ]
 ############################################################################################
@@ -336,6 +344,8 @@ contexts:
     - meta_scope: surface-section
     - include: comments
     - include: begin_section
+    - include: set_parameter     
+    - include: intrinsic_functions   
 
     # 1 <= surface number <= 99 999 999
     - match: '(^\s{0,4}0*[1-9][0-9]{0,7})\s+({{surface_mnemonic}})'      # surface no transformation
@@ -350,8 +360,6 @@ contexts:
         2: variable.parameter.transformation
         3: keyword.surface.mnemonic
 
-
-
 ############################################################################################
 # [I m p o r t a n c e]
 ############################################################################################
@@ -359,6 +367,7 @@ contexts:
     - meta_scope: importance-section
     - include: comments
     - include: begin_section
+    - include: intrinsic_functions   
 
     - match: (?i)\s*(part)\s*=\s*({{particles}})     
       captures:
@@ -377,6 +386,7 @@ contexts:
     - meta_scope: importance-section
     - include: comments
     - include: begin_section
+    - include: intrinsic_functions   
 
     - match: (?i)\s*(part|interpolation)\s*=\s*({{particles}}|log)     
       captures:
@@ -393,7 +403,6 @@ contexts:
         1: support.constant.source.card.multi_source
         2: variable.language.card.material_definition
 
-
 ############################################################################################
 #  T a l l y - common parameters
 ############################################################################################
@@ -409,6 +418,7 @@ contexts:
     - include: tally_axis_parameter
 
     - include: tally_common_parameter_others
+    - include: intrinsic_functions   
 
     - match: (?i)\s*(title)\s*=\s*(.*)(#.*) # have a comment at the end of line
       captures:
@@ -449,7 +459,7 @@ contexts:
         1: support.constant.tally_energy_mesh
         2: constant.numeric.tally_energy_mesh
 
-    - match: (?i)\s*(ne|emin|emax|edel) 
+    - match: (?i)\s*(ne|emin|emax|edel)\s*= 
       captures:
         1: support.constant.tally_energy_mesh
 
@@ -460,7 +470,12 @@ contexts:
         2: constant.numeric.tally_let_mesh
 
   tally_angle_mesh:
-    - match: (?i)\s*(a-type)\s*=\s*([1-5]) 
+    - match: (?i)\s*(a-type)\s*=\s*(-*[1-5]) 
+      captures:
+        1: support.constant.tally_angle_mesh
+        2: constant.numeric.tally_angle_mesh
+
+    - match: (?i)\s*(na)\s*=\s* 
       captures:
         1: support.constant.tally_angle_mesh
         2: constant.numeric.tally_angle_mesh
@@ -532,12 +547,56 @@ contexts:
 #  [ T - D e p o s i t 2 ]
 ############################################################################################
   tally_t_deposit2:
-    - meta_scope: tally_t_deposit2
+    - meta_scope: tally_t_deposit2__section
     - include: comments
     - include: begin_section
 
     - include: tally_common_parameters
 
+############################################################################################
+#  [T-Product]
+############################################################################################
+  tally_t_product:
+    - meta_scope: tally_t_product_section
+    - include: comments
+    - include: begin_section
+
+    - include: tally_common_parameters
+
+############################################################################################
+#  [T-Yield]
+############################################################################################
+  tally_t_yield:
+    - meta_scope: tally_t_yield_section
+    - include: comments
+    - include: begin_section
+
+    - include: tally_common_parameters
+
+############################################################################################
+#  [ T - 3Dshow ]
+############################################################################################
+  tally_t_3dshow:
+    - meta_scope: tally_t_3dshow_section
+    - include: comments
+    - include: begin_section
+
+    - include: tally_common_parameters
+
+
+############################################################################################
+#  [ Forced Collisions ]
+############################################################################################
+  forced_collisions:
+    - meta_scope: forced_collisions_section
+    - include: comments
+    - include: begin_section
+
+    - match: (?i)\s*(part)\s*=\s*((?:(?:{{particles}})\s+)*) # part = neutron proton alpha
+      captures:
+        1: support.constant.tally_particle_parameter
+        2: constant.numeric.tally_particle_parameter
+        3: entity.name.particle_type.tally_particle_parameter
 
 ############################################################################################
 #  [ V o l u m e ]
@@ -546,9 +605,7 @@ contexts:
     - meta_scope: volume_section
     - include: comments
     - include: begin_section
-
-
-
+    - include: set_parameter
 
 ############################################################################################
 # Others
@@ -572,13 +629,52 @@ contexts:
         - match: '\n'
           pop: true
 
-    - match:  (?i)(.*off)         # 'c' in first 5 columns and folowed by at least one black  
+    - match:  (?i)(\[.*\]\s*off)           # off section 
       scope: test
       push:
         - meta_scope: message.error
         # - match: \s*(?:\[)
         - match: \n
           pop: true
+
+  comments_in_cell_section:
+    - match: (\s*\$)+
+      scope: punctuation.definition.comment
+      push:
+        - meta_scope: comment.line 
+        - match: '\n'
+          pop: true
+
+    - match:  (?i)(^\s*c\s*\n)         # 'c' in first 5 columns and folowed by at least one black  
+      scope: punctuation.definition.comment.MCNP 
+      push:
+        - meta_scope: comment.line 
+        - match: '\n'
+          pop: true
+
+    - match:  (?i)(\[.*\]\s*off)         # off section
+      scope: test
+      push:
+        - meta_scope: message.error
+        # - match: \s*(?:\[)
+        - match: \n
+          pop: true
+
+
+  set_parameter:
+    - match: (?i)\s*(set) # 
+      captures:
+        1: support.constant.set_parameter
+        2: constant.numeric.set_parameter
+ 
+    - match: (?i)(c[0-9]+) 
+      captures:
+        1: variable.language.set_parameter
+
+  intrinsic_functions:
+    - match: (?i)({{intrinsic_functions}})      
+      captures:
+        2: constant.language.intrinsic_functions
 
   begin_section:
     - match: (?i)(^\s*)(\[\s*T\s*i\s*t\s*l\s*e\s*\]\s*\n)    # title section
@@ -629,6 +725,18 @@ contexts:
       scope: keyword.section_title
       set: tally_t_deposit2
 
+    - match:  (?i)(^\s*)(\[\s*T\s*-\s*P\s*r\s*o\s*d\s*u\s*c\s*t\s*]\s*)
+      scope: keyword.section_title
+      set: tally_t_product
+
+    - match:  (?i)(^\s*)(\[\s*T\s*-\s*Y\s*i\s*e\s*l\s*d\s*]\s*)
+      scope: keyword.section_title
+      set: tally_t_yield
+
+    - match:  (?i)(^\s*)(\[\s*T\s*-\s*3\s*D\s*s\s*h\s*o\s*w\s*]\s*)
+      scope: keyword.section_title
+      set: tally_t_3dshow
+
     - match:  (?i)(^\s*)(\[\s*I\s*m\s*p\s*o\s*r\s*t\s*a\s*n\s*c\s*e\s*\]\s*)
       scope: keyword.section_title
       set: importance_section
@@ -641,8 +749,11 @@ contexts:
       scope: keyword.section_title
       set: volume_section
 
-      
-    - match:  (?i)(^\s*)(\[E\s*n\s*d]\s*)
+    - match:  (?i)(^\s*)(\[\s*F\s*o\s*r\s*c\s*e\s*d\s*C\s*o\s*l\s*l\s*i\s*s\s*i\s*o\s*n\s*s\s*]\s*)
+      scope: keyword.section_title
+      set: forced_collisions
+
+    - match:  (?i)(^\s*)(\[\s*E\s*n\s*d\s*]\s*)
       scope: keyword.section_title
       set: end_section
 
