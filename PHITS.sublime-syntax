@@ -1,8 +1,9 @@
 %YAML 1.2
 ---
-# Last update: 21-Jan-2025
+# Last update: 27-Feb-2025
 # See http://www.sublimetext.com/docs/3/syntax.html
-# https://jdhao.github.io/2019/02/28/sublime_text_regex_cheat_sheet/
+# regex: https://jdhao.github.io/2019/02/28/sublime_text_regex_cheat_sheet/
+# syntax: https://www.sublimetext.com/docs/syntax.html
 name: PHITS
 file_extensions: [inp]
 scope: source.inp
@@ -17,7 +18,7 @@ variables:
   surface_mnemonic: (?i)\b(p|px|py|pz|so|s|sx|sy|sz|c/x|c/y|c/z|cx|cy|cz|k/x|k/y|k/z|kx|ky|kz|sq|gq|tx|ty|tz|xyzp|box|rpp|sph|rcc|rhp|hex|rec|trc|ell|wed|arb)\b
   color_name: (?i)(white|darkred|darkbrown|purple|orange|bluegreen)
   intrinsic_functions: (?i)\b(pi|FLOAT|INT|ABS|EXP|LOG|LOG10|MAX|MIN|MOD|NINT|SIGN|SQRT|ACOS|ASIN|ATAN|ATAN2|COS|COSH|SIN|SINH|TAN|TANH)\b
-  particles: (?i)(\b)(all|proton|neutron|electron|positron|photon|alpha|triton|3he|deuteron|pion+)(\b)
+  particles: (all|proton|neutron|electron|positron|photon|alpha|triton|3he|deuteron|pion+)
 
 contexts:
   main:
@@ -206,10 +207,19 @@ contexts:
       captures:
         1: support.constant.common_parameters
 
-    - match: (?i)\s*(proj)\s*=\s*({{particles}})  
+
+
+    # - match: (?i)\s*(proj)\s*=\s*({{particles}})  
+    #   captures:
+    #     1: support.constant.common_parameters.source
+    #     2: entity.name.common_parameters.source
+
+    # no Parentheses only
+    - match: (?i)\s*(proj)\s*=\s*(({{particles}}\s*)*)
       captures:
         1: support.constant.common_parameters.source
-        2: entity.name.common_parameters.source
+        2: constant.numeric.tally_particle_parameter
+
 
     - match: (?i)\s*(cnt)\((.)\)  
       captures:
@@ -237,7 +247,7 @@ contexts:
 # [ M a t e r i a l ]
 ############################################################################################
   material_section:
-    - meta_scope: source-section
+    - meta_scope: material_section
 
     - include: comments
     - include: begin_section      
@@ -369,10 +379,11 @@ contexts:
     - include: begin_section
     - include: intrinsic_functions   
 
-    - match: (?i)\s*(part)\s*=\s*({{particles}})     
+    # - match: (?i)\s*(part)\s*=\s*({{particles}})  
+    - match: (?i)\s*(part)\s*=\s*(({{particles}}\s*)*)   
       captures:
         1: support.constant.source.card.multi_source
-        2: variable.language.card.material_definition
+        2: constant.numeric.tally_particle_parameter
 
     - match: (?i)\s*(reg)\s+(imp)     
       captures:
@@ -383,7 +394,7 @@ contexts:
 # [ M u l t i p l i e r ]  
 ############################################################################################
   multiplier_section:
-    - meta_scope: importance-section
+    - meta_scope: multiplier_section
     - include: comments
     - include: begin_section
     - include: intrinsic_functions   
@@ -451,7 +462,7 @@ contexts:
 
     - match: (?i)\s*(x-type|y-type|z-type|r-type|nx|ny|nz|nr|ne|xmin|xmax|ymin|rmin|ymax|zmin|zmax|rmax) 
       captures:
-        1: support.constant.tally_energy_mesh
+        1: support1.constant.tally_energy_mesh
 
   tally_energy_mesh:
     - match: (?i)\s*(e-type)\s*=\s*([1-5]) 
@@ -461,7 +472,7 @@ contexts:
 
     - match: (?i)\s*(ne|emin|emax|edel)\s*= 
       captures:
-        1: support.constant.tally_energy_mesh
+        1: support2.constant.tally_energy_mesh
 
   tally_let_mesh:
     - match: (?i)\s*(l-type)\s*=\s*([1-5]) 
@@ -485,12 +496,13 @@ contexts:
         1: support.constant.tally_energy_mesh
 
   tally_particle_parameter:
-    - match: (?i)\s*(part)\s*=\s*((?:(?:{{particles}})\s+)*) # part = neutron proton alpha
+    - match: (?i)\s*(part)\s*=\s*(({{particles}}\s*)*)
+    # - match: (?i)\s*(part)\s*=\s*((?:(?:{{particles}})\s+)*) # part = neutron proton alpha
     # - match: (?i)\s*(part)\s*=\s*.*(all|neutron|alpha|photon|ptoton)\s* # part = neutron proton alpha
       captures:
         1: support.constant.tally_particle_parameter
         2: constant.numeric.tally_particle_parameter
-        3: entity.name.particle_type.tally_particle_parameter
+        3: constant.numeric.tally_particle_parameter
 
   tally_axis_parameter:
     # - match: (?i)\s*(axis)\s*=\s*(((eng|eng|reg|x|y|z|r|t|xy|yz|zx|rz,cos|the|mass|charge|chart|dchainlet|t-eng|eng-t|t-e1|e1-t|t-e2|e2-t|e12|e21))*) 
@@ -539,7 +551,9 @@ contexts:
   tally_t_deposit:
     - meta_scope: tally_t_deposit
     - include: comments
-    - include: begin_section
+    
+    - include: section_off
+    # - include: begin_section
 
     - include: tally_common_parameters
 
@@ -550,6 +564,7 @@ contexts:
     - meta_scope: tally_t_deposit2__section
     - include: comments
     - include: begin_section
+
 
     - include: tally_common_parameters
 
@@ -596,7 +611,7 @@ contexts:
       captures:
         1: support.constant.tally_particle_parameter
         2: constant.numeric.tally_particle_parameter
-        3: entity.name.particle_type.tally_particle_parameter
+        3: constant.numeric.tally_particle_parameter
 
 ############################################################################################
 #  [ V o l u m e ]
@@ -622,20 +637,29 @@ contexts:
         - match: '\n'
           pop: true
 
-    - match:  (?i)(^\s*c\s*\n)         # 'c' in first 5 columns and folowed by at least one black  
-      scope: punctuation.definition.comment.MCNP 
+    - match:  (?i)(^\s{0,4}c\s)        # 'c' in first 5 columns and folowed by at least one black  
+      scope: punctuation.definition.comment 
       push:
         - meta_scope: comment.line 
         - match: '\n'
           pop: true
 
-    - match:  (?i)(\[.*\]\s*off)           # off section 
-      scope: test
-      push:
-        - meta_scope: message.error
-        # - match: \s*(?:\[)
-        - match: \n
-          pop: true
+    # - match:  (?i)(\[.*\]\s*off)           # off section 
+    #   scope: test
+    #   push:
+    #     - meta_scope: message.error
+    #     # - match: \s*(?:\[)
+    #     - match: \n
+    #       pop: true
+
+    # - match:  (?i)(\[.*\]\s*off)           # off section 
+    #   scope: test
+    #   push:
+    #     - meta_scope: message.error
+    #     - match: \s*(?:\[)
+    #     # - match: begin_section
+    #       pop: true
+  
 
   comments_in_cell_section:
     - match: (\s*\$)+
@@ -645,21 +669,25 @@ contexts:
         - match: '\n'
           pop: true
 
-    - match:  (?i)(^\s*c\s*\n)         # 'c' in first 5 columns and folowed by at least one black  
+    - match:  (?i)(^\s{0,4}c\s)         # 'c' in first 5 columns and folowed by at least one black  
       scope: punctuation.definition.comment.MCNP 
       push:
         - meta_scope: comment.line 
         - match: '\n'
           pop: true
 
+    # - match:  (?i)(\[.*\]\s*off)         # off section
+    #   scope: test
+    #   push:
+    #     - meta_scope: message.error
+    #     # - match: \s*(?:\[)
+    #     - match: \n
+    #       pop: true
+
+  section_off:
     - match:  (?i)(\[.*\]\s*off)         # off section
       scope: test
-      push:
-        - meta_scope: message.error
-        # - match: \s*(?:\[)
-        - match: \n
-          pop: true
-
+      set: comments
 
   set_parameter:
     - match: (?i)\s*(set) # 
