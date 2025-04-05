@@ -19,6 +19,7 @@ variables:
   color_name: (?i)(white|darkred|darkbrown|purple|orange|bluegreen)
   intrinsic_functions: (?i)\b(pi|FLOAT|INT|ABS|EXP|LOG|LOG10|MAX|MIN|MOD|NINT|SIGN|SQRT|ACOS|ASIN|ATAN|ATAN2|COS|COSH|SIN|SINH|TAN|TANH)\b
   particles: (all|proton|neutron|electron|positron|photon|alpha|triton|3he|deuteron|pion+)
+  
 
 contexts:
   main:
@@ -460,9 +461,9 @@ contexts:
         1: support.constant.tally_geometrical_mesh
         2: variable.parameter.tally_geometrical_mesh
 
-    - match: (?i)\s*(x-type|y-type|z-type|r-type|nx|ny|nz|nr|ne|xmin|xmax|ymin|rmin|ymax|zmin|zmax|rmax) 
+    - match: (?i)\s*(x-type|y-type|z-type|r-type|nx|ny|nz|nr|xmin|xmax|ymin|rmin|ymax|zmin|zmax|rmax) 
       captures:
-        1: support1.constant.tally_energy_mesh
+        1: support.constant.tally_energy_mesh
 
   tally_energy_mesh:
     - match: (?i)\s*(e-type)\s*=\s*([1-5]) 
@@ -472,7 +473,7 @@ contexts:
 
     - match: (?i)\s*(ne|emin|emax|edel)\s*= 
       captures:
-        1: support2.constant.tally_energy_mesh
+        1: support.constant.tally_energy_mesh
 
   tally_let_mesh:
     - match: (?i)\s*(l-type)\s*=\s*([1-5]) 
@@ -704,6 +705,10 @@ contexts:
       captures:
         2: constant.language.intrinsic_functions
 
+
+############################################################################################
+# Begin section
+############################################################################################
   begin_section:
     - match: (?i)(^\s*)(\[\s*T\s*i\s*t\s*l\s*e\s*\]\s*\n)    # title section
       scope: keyword.section_title
