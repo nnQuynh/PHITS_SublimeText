@@ -1,0 +1,170 @@
+[ Title ]
+ Sample input for syntax highlight
+
+[ Parameters ]
+ $ icntl parameter
+  icntl    =           0     # D = 0 - 17
+  icntl    =           2     
+  icntl    =           17    
+  icntl    =           18    
+  icntl    =           20    
+
+ $ Parameters for number of history and bank
+  maxcas   =       10000     # (D=10) number of particles per one batch
+  maxbch   =           2     # (D=10) number of batches
+  maxbnk   =       10000     # Maximum number of secondary particles
+  iwwbnk   =           1
+  igeomem  =       10000
+  xsmemory =          1.0
+  timeout  =         -1.0
+ 
+  istdev   =           0    # statistical uncertainty calculation type and restart mode
+  istdev   =          -2    # D = -2 -1 0 1 2
+  istdev   =          -1
+  istdev   =           1
+  istdev   =           2
+  istdev   =           3
+  istdev   =          05
+ 
+  italsh   =           0
+  italsh   =           1
+  italsh   =           3
+ 
+  ireschk   =          0
+  ireschk   =          1
+  ireschk   =          2
+
+ $ Parameters for random number
+  nrandgen =           0    # D = 0 1
+  nrandgen =           1
+  nrandgen =           2 
+ 
+  irskip =            2.1 
+  rseed =              2 
+  
+  itimrand =           0    # D = 0 1
+  itimrand =           1 
+  itimrand =           2 
+ 
+  bitrseed                  # ???
+
+ $ Parameters for cut-off energies (1)
+  emin(1)    =     1.0e-3     # D = 1 - 19
+  emin(2)    =     1.0e-3     # D = 1 - 19
+  emin(3)    =     1.0e-3     # D = 1 - 19
+  emin(4)    =     1.0e-3     # D = 1 - 19
+  emin(5)    =     1.0e-3     # D = 1 - 19
+  emin(6)    =     1.0e-3     # D = 1 - 19
+  emin(7)    =     1.0e-3     # D = 1 - 19
+  emin(8)    =     1.0e-3     # D = 1 - 19
+  emin(9)    =     1.0e-3     # D = 1 - 19
+  emin(10)   =     1.0e-3     # D = 1 - 19
+  emin(11)   =     1.0e-3     # D = 1 - 19
+  emin(12)   =     1.0e-3     # D = 1 - 19
+  emin(13)   =     1.0e-3     # D = 1 - 19
+  emin(14)   =     1.0e-3     # D = 1 - 19
+  emin(15)   =     1.0e-3     # D = 1 - 19
+  emin(16)   =     1.0e-3     # D = 1 - 19
+  emin(17)   =     1.0e-3     # D = 1 - 19
+  emin(18)   =     1.0e-3     # D = 1 - 19
+  emin(19)   =     1.0e-3     # D = 1 - 19
+  emin(20)   =     1.0e-3     # D = 1 - 19
+  emin(21)   =     1.0e-3     # D = 1 - 19
+
+  dmax(1)    =       20.0     # D = 1 - 19
+  dmax(2)    =       20.0     # D = 1 - 19
+  dmax(3)    =       20.0     # D = 1 - 19
+  dmax(4)    =       20.0     # D = 1 - 19
+  dmax(5)    =       20.0     # D = 1 - 19
+  dmax(6)    =       20.0     # D = 1 - 19
+  dmax(7)    =       20.0     # D = 1 - 19
+  dmax(8)    =       20.0     # D = 1 - 19
+  dmax(9)    =       20.0     # D = 1 - 19
+  dmax(10)   =       20.0     # D = 1 - 19
+  dmax(11)   =     1.0e-3     # D = 1 - 19
+  dmax(12)   =     1.0e-3     # D = 1 - 19
+  dmax(13)   =     1.0e-3     # D = 1 - 19
+  dmax(14)   =     1.0e-3     # D = 1 - 19
+  dmax(15)   =     1.0e-3     # D = 1 - 19
+  dmax(16)   =     1.0e-3     # D = 1 - 19
+  dmax(17)   =     1.0e-3     # D = 1 - 19
+  dmax(18)   =     1.0e-3     # D = 1 - 19
+  dmax(19)   =     1.0e-3     # D = 1 - 19
+  dmax(20)   =     1.0e-3     # D = 1 - 19
+  dmax(21)   =     1.0e-3     # D = 1 - 19
+
+  dpnmax     =     1.0e-3     # D = 1 - 19
+  lib(1)     =       20h      # ???
+
+ $ Parameters for cut-off energies (2)
+  esmin      =      0.001     #  
+  esmax      =      0.001     #  
+  etsmin     =      0.001     #  
+  etsmax     =      0.001     # 
+
+  cmin(1)    =      0.001     # ???  
+  cmin(20)   =      0.001     # ??? 
+
+ $ Parameters for transport of photons, electrons, positrons, and neutrons
+  negs       =         -1     # D = -1 0  1 2
+  negs       =          0     # D = -1 0  1 2
+  negs       =          1     # D = -1 0  1 2
+  negs       =          2     # D = -1 0  1 2
+  negs       =          3     # D = -1 0  1 2
+
+  nucdata    =          0     # D = 0 1 
+  nucdata    =          1     # D = 0 1 
+  nucdata    =          2     # D = 0 1 
+
+  ieleh      =          0     # D = 0 1 
+  ieleh      =          1     # D = 0 1 
+  ieleh      =          2     # D = 0 1 
+
+ $ Parameters for switching energies 1
+  ejamnu     =         -1
+  ejampi     =         -1
+  eisobar    =         -1
+  
+  isobar     =          0     # D = 0 1     
+  isobar     =          1     # D = 0 1
+  isobar     =          2     # D = 0 1
+  
+  eqmdnu     =         -1
+  eqmdmin    =         -1
+  ejamqmd    =         -1
+  
+  inclg      =          0  # D = 0 1 2 
+  inclg      =          1  # D = 0 1 2 
+  inclg      =          2  # D = 0 1 2 
+  inclg      =          3  # D = 0 1 2 
+
+  einclmin   =         1.0
+  einclmax   =         1.0
+  
+  incelf     =          0  # D = 0 1 2 
+  incelf     =          1  # D = 0 1 2
+  incelf     =          2  # D = 0 1 2
+  incelf     =          3  # D = 0 1 2
+
+  eielfmin   =         1.0
+  eielfmax   =         1.0
+
+  irqmd      =          0  # D = 0 1  
+  irqmd      =          1  # D = 0 1 
+  irqmd      =          2  # D = 0 1
+
+ $ Parameters for switching energies 2
+  iscinful      =          0  # D = 0 1  
+  iscinful      =          1  # D = 0 1 
+  iscinful      =          2  # D = 0 1
+
+  lionprd       =         -1  # D = -1 0 1  
+  lionprd       =          0  # D = -1 0 1 
+  lionprd       =          1  # D = -1 0 1
+  lionprd       =          2  # D = -1 0 1
+
+  epseudo       =         10.0 
+
+  tsxcl         =          0  # D = 0 1  
+  tsxcl         =          1  # D = 0 1 
+  tsxcl         =          2  # D = 0 1

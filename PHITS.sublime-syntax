@@ -52,7 +52,9 @@ contexts:
 
     - include: calculation_mode
     - include: number_history_bank
+    - include: random_number
     - include: cut_switch_energy
+
     - include: cut_time_weight_window
     #- include: stopping_power
     - include: event_generator_kerma
@@ -66,46 +68,105 @@ contexts:
     - include: input_output_filename
     - include: Others
 
-  calculation_mode:  # sub parameters section
-    - match: (?i)\s*(icntl)(\s+=\s+)(0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17)
+  calculation_mode:   
+    - match: (?i)\s*(icntl)(\s+=\s+)([0-9]|1[0-7])\b
       captures:
         1: support.constant.calculation-mode
-        #3: variable.parameter.card.calculation-mode
+        3: constant.numeric.parameters.card.calculation-mode
 
-  number_history_bank: # sub parameters section
-    - match: (?i)\s*(maxcas|maxbch|maxbnk|timeout|isdev|italsh|ireschk)(\s+=\s+)()    
+  number_history_bank:  
+    - match: (?i)\s*(maxcas|maxbch|maxbnk|iwwbnk|igeomem|xsmemory|timeout)()()  # \s+=\s+
       captures:
         1: support.constant.number_history_bank
 
-    - match: (?i)\s*(nrandgen|irskip|rseed|itimrand|bitrseed)(\s+=\s+)()    
+    - match: (?i)\s*(istdev)(\s+=\s+)(-2|-1|0|1|2)\b   
+      captures:
+        1: support.constant.calculation-mode
+        3: constant.numeric.parameters.card.calculation-mode
+
+    - match: (?i)\s*(italsh|ireschk|nrandgen)(\s+=\s+)(0|1)\b    
+      captures:
+        1: support.constant.calculation-mode
+        3: constant.numeric.parameters.card.calculation-mode
+
+  random_number:  
+    - match: (?i)\s*(nrandgen|itimrand)(\s+=\s+)(0|1)\b    
+      captures:
+        1: support.constant.calculation-mode
+        3: constant.numeric.parameters.card.calculation-mode
+
+    - match: (?i)\s*(irskip|rseed|bitrseed)()()     # \s+=\s+
       captures:
         1: support.constant.number_history_bank
 
-  cut_switch_energy: # sub parameters section
-    # cut-off energy
-    - match: (?i)\s*(emin)\(([0-9]+)\)  
+  cut_switch_energy:  
+    # cut-off energies (1)
+    - match: (?i)\s*(emin|dmax)\(([1-9]|1[0-9])\)  
       captures:
         1: support.constant.input_output_filename
         2: constant.numeric.parameters.card.input_output_filename
 
-    # - match: (?i)\s*(emin|dmax|cmin)\(([0-9]+)\)    
-    #   captures:
-    #     1: support.constant.cut_switch_energy
-    #     2: constant.numeric.parameters.card.cut_switch_energy
-
-    - match: (?i)\s*(esmin|esmax|etsmin|etsmax|tsmax)(\s+=\s+)() 
+    - match: (?i)\s*(dpnmax)()() 
       captures:
         1: support.constant.cut_switch_energy
 
-    #transport_option:
-    - match: (?i)\s*(negs|nucdata|ieleh)(\s+=\s+)()  
+    - match: (?i)\s*(lib)()() 
+      captures:
+        1: support.constant.input_output_filename
+        2: constant.numeric.parameters.card.input_output_filename
+
+    # cut-off energies (2)
+    - match: (?i)\s*(esmin|esmax|etsmin|etsmax|tsmax)()() 
       captures:
         1: support.constant.cut_switch_energy
 
-    # switching energy
-    - match: (?i)\s*(ejamnu|ejampi|eisobar|isobar|eqmdnu|eqmdmin|ejamqmd|inclg|einclmin|einclmax|incelf|eielfmin|eielfmax|irqmd|iscinful|kerma|epseudo)(\s+=\s+)()  
+    - match: (?i)\s*(cmin)\((\d+)\)  
+      captures:
+        1: support.constant.input_output_filename
+        # 2: constant.numeric.parameters.card.input_output_filename
+
+    # transport of photons, electrons, positrons, and neutrons
+    - match: (?i)\s*(negs)(\s+=\s+)(-1|0|1|2)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename
+
+    - match: (?i)\s*(nucdata|ieleh)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.cut_switch_energy
+        3: constant.numeric.parameters.card.input_output_filename
+
+    # switching energy 1
+    - match: (?i)\s*(ejamnu|ejampi|eisobar|eqmdnu|eqmdmin|ejamqmd|einclmin|einclmax|eielfmin|eielfmax)()()  
       captures:
         1: support.constant.cut_switch_energy   
+
+    - match: (?i)\s*(isobar|irqmd)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.cut_switch_energy
+        3: constant.numeric.parameters.card.input_output_filename
+
+    - match: (?i)\s*(inclg|incelf)(\s+=\s+)(0|1|2)  
+      captures:
+        1: support.constant.cut_switch_energy
+        3: constant.numeric.parameters.card.input_output_filename
+
+    # switching energy 2
+    - match: (?i)\s*(iscinful|tsxcl)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.cut_switch_energy
+        3: constant.numeric.parameters.card.input_output_filename
+
+    - match: (?i)\s*(lionprd)(\s+=\s+)(-1|0|1)  
+      captures:
+        1: support.constant.cut_switch_energy
+        3: constant.numeric.parameters.card.input_output_filename
+
+    - match: (?i)\s*(epseudo)()()  
+      captures:
+        1: support.constant.cut_switch_energy
+        3: constant.numeric.parameters.card.input_output_filename
+
 
   cut_time_weight_window:
     - match:  (?i)\s*(tmax|wc1|wc2|swtm)\((.)\)
