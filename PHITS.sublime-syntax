@@ -1,9 +1,12 @@
 %YAML 1.2
 ---
-# Last update: 27-Feb-2025
+# Last update: 13-Dec-2025 :photon_muon_induced_reaction
+# PHITS version 3.5
+
 # See http://www.sublimetext.com/docs/3/syntax.html
 # regex: https://jdhao.github.io/2019/02/28/sublime_text_regex_cheat_sheet/
 # syntax: https://www.sublimetext.com/docs/syntax.html
+
 name: PHITS
 file_extensions: [inp]
 scope: source.inp
@@ -56,12 +59,19 @@ contexts:
     - include: cut_switch_energy
 
     - include: cut_time_weight_window
-    #- include: stopping_power
-    - include: event_generator_kerma
+    - include: stopping_power_models
+    - include: cross_section
+    - include: decay_model
+    - include: event_generator_kerma_approx
+    - include: adjoint_mode
+    - include: nuclear_reaction_model
+
+
+
     - include: low_energy_neutron
-    - include: photon_electron_PHITS_model
+    - include: photon_PHITS_model
     - include: EGS5_parameters
-    - include: photon_muon_reaction
+    - include: photon_muon_induced_reaction
     - include: output_options
     - include: voxel_tetrahedron_geometry
     - include: geometry_errors
@@ -100,7 +110,7 @@ contexts:
         1: support.constant.number_history_bank
 
   cut_switch_energy:  
-    # cut-off energies (1)
+    # Table 5.4: Parameters for cut-off energies (1)
     - match: (?i)\s*(emin|dmax)\(([1-9]|1[0-9])\)  
       captures:
         1: support.constant.input_output_filename
@@ -115,7 +125,7 @@ contexts:
         1: support.constant.input_output_filename
         2: constant.numeric.parameters.card.input_output_filename
 
-    # cut-off energies (2)
+    # Table 5.5: Parameters for cut-off energies (2)
     - match: (?i)\s*(esmin|esmax|etsmin|etsmax|tsmax)()() 
       captures:
         1: support.constant.cut_switch_energy
@@ -125,7 +135,7 @@ contexts:
         1: support.constant.input_output_filename
         # 2: constant.numeric.parameters.card.input_output_filename
 
-    # transport of photons, electrons, positrons, and neutrons
+    # Table 5.6: Parameters for transport of photons, electrons, positrons, and neutrons
     - match: (?i)\s*(negs)(\s+=\s+)(-1|0|1|2)  
       captures:
         1: support.constant.input_output_filename
@@ -136,7 +146,7 @@ contexts:
         1: support.constant.cut_switch_energy
         3: constant.numeric.parameters.card.input_output_filename
 
-    # switching energy 1
+    # Table 5.7: Parameters for switching energies 1
     - match: (?i)\s*(ejamnu|ejampi|eisobar|eqmdnu|eqmdmin|ejamqmd|einclmin|einclmax|eielfmin|eielfmax)()()  
       captures:
         1: support.constant.cut_switch_energy   
@@ -151,7 +161,7 @@ contexts:
         1: support.constant.cut_switch_energy
         3: constant.numeric.parameters.card.input_output_filename
 
-    # switching energy 2
+    # Table 5.8: Parameters for switching energies 2
     - match: (?i)\s*(iscinful|tsxcl)(\s+=\s+)(0|1)  
       captures:
         1: support.constant.cut_switch_energy
@@ -167,42 +177,207 @@ contexts:
         1: support.constant.cut_switch_energy
         3: constant.numeric.parameters.card.input_output_filename
 
-
   cut_time_weight_window:
-    - match:  (?i)\s*(tmax|wc1|wc2|swtm)\((.)\)
+    # Table 5.9: Parameters for cut-off time, cut-off weight, and weight window
+    - match: (?i)\s*(tmax)\(([1-9]|1[0-9]|20)\)  
+      captures:
+        1: support.constant.input_output_filename
+        2: constant.numeric.parameters.card.input_output_filename
+
+    - match: (?i)\s*(iwwbias|istdcut)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.cut_switch_energy
+        3: constant.numeric.parameters.card.input_output_filename
+
+    - match:  (?i)\s*(wc1|wc2|swtm)\((.)\)
       captures: 
         1: support.constant.cut_time_weight_window  
 
-    - match: (?i)\s*(wupn|wsurvn|mxspln|mwhere|iwwbias|istdcut|istdbat)(\s+=\s+)()  
+    - match: (?i)\s*(wupn|wsurvn|mxspln|mwhere|nfcseg|istdbat)(\s+=\s+)()  
       captures:
         1: support.constant.cut_switch_energy  
-        
-  event_generator_kerma:
-    - match: (?i)\s*(e-mode|em-emode|ikerman|ikermap)(\s+=\s+)()  
+
+  stopping_power_models:
+    # Table 5.10: Parameters for stopping power models
+    - match: (?i)\s*(ndedx)(\s+=\s+)(0|1|2|3)  
       captures:
-        1: support.constant.event_generator_kerma
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename
+
+    - match: (?i)\s*(ifixchg|irlet)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename
+
+    - match: (?i)\s*(mdbatima|dbcutoff|)
+      captures:
+        1: support.constant.cut_switch_energy
+
+  cross_section:
+    # Table 5.11: Parameters for elastic scatterings, total cross sections, and reaction cross sections
+    - match: (?i)\s*(ielas|icrhi)(\s+=\s+)(0|1|2)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename
+
+    - match: (?i)\s*(icxnp|icrdm|icxspi)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename
+
+    - match: (?i)\s*(ielms)()()      
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename
+
+  decay_model:
+    # Table 5.12: Parameters for decays and de-excited process models
+    - match: (?i)\s*(nevap)(\s+=\s+)(0|3)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename
+
+    - match: (?i)\s*(ngem|ifission)(\s+=\s+)(0|1|2)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename
+
+    - match: (?i)\s*(igamma)(\s+=\s+)(-3|-2|-1|0|1|2|3)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename
+
+    - match: (?i)\s*(ismm)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename
+        
+  event_generator_kerma_approx:
+    # Table 5.13: Parameters for event generator mode and kerma approximation
+    - match: (?i)\s*(e-mode)(\s+=\s+)(0|1|2)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename
+
+    - match: (?i)\s*(ikerman|ikermap)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename
+
+  adjoint_mode:
+    # Table 5.14: Parameter for adjoint mode
+    - match: (?i)\s*(iadjoint)(\s+=\s+)(0|1|2)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename
+
+  nuclear_reaction_model:
+    # Table 5.15: Parameters for nuclear reaction model options
+    - match: (?i)\s*(inmed|andit)(\s+=\s+)(0|1|2)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename
+
+    - match: (?i)\s*(iidfs|idwba|npidk)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename 
 
   low_energy_neutron:
-    - match: (?i)\s*(emcnf|dnb|nonu|isaba)(\s+=\s+)()  
+    # Table 5.16: Parameters for low energy neutrons
+    - match: (?i)\s*(emcnf|dnb)()()  
       scope: support.constant.low_energy_neutron
 
-  photon_electron_PHITS_model:
-    - match: (?i)\s*(emcpf|ides|nocoh|iphot|ibad|istrg|bnum|xnum|enum|numb|rnok)(\s+=\s+)()  
+    - match: (?i)\s*(nonu|isaba|isans)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename 
+
+
+  photon_PHITS_model:
+    # Table 5.17: Parameters for photon transport based on the PHITS original model
+    - match: (?i)\s*(emcpf)()()  
       scope: support.constant.photon_electron_PHITS_model
 
+    - match: (?i)\s*(nocoh|xnum)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename 
+
+
   EGS5_parameters:
-    - match: (?i)\s*(ipegs|imsegs|iegsout|iegsrand)(\s+=\s+)()  
-      scope: support.constant.EGS5_parameters
+    # Table 5.18: EGS5 parameters 1
+    - match: (?i)\s*(ipegs)(\s+=\s+)(-1|0|1|2)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename 
 
-    - match: (?i)\s*(iedgfl|iauger|iraylr|lpolar|iunrst|chard|epstfl|gasegs)(\s+=\s+)()  
-      scope: support.constant.EGS5_parameters
+    - match: (?i)\s*(imsegs)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename 
 
-    - match: (?i)\s*(incohr|iprofr|impacr|ieispl|neispl|ibrdst|iprdst|iphter|ibound|iaprim)(\s+=\s+)()  
-      scope: support.constant.EGS5_parameters
+    - match: (?i)\s*(iegsout)(\s+=\s+)(0|1|2)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename 
 
-  photon_muon_reaction:
-    - match: (?i)\s*(ipnint|pnimul|igmuppd|imucap|imuint|imubrm|imuppd|emumin|emumax)(\s+=\s+)()  
-      scope: support.constant.photon_muon_reaction
+    - match: (?i)\s*(iegsrand)()()  
+      captures:
+        1: support.constant.input_output_filename
+
+    # Table 5.19: EGS5 parameters 2
+    - match: (?i)\s*(iedgfl|iauger|iraylr|lpolar|epstfl)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename 
+
+    - match: (?i)\s*(chard|gasegs)()()  
+      captures:
+        1: support.constant.input_output_filename
+
+    # Table 5.20: EGS5 parameters 3
+    - match: (?i)\s*(incohr|iprofr|impacr|ieispl|ibrdst|iprdst|iphter|ibound)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename 
+
+    - match: (?i)\s*(neispl)()()  
+      captures:
+        1: support.constant.input_output_filename
+
+    - match: (?i)\s*(iaprim)(\s+=\s+)(0|1|2)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename 
+
+  photon_muon_induced_reaction:
+    # Table 5.21: Parameters for photon- and muon-induced reaction models 1
+    - match: (?i)\s*(ipnint|imucap)(\s+=\s+)(0|1|2)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename 
+
+    - match: (?i)\s*(iqmdscm)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename 
+
+    - match: (?i)\s*(scm_h0|scm_d|scm_rcls)()()  
+      captures:
+        1: support.constant.input_output_filename
+
+    # Table 5.22: Parameters for photon- and muon-induced reaction models 2
+    - match: (?i)\s*(imuint|imubrm|imuppd)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.input_output_filename
+        3: constant.numeric.parameters.card.input_output_filename 
+
+    - match: (?i)\s*(emumin|emumax)()()  
+      captures:
+        1: support.constant.input_output_filename
+
+
 
   output_options:
     - match: (?i)\s*(infout|nrecover)(\s+=\s+)()  

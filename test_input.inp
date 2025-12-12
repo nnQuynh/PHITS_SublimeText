@@ -1,8 +1,10 @@
 [ Title ]
  Sample input for syntax highlight
 
+ PHITS version 3.5
+
 [ Parameters ]
- $ icntl parameter
+ $ Table 5.1: icntl parameter  
   icntl    =           0     # D = 0 - 17
   icntl    =           2     
   icntl    =           17    
@@ -48,7 +50,7 @@
  
   bitrseed                  # ???
 
- $ Parameters for cut-off energies (1)
+ $ Table 5.4: Parameters for cut-off energies (1)
   emin(1)    =     1.0e-3     # D = 1 - 19
   emin(2)    =     1.0e-3     # D = 1 - 19
   emin(3)    =     1.0e-3     # D = 1 - 19
@@ -96,7 +98,7 @@
   dpnmax     =     1.0e-3     # D = 1 - 19
   lib(1)     =       20h      # ???
 
- $ Parameters for cut-off energies (2)
+ $ Table 5.5: Parameters for cut-off energies (2)
   esmin      =      0.001     #  
   esmax      =      0.001     #  
   etsmin     =      0.001     #  
@@ -105,7 +107,7 @@
   cmin(1)    =      0.001     # ???  
   cmin(20)   =      0.001     # ??? 
 
- $ Parameters for transport of photons, electrons, positrons, and neutrons
+ $ Table 5.6: Parameters for transport of photons, electrons, positrons, and neutrons
   negs       =         -1     # D = -1 0  1 2
   negs       =          0     # D = -1 0  1 2
   negs       =          1     # D = -1 0  1 2
@@ -120,7 +122,7 @@
   ieleh      =          1     # D = 0 1 
   ieleh      =          2     # D = 0 1 
 
- $ Parameters for switching energies 1
+ $ Table 5.7: Parameters for switching energies 1
   ejamnu     =         -1
   ejampi     =         -1
   eisobar    =         -1
@@ -153,7 +155,7 @@
   irqmd      =          1  # D = 0 1 
   irqmd      =          2  # D = 0 1
 
- $ Parameters for switching energies 2
+ $ Table 5.8: Parameters for switching energies 2
   iscinful      =          0  # D = 0 1  
   iscinful      =          1  # D = 0 1 
   iscinful      =          2  # D = 0 1
@@ -168,3 +170,313 @@
   tsxcl         =          0  # D = 0 1  
   tsxcl         =          1  # D = 0 1 
   tsxcl         =          2  # D = 0 1
+
+ $ Table 5.9: Parameters for cut-off time, cut-off weight, and weight window
+  tmax(1)       =          1.e+9  # i = 1 - 20  (i; particle id, see Table 4.4).
+  tmax(2)       =          1.e+9  # i = 1 - 20  (i; particle id, see Table 4.4).
+  tmax(9)       =          1.e+9  # i = 1 - 20  (i; particle id, see Table 4.4).
+  tmax(10)      =          1.e+9  # i = 1 - 20  (i; particle id, see Table 4.4).
+  tmax(11)      =          1.e+9  # i = 1 - 20  (i; particle id, see Table 4.4).
+  tmax(12)      =          1.e+9  # i = 1 - 20  (i; particle id, see Table 4.4).
+  tmax(19)      =          1.e+9  # i = 1 - 20  (i; particle id, see Table 4.4).
+  tmax(20)      =          1.e+9  # i = 1 - 20  (i; particle id, see Table 4.4).
+  tmax(21)      =          1.e+9  # i = 1 - 20  (i; particle id, see Table 4.4).
+
+  iwwbias         =          0  # D = 0 1  
+  iwwbias         =          1  # D = 0 1 
+  iwwbias         =          2  # D = 0 1
+
+  istdcut         =          0  # D = 0 1  
+  istdcut         =          1  # D = 0 1 
+  istdcut         =          2  # D = 0 1
+
+  wc1(1)          =          2
+  wc2(1)          =          2
+  swtm(1)         =          2
+  wupn            =          2
+  wsurvn          =          2
+  mxspln          =          2
+  mwhere          =          2
+  nfcseg          =          2
+  istdbat         =          2
+
+ $ Table 5.10: Parameters for stopping power models
+  ndedx       =          0  # D = 0 1 2 3
+  ndedx       =          1  # D = 0 1 2 3
+  ndedx       =          2  # D = 0 1 2 3
+  ndedx       =          3  # D = 0 1 2 3
+  ndedx       =          4  # D = 0 1 2 3
+  ndedx       =          -2  # D = 0 1 2 3
+
+  ifixchg     =          0  # D = 0 1
+  ifixchg     =          1  # D = 0 1
+  ifixchg     =          2  # D = 0 1
+
+  irlet       =          0  # D = 0 1
+  irlet       =          1  # D = 0 1
+  irlet       =          2  # D = 0 1
+
+  mdbatima    =          500   
+  dbcutoff    =          2   
+
+ $ Table 5.11: Parameters for elastic scatterings, total cross sections, and reaction cross sections
+  ielas       =          0  # D = 0 1 2
+  ielas       =          1  # D = 0 1 2
+  ielas       =          2  # D = 0 1 2
+  ielas       =          3  # D = 0 1 2
+
+  icrhi       =          0  # D = 0 1 2
+  icrhi       =          1  # D = 0 1 2
+  icrhi       =          2  # D = 0 1 2
+  icrhi       =          3  # D = 0 1 2
+
+  icxnp       =          0  # D = 0 1
+  icxnp       =          1  # D = 0 1
+  icxnp       =          2  # D = 0 1
+
+  icrdm      =          0  # D = 0 1
+  icrdm      =          1  # D = 0 1
+  icrdm      =          2  # D = 0 1
+
+  icxspi      =          0  # D = 0 1
+  icxspi      =          1  # D = 0 1
+  icxspi      =          2  # D = 0 1
+
+  ielms      =          720  # D = integer
+
+ $ TTable 5.12: Parameters for decays and de-excited process models
+  nevap       =          0  # D = 0 3
+  nevap       =          3  # D = 0 3
+  nevap       =          2  # D = 0 3
+
+  ngem       =          0  # D = 0 1 2
+  ngem       =          1  # D = 0 1 2
+  ngem       =          2  # D = 0 1 2
+  ngem       =          3  # D = 0 1 2
+
+  ifission   =          0  # D = 0 1 2
+  ifission   =          1  # D = 0 1 2
+  ifission   =          2  # D = 0 1 2
+  ifission   =          3  # D = 0 1 2
+
+  igamma     =          -3  # D = -3 -2 -1 0 1 2 3
+  igamma     =          -2  # D = -3 -2 -1 0 1 2 3
+  igamma     =          -1  # D = -3 -2 -1 0 1 2 3
+  igamma     =           0  # D = -3 -2 -1 0 1 2 3
+  igamma     =           1  # D = -3 -2 -1 0 1 2 3
+  igamma     =           2  # D = -3 -2 -1 0 1 2 3
+  igamma     =           3  # D = -3 -2 -1 0 1 2 3
+  igamma     =           4  # D = -3 -2 -1 0 1 2 3
+  igamma     =          -0  # D = -3 -2 -1 0 1 2 3
+
+  ismm       =          0  # D = 0 1
+  ismm       =          1  # D = 0 1
+  ismm       =          2  # D = 0 1
+
+ $ Table 5.13: Parameters for event generator mode and kerma approximation
+  e-mode       =          0  # D = 0 1 2
+  e-mode       =          1  # D = 0 1 2
+  e-mode       =          2  # D = 0 1 2
+  e-mode       =          3  # D = 0 1 2
+
+  ikerman      =          0  # D = 0 1 
+  ikerman      =          1  # D = 0 1 
+  ikerman      =          2  # D = 0 1 
+
+  ikermap      =          0  # D = 0 1 
+  ikermap      =          1  # D = 0 1 
+  ikermap      =          2  # D = 0 1 
+
+ $ Table 5.14: Parameter for adjoint mode
+  iadjoint       =          0  # D = 0 1 2
+  iadjoint       =          1  # D = 0 1 2
+  iadjoint       =          2  # D = 0 1 2
+  iadjoint       =          3  # D = 0 1 2
+
+ $ Table 5.15: Parameters for nuclear reaction model options
+  inmed       =          0  # D = 0 1 2
+  inmed       =          1  # D = 0 1 2
+  inmed       =          2  # D = 0 1 2
+  inmed       =          3  # D = 0 1 2
+
+  andit       =          0  # D = 0 1 2
+  andit       =          1  # D = 0 1 2
+  andit       =          2  # D = 0 1 2
+  andit       =          3  # D = 0 1 2
+
+  iidfs      =          0  # D = 0 1 
+  iidfs      =          1  # D = 0 1 
+  iidfs      =          2  # D = 0 1 
+
+  idwba      =          0  # D = 0 1 
+  idwba      =          1  # D = 0 1 
+  idwba      =          2  # D = 0 1 
+
+  npidk      =          0  # D = 0 1 
+  npidk      =          1  # D = 0 1 
+  npidk      =          2  # D = 0 1 
+
+ $ Table 5.16: Parameters for low energy neutrons
+  emcnf      = 0.0
+
+  dnb      = 0.0
+
+  nonu      =          0  # D = 0 1 
+  nonu      =          1  # D = 0 1 
+  nonu      =          2  # D = 0 1 
+
+  isaba      =          0  # D = 0 1 
+  isaba      =          1  # D = 0 1 
+  isaba      =          2  # D = 0 1 
+
+  isans      =          0  # D = 0 1 
+  isans      =          1  # D = 0 1 
+  isans      =          2  # D = 0 1 
+
+ $ Table 5.17: Parameters for photon transport based on the PHITS original model
+  emcpf      = 0.0
+
+  nocoh      =          0  # D = 0 1 
+  nocoh      =          1  # D = 0 1 
+  nocoh      =          2  # D = 0 1 
+
+  xnum       =          0  # D = 0 1 
+  xnum       =          1  # D = 0 1 
+  xnum       =          2  # D = 0 1 
+
+ $ Table 5.18: EGS5 parameters 1
+  ipegs      =         -1  # D = -1 0 1 2
+  ipegs      =          0  # D = -1 0 1 2
+  ipegs      =          1  # D = -1 0 1 2
+  ipegs      =          2  # D = -1 0 1 2
+  ipegs      =          3  # D = -1 0 1 2
+
+  imsegs      =         0  # D = 0 1
+  imsegs      =         1  # D = 0 1
+  imsegs      =         2  # D = 0 1
+
+  iegsout      =         0  # D = 0 1 2
+  iegsout      =         1  # D = 0 1 2
+  iegsout      =         2  # D = 0 1 2
+  iegsout      =         3  # D = 0 1 2
+
+  iegsrand     =        -1
+
+ $ Table 5.19: EGS5 parameters 2
+  iedgfl      =         0  # D = 0 1
+  iedgfl      =         1  # D = 0 1
+  iedgfl      =         2  # D = 0 1
+
+  iauger      =         0  # D = 0 1
+  iauger      =         1  # D = 0 1
+  iauger      =         2  # D = 0 1
+
+  iraylr      =         0  # D = 0 1
+  iraylr      =         1  # D = 0 1
+  iraylr      =         2  # D = 0 1
+
+  lpolar      =         0  # D = 0 1
+  lpolar      =         1  # D = 0 1
+  lpolar      =         2  # D = 0 1
+
+  epstfl      =         0  # D = 0 1
+  epstfl      =         1  # D = 0 1
+  epstfl      =         2  # D = 0 1
+
+  chard      =         0.1   
+
+  gasegs     =         0.02   
+
+ $ Table 5.20: EGS5 parameters 3
+  incohr      =         0  # D = 0 1
+  incohr      =         1  # D = 0 1
+  incohr      =         2  # D = 0 1
+
+  iprofr      =         0  # D = 0 1
+  iprofr      =         1  # D = 0 1
+  iprofr      =         2  # D = 0 1
+
+  impacr      =         0  # D = 0 1
+  impacr      =         1  # D = 0 1
+  impacr      =         2  # D = 0 1
+
+  ieispl      =         0  # D = 0 1
+  ieispl      =         1  # D = 0 1
+  ieispl      =         2  # D = 0 1
+
+  ibrdst      =         0  # D = 0 1
+  ibrdst      =         1  # D = 0 1
+  ibrdst      =         2  # D = 0 1
+
+  iprdst      =         0  # D = 0 1
+  iprdst      =         1  # D = 0 1
+  iprdst      =         2  # D = 0 1
+
+  iphter      =         0  # D = 0 1
+  iphter      =         1  # D = 0 1
+  iphter      =         2  # D = 0 1
+
+  ibound      =         0  # D = 0 1
+  ibound      =         1  # D = 0 1
+  ibound      =         2  # D = 0 1
+
+  neispl      =         2  # integer
+
+  iaprim      =         0  # D = 0 1 2
+  iaprim      =         1  # D = 0 1 2
+  iaprim      =         2  # D = 0 1 2
+  iaprim      =         3  # D = 0 1 2
+
+ $ Table 5.21: Parameters for photon- and muon-induced reaction models 1
+  ipnint      =         0  # D = 0 1 2
+  ipnint      =         1  # D = 0 1 2
+  ipnint      =         2  # D = 0 1 2
+  ipnint      =         3  # D = 0 1 2
+
+  imucap      =         0  # D = 0 1 2
+  imucap      =         1  # D = 0 1 2
+  imucap      =         2  # D = 0 1 2
+  imucap      =         3  # D = 0 1 2
+
+  iqmdscm      =         0  # D = 0 1
+  iqmdscm      =         1  # D = 0 1
+  iqmdscm      =         2  # D = 0 1
+
+  scm_h0      =         0.25  
+
+  scm_d       =         1.75  
+
+  scm_rcls    =         -1.124  
+
+ $ Table 5.22: Parameters for photon- and muon-induced reaction models 2
+  imuint      =         0  # D = 0 1
+  imuint      =         1  # D = 0 1
+  imuint      =         2  # D = 0 1
+
+  imubrm      =         0  # D = 0 1
+  imubrm      =         1  # D = 0 1
+  imubrm      =         2  # D = 0 1
+
+  imuppd      =         0  # D = 0 1
+  imuppd      =         1  # D = 0 1
+  imuppd      =         2  # D = 0 1
+
+  emumin      =         200.0  
+
+  emumax       =       1.0e+6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
