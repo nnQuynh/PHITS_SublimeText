@@ -11,7 +11,7 @@
   icntl    =           18    
   icntl    =           20    
 
- $ Parameters for number of history and bank
+ $ Table 5.2: Parameters for number of history and bank
   maxcas   =       10000     # (D=10) number of particles per one batch
   maxbch   =           2     # (D=10) number of batches
   maxbnk   =       10000     # Maximum number of secondary particles
@@ -36,7 +36,7 @@
   ireschk   =          1
   ireschk   =          2
 
- $ Parameters for random number
+ $ Table 5.3: Parameters for random number
   nrandgen =           0    # D = 0 1
   nrandgen =           1
   nrandgen =           2 
@@ -465,18 +465,490 @@
 
   emumax       =       1.0e+6
 
+ $ Table 5.23: Parameters for muon production models
+  igmuppd      =         0  # D = 0 1
+  igmuppd      =         1  # D = 0 1
+  igmuppd      =         2  # D = 0 1
+
+  gmumul       =     0.1
+
+ $ Table 5.24: Parameters for neutrino-induced reaction model
+  ntrnore      =         0  # D = 0 1
+  ntrnore      =         1  # D = 0 1
+  ntrnore      =         2  # D = 0 1
+
+ $ Table 5.26: Parameters for Coulomb diffusion
+  nspred      =         0  # D = 0 1 2
+  nspred      =         1  # D = 0 1 2
+  nspred      =         2  # D = 0 1 2
+  nspred      =         3  # D = 0 1 2
+
+ $ Table 5.27: Parameters for gravitational field and electromagnetic field
+  gravx      =          0   
+
+  gravy      =          0 
+  
+  gravz      =          0 
+
+  usrmgt      =         1  # D = 1 2
+  usrmgt      =         2  # D = 1 2
+  usrmgt      =         3  # D = 1 2
+  usrmgt      =         0  # D = 1 2
+
+  usrelst      =         1  # D = 1 2
+  usrelst      =         2  # D = 1 2
+  usrelst      =         3  # D = 1 2
+  usrelst      =         0  # D = 1 2
+
+  imagnf      =         0  # D = 0 1
+  imagnf      =         1  # D = 0 1
+  imagnf      =         2  # D = 0 1
+
+  ielctf      =         0  # D = 0 1
+  ielctf      =         1  # D = 0 1
+  ielctf      =         2  # D = 0 1
+
+ $ Table 5.28: Parameters for output options (1)
+  infout      =          0   # D = 0 - 8
+  infout      =          1   # D = 0 - 8
+  infout      =          2   # D = 0 - 8
+  infout      =          3   # D = 0 - 8
+  infout      =          4   # D = 0 - 8
+  infout      =          5   # D = 0 - 8
+  infout      =          6   # D = 0 - 8
+  infout      =          7   # D = 0 - 8
+  infout      =          8   # D = 0 - 8
+  infout      =          9   # D = 0 - 8
+
+  ncvalout      =          0   
+
+  nrecover      =          0  
+
+  ierrout      =         0  # D = 0 1
+  ierrout      =         1  # D = 0 1
+  ierrout      =         2  # D = 0 1
+
+  idmprijk      =         0  # D = 0 1
+  idmprijk      =         1  # D = 0 1
+  idmprijk      =         2  # D = 0 1
+
+ $ Table 5.29: Parameters for output options (2)
+  dumpall      =        -1  # D = -1 0 1
+  dumpall      =         0  # D = -1 0 1
+  dumpall      =         1  # D = -1 0 1
+  dumpall      =         2  # D = -1 0 1
+
+  idpara      =         0  # D = 0 1 3
+  idpara      =         1  # D = 0 1 3
+  idpara      =         3  # D = 0 1 3
+  idpara      =         2  # D = 0 1 3
+
+ $ Table 5.30: Parameters for output options (3)
+  itall      =        -1  # D = -1 0 1 2 3 4
+  itall      =         0  # D = -1 0 1 2 3 4
+  itall      =         1  # D = -1 0 1 2 3 4
+  itall      =         2  # D = -1 0 1 2 3 4
+  itall      =         3  # D = -1 0 1 2 3 4
+  itall      =         4  # D = -1 0 1 2 3 4
+  itall      =         5  # D = -1 0 1 2 3 4
+
+  iMeVperu      =         0  # D = 0 1
+  iMeVperu      =         1  # D = 0 1
+  iMeVperu      =         2  # D = 0 1
+
+  itstep      =         0  # D = 0 1
+  itstep      =         1  # D = 0 1
+  itstep      =         2  # D = 0 1
+
+  kmout      =         0  # D = 0 1
+  kmout      =         1  # D = 0 1
+  kmout      =         2  # D = 0 1
+
+  imout      =         0  # D = 0 1 2
+  imout      =         1  # D = 0 1 2
+  imout      =         2  # D = 0 1 2
+  imout      =         3  # D = 0 1 2
+
+  jmout      =         0  # D = 0 1 2
+  jmout      =         1  # D = 0 1 2
+  jmout      =         2  # D = 0 1 2
+  jmout      =         3  # D = 0 1 2
+
+ $ Table 5.31: Parameters for output options (4)
+  matadd      =         0  # D = 0 1
+  matadd      =         1  # D = 0 1
+  matadd      =         2  # D = 0 1
+
+  iggcm      =         0  # D = 0 1
+  iggcm      =         1  # D = 0 1
+  iggcm      =         2  # D = 0 1
+
+  icput      =         0  # D = 0 1
+  icput      =         1  # D = 0 1
+  icput      =         2  # D = 0 1
+
+  ipara      =         0  # D = 0 1
+  ipara      =         1  # D = 0 1
+  ipara      =         2  # D = 0 1
+
+  natural      =         0  # D = 0 1 2
+  natural      =         1  # D = 0 1 2
+  natural      =         2  # D = 0 1 2
+  natural      =         3  # D = 0 1 2
+
+  gsline      =         0  # D = 0 1 2 3 
+  gsline      =         1  # D = 0 1 2 3 
+  gsline      =         2  # D = 0 1 2 3 
+  gsline      =         3  # D = 0 1 2 3 
+  gsline      =         4  # D = 0 1 2 3 
+
+  nwsors      =         0 
+
+ $ Table 5.32: Parameters for voxel and tetrahedron geometry options
+  icells      =         0  # D = 0 1 2 3 
+  icells      =         1  # D = 0 1 2 3 
+  icells      =         2  # D = 0 1 2 3 
+  icells      =         3  # D = 0 1 2 3 
+  icells      =         4  # D = 0 1 2 3 
+
+  ivoxel      =         0  # D = 0 1 2 3 
+  ivoxel      =         1  # D = 0 1 2 3 
+  ivoxel      =         2  # D = 0 1 2 3 
+  ivoxel      =         3  # D = 0 1 2 3 
+  ivoxel      =         4  # D = 0 1 2 3 
+
+ $ Table 5.33: Parameters for voxel and tetrahedron geometry options
+  itetvol      =         0  # D = 0 1
+  itetvol      =         1  # D = 0 1
+  itetvol      =         2  # D = 0 1
+
+  itetauto      =         0  # D = 0 1
+  itetauto      =         1  # D = 0 1
+  itetauto      =         2  # D = 0 1
+
+  itgchk      =         0  # D = 0 1
+  itgchk      =         1  # D = 0 1
+  itgchk      =         2  # D = 0 1
+
+  icells      =         0  # D = 0 1 2 3 
+  icells      =         1  # D = 0 1 2 3 
+  icells      =         2  # D = 0 1 2 3 
+  icells      =         3  # D = 0 1 2 3 
+  icells      =         4  # D = 0 1 2 3 
+
+  itetra      =         0  # D = 0 1 2
+  itetra      =         1  # D = 0 1 2
+  itetra      =         2  # D = 0 1 2
+  itetra      =         3  # D = 0 1 2
+
+  ntetsurf    =         100 
+
+  ntetelem    =         200 
+
+ $ Table 5.34: Parameters for geometrical errors
+  nlost    =         100 
+
+  igerr    =         200 
+
+  deltb    =         100 
+
+  deltm    =         20.12345 
+
+  deltc    =         2.012345 
+
+  delt0    =         0.1 
+
+  deltg    =         1.012345 
+
+  deltt    =         1.0 
+
+  deltxyz    =       0.0001 
+
+  ichkmat      =         0  # D = 0 1
+  ichkmat      =         1  # D = 0 1
+  ichkmat      =         2  # D = 0 1
+
+  idelt      =         0  # D = 0 1
+  idelt      =         1  # D = 0 1
+  idelt      =         2  # D = 0 1
+
+ $ Table 5.35: Parameters for Input-output file name
+
+  file(1)  = PHITSPATH 
+  file(2)  = error
+  file(3)  = error
+  file(4)  = error
+  file(5)  = error
+  file(6)  = phits.out) Summary output file name.
+  file(7)  = file(1)/data/xsdir.jnd) Cross section directory file name.
+  file(8)  = error
+  file(9)  = error
+  file(11) = nuclcal.out) Nuclear reaction output file name.
+  file(12) = fort.12 
+  file(13) = fort.13 
+  file(10) = fort.10 
+  file(14)  = error
+  file(15) = dumpall.dat 
+  file(16)  = error
+  file(17)  = error
+  file(18) = voxel.bin 
+  file(19) = gcell.bin 
+  file(20) = file(1)/XS/egs/ 
+  file(21) = file(1)/dchain-sp/data/ 
+  file(22) = batch.out 
+  file(23) = pegs5 
+  file(24) = file(1)/data 
+  file(25) = file(1)/XS/tra 
+  file(26) = file(1)/data/multiplier 
+  file(27) = file(1)/XS/yield/ 
+  file(28) = file(1)/data/aama.dat 
+  file(29) = file(1)/data/dedx 
+  file(30) = Tetra.bin 
+
+ $ Table 5.36: Parameters for others    
+  idam(1) = 2
+
+  rdam(1) = 2
+
+  inucr      =         2  # D = 2|12|14|16|100
+  inucr      =        12  # D = 2|12|14|16|100
+  inucr      =        14  # D = 2|12|14|16|100
+  inucr      =        16  # D = 2|12|14|16|100
+  inucr      =       100  # D = 2|12|14|16|100
+  inucr      =         0  # D = 2|12|14|16|100
+  inucr      =         1  # D = 2|12|14|16|100
+
+  icommat      =         0  # D = 0 1
+  icommat      =         1  # D = 0 1
+  icommat      =         2  # D = 0 1
+
+[ Source ]
+ $ Table 5.38: Multi-source
+  totfact     =          0   
+  
+  iscorr      =          0  # D = 0 1 2 3
+  iscorr      =          1  # D = 0 1 2 3
+  iscorr      =          2  # D = 0 1 2 3
+  iscorr      =          3  # D = 0 1 2 3
+  iscorr      =          4  # D = 0 1 2 3
+
+ $ Table 5.39: Common source parameters (1)
+  proj = all
+  proj = proton
+  proj = neutron
+  proj = electron
+  proj = positron
+  proj = photon
+  proj = photon electron triton
+  proj = photon electron triton
+  proj = (photon electron)   # TODO
+
+  sx   = 0
+  sy   = 0
+  sz   = 0
+
+  reg  = all
+  reg  = 1
+
+  ntmax = 1000
+  trcl = 1
+  wgt = 1.0
+  factor = 1.0
+  izst = 1
+  
+  cnt(1)   = 1   # i integer
+  cnt(2)   = 1   # i integer
+  cnt(1.0) = 1   # i integer
 
 
+ $ Table 5.40: Common source parameters (2)
+  ispfs      =         0  # D = 0 1 2
+  ispfs      =         1  # D = 0 1 2
+  ispfs      =         2  # D = 0 1 2
+  ispfs      =         3  # D = 0 1 2
+
+  ibatch  = all
+  ibatch  = 1
+
+ $ Table 5.41: Parameters for cylinder source
+ $ Table 5.42: Parameters for rectangular solid source
+ $ Table 5.43: Parameters for Gaussian source
+ $ Table 5.44: Parameters for generic parabola distribution
+ $ Table 5.45: Parameters for Gaussian source
+ $ Table 5.46: Parameters for generic parabola distribution
+ $ Table 5.47: Parameters for sphere and spherical shell source
+ $ Table 5.48: Parameters for s-type=11
+ $ Table 5.49: Parameters for s-type=12
+ $ Table 5.50: Decay-turtle data
+ $ Table 5.51: Parameters for cone shape
+ $ Table 5.52: Parameters for triangle prism shape
+
+  s-type  = 1    # Cylinder or circle source.
+  s-type  = 2    # Rectangular solid and rectangle source
+  s-type  = 3    # Gaussian source
+  s-type  = 7    # Generic parabola source
+  s-type  = 13   # Gaussian source
+  s-type  = 15   # Generic parabola source
+  s-type  = 9    # Sphere and spherical shell source
+  s-type  = 11   # Uniform distribution in a phase space vertical with beam direction
+  s-type  = 12   # Decay-turtle reading
+  s-type  = 18   # Cone shape
+  s-type  = 20   # Triangle prism shape
+  s-type  = 22   # xyz-mesh distribution source
+  s-type  = 24   # Tetra-mesh source
+  s-type  = 26   # Surface source
+  s-type  = 17   # Reading dump file
+  s-type  = 100  # User definition source
+  s-type  = 4
+
+  x0 = 0.0  
+  y0 = 0.0  
+  z0 = 0.0 
+  r0 = 0.0
+
+  x1 = 0.0  
+  y1 = 0.0  
+  z1 = 0.0 
+  r1 = 0.0
+
+  x2 = 0.0  
+  y2 = 0.0  
+  z2 = 0.0 
+  r2 = 0.0
+
+  rn = 0.0  
+  rx = 0.0  
+  ry = 0.0 
+  rz = 0.0
+
+  dir = 1.0
+  dir = all
+  
+  phi = none
+  phi = random
+
+  dom =  1.0
+
+  ag1 = 0.0  
+  ag2 = 0.0  
+  pg2 = 0.0 
+  isbias = 0.0
+  rx =  -0.50000        # phase space angle of x-axis [rad]
+  ry =   0.50000        # phase space angle of y-axis [rad]
+  wem = 0.0  
+  xmrad1 = 0.0  # 
+  ymrad1 = 0.0 
+  xmrad2 = 0.0
+  ymrad2 = 0.0
+
+  file = filename   #  TODO
+
+  exa = 0.0  
+   
+  e0  = 1.0
+  e-type = 
 
 
+ $ Table 5.53: Parameters for xyz-mesh distribution source
+  isbias = 0 # D = 0 1 2
+  isbias = 1 # D = 0 1 2
+  isbias = 2 # D = 0 1 2
+  isbias = 3 # D = 0 1 2
 
+ $ Table 5.53: Parameters for xyz-mesh distribution source
+ $ Table 5.55: Parameters for surface definition source
+  tetreg = 1  
+  suf    = 2
 
+ $ Table 5.56: Parameters for dump file source (1)
+ $ Table 5.57: Parameters for dump file source (2)
+  dump = 0
+  jpsf = 1
+  sx = 0.0
+  sy = 0.0
+  sz = 0.0
+  wgt = 0.0
 
+  factor = 1.0
 
+  idmpmode = 1.0
 
+  dmpmulti = 1.0
 
+  e-type = 1.0
 
+  ne = 4
+  nm = 4
+  ni = 4
+  dtime = 4
 
+  eg1 = 4
+  eg2 = 4
+  ag1 = 4
+  ag2 = 4
 
+  p-type = 0 # D = 0 1
+  p-type = 1 # D = 0 1
+  p-type = 2 # D = 0 1
+  
+  icenv = 1
+  actlow = 1.0e-10
+  norm   = 0    
+  iaugers = 1
+  iannih = 1
+  icharctx = 1
+  icenv = 0
+  solarmod = 0
+  icyear   = 2009
+  icmonth  = 10
+  icday  = 20
+  depatom = 1033
+  alti   = 0
+ 
+ $ Table 5.74: Parameters for source energy distribution (13)
+  rigid = 1
+  environ = 123  # ???
+  glat = 33.36  $ Latitude (deg)
+  glong = 130.25  $ Longitude (deg)
 
+ $ Table 5.75: Parameters for source angular distribution (1)
+ $ Table 5.76: Parameters for source angular distribution (2)
+  a-type = 1
 
+  q-type = 0   # D = 0 1
+  q-type = 1   # D = 0 1
+  q-type = 2   # D = 0 1
+
+  na = 3     # 
+  
+  nn = 1     
+
+  g(x) = exp(-c1*x**2)
+
+ $ Table 5.77: Parameters for time distribution (1)
+ $ Table 5.78: Parameters for time distribution (2)
+  t-type = 0    # D = 0-6
+  t-type = 1    # D = 0-6
+  t-type = 2    # D = 0-6
+  t-type = 3    # D = 0-6
+  t-type = 4    # D = 0-6
+  t-type = 5    # D = 0-6
+  t-type = 6    # D = 0-6
+  t-type = 7    # D = 0-6
+
+  t0 = 0.0
+  tw = 2.0
+  tn = 14
+  td = 10.0
+  tc = 1.0
+  ntt = 10
+  
+
+  h(x) = exp(-c1*x**2)
+
+  # ll  = 10     ???
+  # tg1 ???
+  # tg2 ??
+  # tg1 Minimum cut off for time distribution [ns].
+  # tg2 Maximum cut off for time distribution [ns].
+  
