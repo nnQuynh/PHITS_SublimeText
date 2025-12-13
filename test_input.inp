@@ -952,3 +952,89 @@
   # tg1 Minimum cut off for time distribution [ns].
   # tg2 Maximum cut off for time distribution [ns].
   
+[ M a t e r i a l ]
+ m1 80196.49c 5.9595d-5
+    80198.49c 3.9611d-3
+    80199.49c 6.7025d-3
+    80200.49c 9.1776d-3
+    80201.49c 5.2364d-3
+    80202.49c 1.1863d-2
+    80204.49c 2.2795d-3
+ c ...Be...
+ m3 4009.37c 1.2362E-1
+ mt3 be.01
+ c ...h2o (25C)...
+ m4 1001.37c 6.6658d-2 8016.37c 3.3329d-2
+ mt4 lwtr.01
+ c ...b4c (natural boron; 25%-density)...
+ m5 6012.37c 6.8118d-3
+    5011.37c 2.1825d-2
+ c ...liquid-h2 (20K)...
+ m6 1001.49c 3.1371d-2 1011.49c 1.0457d-2
+ mt6 orthoh.00 parah.00
+
+ c Air (dry, near sea level), rho=0.001205 g/cc
+ m4    6000 -0.000124 
+       7000 -0.755268 
+       8000 -0.231781 
+      18000 -0.012827 
+
+ $ Table 5.81: Material parameters
+  gas = 0  
+
+  estep  = 2  # integer
+
+  cond  = 2
+
+  NLIB = 1
+  PLIB = 2
+  ELIB = 3
+  HLIB = 4
+
+  dedxfile = filename
+  dedxfile = filename  # comment
+
+  chem = H2O 0.01 N2 0.8 CH4 0.4 Ar 0.1
+
+[ C e l l ]  
+ 100     1 -1.         -10 11 -12
+ 101     1 -1.          20 11 -12
+ 200     0             -99 #100 #101
+ 999    -1              99
+
+ 98          0      #1 #2 #3 #4 -999 $ Void
+
+ 1     1 -c14  -11 12 -13  $ 9Be target
+ 1     1 +c14  -11 12 -13  $ 9Be target
+ 1     1  c14  -11 12 -13  $ 9Be target
+
+ 2     2 -1.20e-3  #1 -999     $ Air
+
+ 1     43   -1.030      -666  u=  1
+
+ 901    0  -922   921  -924   923  -926   925    lat= 1   u= 901
+       fill=0:298  0:136  0:347
+
+ 901    0  -922   921  -924   923  -926   925    
+        lat= 1   u= 901
+        fill=0:298  0:136  0:347
+
+ 901    0  -922   921  -924   923  -926   925    
+        lat= 1   u= 901  fill=0:298  0:136  0:347
+
+ 3 LIKE 2 BUT TRCL=1
+ 4 LIKE 2 BUT TRCL=2 MAT=2
+
+ 5 -1 #(-10 13 -14)
+
+
+ 101 0 -26 25 -22 21 LAT=1 U=1
+          FILL=-1:1 -1:1 0:0
+          2 2 3 2 3 2 3 2 2
+
+ 101 0 -26 25 -22 21 LAT=1 U=1
+          FILL=-1:1 -1:1 0:0
+   2 2 3 2 3 2 3 2 2
+
+
+

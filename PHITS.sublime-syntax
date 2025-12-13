@@ -27,6 +27,7 @@ variables:
 contexts:
   main:
     - include: comments
+    - include: section_off
     - include: begin_section
 
     # - match: (?i)(^\s*)(\[\s*T\s*i\s*t\s*l\s*e\s*\]\s*\n)
@@ -786,10 +787,11 @@ contexts:
 
     - include: material_definition
     - include: material_thermal_scattering
+    - include: material_parameters
 
 
   material_definition: 
-    - match: (?i)\s*(mat\[)\s*([1-9][0-9]*)\s*\]             # format MAT[1]
+    - match: (?i)\s*(mat)\[\s*([1-9][0-9]*)\s*\]             # format MAT[1]
       captures:
         1: support.constant.source.card.multi_source
         2: variable.language.card.material_definition
@@ -800,27 +802,49 @@ contexts:
         2: variable.language.card.material_number       
 
   material_thermal_scattering:
-    - include: SaB
+    - match: (?i)(al-27|d-d2o|fe-56|grph|grph10|grph30|h-h2o|h-luci|h-poly|h-yh2|h-zrh|o-d2o|)(.40t)
+      scope: constant.numeric.crossSection.SaB
+
+    - match: (?i)(al27|be|be-o|be/o|benz|lwtr|lwtr|o-be)(.20t|.12t|.10t)
+      scope: constant.numeric.crossSection.SaB  
 
     - match: (?i)\b(mt)([0-9]+)\b
       captures:
         1: support.constant.material.thermal_scattering
         2: variable.language.card.material_number    
         3: keyword.language.card.material_number    
+  
+  material_parameters:
+    # Table 5.81: Material parameters
+    - match: (?i)\s*(gas)(\s+=\s+)(0|1)  
+      captures:
+        1: support.constant.material.thermal_scattering
+        3: constant.numeric.parameters.card.input_output_filename
 
-  # S(alpha,bea)
-  SaB:
-    - include: SaB2_ENDFVIII.0
-    - include: SaB_ENDFVII.1
+    - match: (?i)\s*(ESTEP|Cond)(\s+=\s+)()  
+      captures:
+        1: support.constant.material.thermal_scattering
 
-  SaB2_ENDFVIII.0:
-    - match: (?i)(al-27|d-d2o|fe-56|grph|grph10|grph30|h-h2o|h-luci|h-poly|h-yh2|h-zrh|o-d2o|)(.40t)
-      scope: constant.numeric.crossSection.SaB
+    - match: (?i)\s*(NLIB|PLIB|ELIB|HLIB)(\s+=\s+)()  
+      captures:
+        1: support.constant.material.thermal_scattering
 
-  # source: https://nucleardata.lanl.gov/ace/endf71sab
-  SaB_ENDFVII.1:
-    - match: (?i)(al27|be|be-o|be/o|benz|lwtr|lwtr|o-be)(.20t|.12t|.10t)
-      scope: constant.numeric.crossSection.SaB  
+    # TODO: [a-z][0-9][_.]
+    - match: (?i)\s*(dedxfile)\s*=\s*(.*)(#.*) # have a comment at the end of line
+      captures:
+        1: support.constant.filename
+        2: entity.other.inherited-class.filename
+        3: comment
+
+    - match: (?i)\s*(dedxfile)\s*=\s*(.*)    # no comment at the end of line
+      captures:
+        1: support.constant.filename
+        2: entity.other.inherited-class.filename
+
+    - match: (?i)\s*(chem)(\s+=\s+)()      # no comment at the end of line
+      captures:
+        1: support.constant.filename
+
 
 ############################################################################################
 # [ M a t  N a m e  C o l o r ]
@@ -855,9 +879,15 @@ contexts:
     - meta_scope: cell-section
 
     - include: comments_in_cell_section
+    - include: section_off
     - include: begin_section 
+
     - include: set_parameter     
     - include: intrinsic_functions   
+
+    - include: set_parameter
+
+
 
       #          (  group1          )   (  group 2 )   ( group 3                   )      
     - match: (?i)(^\s{0,4}[0-9]{1,8})\s+({{pos_int}})\s+({{decimal}}|{{neg_decimal}})   # cell with material
@@ -865,6 +895,12 @@ contexts:
         1: entity.name.cellNumber
         2: support.constant.mat.number
         3: support.constant.density.mcnp
+
+    - match: (?i)(^\s{0,4}[0-9]{1,8})\s+({{pos_int}})\s+[-+ ](c[0-9]+|{{neg_decimal}})   # cell with material
+      captures:
+        1: entity.name.cellNumber
+        2: support.constant.mat.number
+        3: variable.language.card.material_definition
 
     - match: (?i)(^\s{0,4}[0-9]{1,8})\s+(0)     # cell with void
       captures:
@@ -874,7 +910,18 @@ contexts:
     - match: (?i)(^\s{0,4}[0-9]{1,8})\s+(-1)     # outside world
       captures:
         1: entity.name.cellNumber
-        2: support.constant.mat.void 
+        2: support.constant.mat.number
+
+    - match: (?i)(^\s{0,4}[0-9]{1,8})\s+(like|but|trcl|mat)   
+      captures:
+        1: entity.name.cellNumber
+        2: support.constant.mat.number
+        3: support.constant.density.mcnp
+
+    - match: (?i)(like|but|trcl|mat|lat|fill|u)  
+      scope: support.constant.input_output_filename
+
+
 
 
 ############################################################################################
@@ -884,6 +931,7 @@ contexts:
     - meta_scope: surface-section
     - include: comments
     - include: begin_section
+
     - include: set_parameter     
     - include: intrinsic_functions   
 
@@ -1214,9 +1262,13 @@ contexts:
     #       pop: true
 
   section_off:
-    - match:  (?i)(\[.*\]\s*off)         # off section
-      scope: test
-      set: comments
+    - match:  (?i)(\[.*\]\s*off)           # off section 
+      scope: punctuation.definition.comment
+      push:
+        - meta_scope: message.error
+        # - match: \s*(?:\[)
+        - match: begin_section
+          pop: true
 
   set_parameter:
     - match: (?i)\s*(set) # 
@@ -1234,7 +1286,7 @@ contexts:
         2: constant.language.intrinsic_functions
 
   include_file:
-    - match:  (?i)\s*(infl:)\{(.*)\}
+    - match:  (?i)\s*(infl:)\s*\{(.*)\}
       captures: 
         1: support.constant.source_type
         2: entity.other.inherited-class.card.input_output_filename 
@@ -1249,7 +1301,7 @@ contexts:
       scope: keyword.section_title
       set: title_section
 
-    - match:  (?i)(^\s*)(\[\s*P\s*a\s*r\s*a\s*m\s*e\s*t\s*e\s*r\s*s\s*\]\s*)
+    - match:  (?i)(^\s*)(\[\s*P\s*a\s*r\s*a\s*m\s*e\s*t\s*e\s*r\s*s\s*\]\s*\n)
       scope: keyword.section_title
       set: parameters_section
 
@@ -1257,71 +1309,71 @@ contexts:
       scope: keyword.section_title
       set: source_section
 
-    - match:  (?i)(^\s*)(\[\s*M\s*a\s*t\s*e\s*r\s*i\s*a\s*l\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*M\s*a\s*t\s*e\s*r\s*i\s*a\s*l\s*]\s*\n)
       scope: keyword.section_title
       set: material_section
 
-    - match:  (?i)(^\s*)(\[\s*M\s*a\s*t\s*N\s*a\s*m\s*e\s*C\s*o\s*l\s*o\s*r\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*M\s*a\s*t\s*N\s*a\s*m\s*e\s*C\s*o\s*l\s*o\s*r\s*]\s*\n)
       scope: keyword.section_title
       set: material_name_color_section
 
-    - match:  (?i)(^\s*)(\[\s*C\s*e\s*l\s*l\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*C\s*e\s*l\s*l\s*]\s*\n)
       scope: keyword.section_title
       set: cell_section
 
-    - match:  (?i)(^\s*)(\[\s*S\s*u\s*r\s*f\s*a\s*c\s*e\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*S\s*u\s*r\s*f\s*a\s*c\s*e\s*]\s*\n)
       scope: keyword.section_title
       set: surface_section
 
-    - match:  (?i)(^\s*)(\[\s*T\s*-\s*T\s*r\s*a\s*c\s*k\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*T\s*-\s*T\s*r\s*a\s*c\s*k\s*]\s*\n)
       scope: keyword.section_title
       set: tally_t_track
 
-    - match:  (?i)(^\s*)(\[\s*T\s*-\s*C\s*r\s*o\s*s\s*s\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*T\s*-\s*C\s*r\s*o\s*s\s*s\s*]\s*\n)
       scope: keyword.section_title
       set: tally_t_cross
 
-    - match:  (?i)(^\s*)(\[\s*T\s*-\s*P\s*o\s*i\s*n\s*t\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*T\s*-\s*P\s*o\s*i\s*n\s*t\s*]\s*\n)
       scope: keyword.section_title
       set: tally_t_point
 
-    - match:  (?i)(^\s*)(\[\s*T\s*-\s*d\s*e\s*p\s*o\s*s\s*i\s*t\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*T\s*-\s*d\s*e\s*p\s*o\s*s\s*i\s*t\s*]\s*\n)
       scope: keyword.section_title
       set: tally_t_deposit
 
-    - match:  (?i)(^\s*)(\[\s*T\s*-\s*d\s*e\s*p\s*o\s*s\s*i\s*t\s*2\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*T\s*-\s*d\s*e\s*p\s*o\s*s\s*i\s*t\s*2\s*]\s*\n)
       scope: keyword.section_title
       set: tally_t_deposit2
 
-    - match:  (?i)(^\s*)(\[\s*T\s*-\s*P\s*r\s*o\s*d\s*u\s*c\s*t\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*T\s*-\s*P\s*r\s*o\s*d\s*u\s*c\s*t\s*]\s*\n)
       scope: keyword.section_title
       set: tally_t_product
 
-    - match:  (?i)(^\s*)(\[\s*T\s*-\s*Y\s*i\s*e\s*l\s*d\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*T\s*-\s*Y\s*i\s*e\s*l\s*d\s*]\s*\n)
       scope: keyword.section_title
       set: tally_t_yield
 
-    - match:  (?i)(^\s*)(\[\s*T\s*-\s*3\s*D\s*s\s*h\s*o\s*w\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*T\s*-\s*3\s*D\s*s\s*h\s*o\s*w\s*]\s*\n)
       scope: keyword.section_title
       set: tally_t_3dshow
 
-    - match:  (?i)(^\s*)(\[\s*I\s*m\s*p\s*o\s*r\s*t\s*a\s*n\s*c\s*e\s*\]\s*)
+    - match:  (?i)(^\s*)(\[\s*I\s*m\s*p\s*o\s*r\s*t\s*a\s*n\s*c\s*e\s*\]\s*\n)
       scope: keyword.section_title
       set: importance_section
 
-    - match:  (?i)(^\s*)(\[\s*M\s*u\s*l\s*t\s*i\s*p\s*l\s*i\s*e\s*r\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*M\s*u\s*l\s*t\s*i\s*p\s*l\s*i\s*e\s*r\s*]\s*\n)
       scope: keyword.section_title
       set: multiplier_section
 
-    - match:  (?i)(^\s*)(\[\s*V\s*o\s*l\s*u\s*m\s*e\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*V\s*o\s*l\s*u\s*m\s*e\s*]\s*\n)
       scope: keyword.section_title
       set: volume_section
 
-    - match:  (?i)(^\s*)(\[\s*F\s*o\s*r\s*c\s*e\s*d\s*C\s*o\s*l\s*l\s*i\s*s\s*i\s*o\s*n\s*s\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*F\s*o\s*r\s*c\s*e\s*d\s*C\s*o\s*l\s*l\s*i\s*s\s*i\s*o\s*n\s*s\s*]\s*\n)
       scope: keyword.section_title
       set: forced_collisions
 
-    - match:  (?i)(^\s*)(\[\s*E\s*n\s*d\s*]\s*)
+    - match:  (?i)(^\s*)(\[\s*E\s*n\s*d\s*]\s*\n)
       scope: keyword.section_title
       set: end_section
 
