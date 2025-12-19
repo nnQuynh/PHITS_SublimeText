@@ -1,0 +1,133 @@
+[ T i t l e ]
+Sample input file for generating neutron fluence from PuBe source. 
+
+[ P a r a m e t e r s ]
+$
+$ Parameter setup $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$
+$ Taken from https://doi.org/10.1016/0029-554X(72)90781-1. M-591
+set: c1[2.8] $ source diameter (cm)
+set: c2[5.6] $ source height (cm)
+$ size parameter taken from https://doi.org/10.1016/0029-554X(72)90781-1
+set: c3[(3.3-c1)/2] $ side wall thickness (cm)
+set: c4[(6.9-c2)/2] $ bottom wall thickness (cm)
+$ mass parameter taken from https://doi.org/10.1016/0029-554X(72)90781-1. Source ID : M-591
+set: c5[79.8] $ Pu mass (g)
+set: c6[39] $ Be mass (g)
+$
+set: c10[1.735E+11] $ Pu239 activity calculated based on https://doi.org/10.1016/0029-554X(72)90781-1
+set: c11[3.223E+10] $ Pu240 activity
+set: c12[2.165E+07] $ Pu241 activity
+$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =        100000000     # (D=10) number of particles per one batch
+ maxbch   =           100     # (D=10) number of batches
+ dmax(18) =       10
+ emin(18) =       0
+ lib(18)  = 20a
+
+[ S o u r c e ]
+  totfact = 1.0             
+   s-type = 1
+     proj =  alpha        # source particle species        
+       r0 =    c1/2        # radius [cm]
+       x0 =    0.000       # (D=0.0) center position of x-axis [cm]
+       y0 =    0.000       # (D=0.0) center position of y-axis [cm]
+       z0 =   -c2/2        # minimum position of z-axis [cm]
+       z1 =    c2/2        # maximum position of z-axis [cm]
+      dir =    all         # z-direction of beam [cosine]
+   e-type =  28
+      ni  = 3   
+      Pu239 c10/(c10+c11+c12)
+      Pu240 c11/(c10+c11+c12)
+      Pu241 c12/(c10+c11+c12)
+     dtime = 0
+
+[ M a t e r i a l ]
+MAT[ 1 ]  $ taken from https://doi.org/10.1016/0029-554X(72)90781-1
+         4009 -c6    
+		94239 -c5*0.946*239.052163400/(0.946*239.0521634+0.05*240.053813545+0.004*241.056851456)
+		94240 -c5*0.05*240.0538135450/(0.946*239.0521634+0.05*240.053813545+0.004*241.056851456)
+		94241 -c5*0.004*241.056851456/(0.946*239.0521634+0.05*240.053813545+0.004*241.056851456)
+
+MAT[ 2 ]  $ capsule shell material : stainless steel taken from .... Amersham/Searle, Neutron sources 241Am-Be and 252Cf, Tech. Bull. (2) (1976), pp. 76-77
+        C   -0.004
+        Mn  -1.59
+        P   -0.011
+        S   -0.008
+        Si  -0.37
+        Cr  -16.96
+        Ni  -13.61
+        Mo  -2.29
+        Fe  -65.16
+	Ta  -10
+
+[ C e l l ]
+set: c20[(c5+c6)/(c2*(c1/2)**2*pi)] $ density of mixture
+ 1   1  -c20   -1
+ 2   2  -(7.8+16.65*0.1)/1.1    1  -2 $ Mean density of SUS+0.1Ta
+ 99 -1          2 -99 
+
+[ S u r f a c e ]
+99    so  100000
+ 1   RCC  0  0  -c2/2    0  0  c2      c1/2
+ 2   RCC  0  0  -c2/2-c4 0  0  c2+c4*2 c1/2+c3
+
+
+[ T - P r o d u c t ]
+    title = Particle production in reg mesh
+     mesh =  reg            # mesh type is region-wise
+      reg = 1
+   e-type =    2            # e-mesh is log given by emin, emax and ne
+     emin =   0.000000      # minimum value of e-mesh points
+     emax =   15.00000      # maximum value of e-mesh points
+       ne =   100            # number of e-mesh points
+ material =  all            # (D=all) number of specific material
+   mother =  all            # (D=all) number of specific mother
+     unit =    3            # unit is [1/MeV/source]
+     axis =   eng           # axis of output
+     file = product_reg.out  # file name of output for the above axis
+   output = nuclear         # (D=nuclear) products from all reactions
+     part =  neutron photon
+   epsout =    1            # (D=0) generate eps file by ANGEL
+
+[ T - P r o d u c t ]
+    title = Particle production in reg mesh
+     mesh =  reg            # mesh type is region-wise
+      reg = 1
+   e-type =    2            # e-mesh is log given by emin, emax and ne
+     emin =   0.000000      # minimum value of e-mesh points
+     emax =   6.00000      # maximum value of e-mesh points
+       ne =   1000            # number of e-mesh points
+ material =  all            # (D=all) number of specific material
+   mother =  all            # (D=all) number of specific mother
+     unit =    3            # unit is [1/MeV/source]
+     axis =   eng           # axis of output
+     file = source.out      # file name of output for the above axis
+   output = source         # (D=nuclear) products from all reactions
+     part =  alpha      
+   epsout =    1            # (D=0) generate eps file by ANGEL
+
+[ T - C r o s s ]
+    title = Energy distribution in region mesh
+     mesh =  reg            # mesh type is region-wise
+      reg =    2            # number of crossing regions
+      non     r-from  r-to      area
+        1        2     99      1.000000    
+        2        1      2      1.000000    
+   e-type =    2            # e-mesh is log given by emin, emax and ne
+     emin =   0.000000      # minimum value of e-mesh points
+     emax =   15.00000      # maximum value of e-mesh points
+       ne =   100            # number of e-mesh points
+     unit =    2            # unit is [1/MeV/source]
+     axis =  eng            # axis of output
+     file = cross_reg.out   # file name of output for the above axis
+   output = current            # surface crossing flux
+     part =  neutron
+   epsout =    1            # (D=0) generate eps file by ANGEL
+
+
+[END]
+

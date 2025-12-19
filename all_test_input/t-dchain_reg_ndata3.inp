@@ -1,0 +1,86 @@
+[ Title ]
+sample input for dchain with ndata=3
+
+[ Parameters ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =        1000     # (D=10) number of particles per one batch
+ maxbch   =          10     # (D=10) number of batches
+ igamma   =           3     # (D=0) 0:No, 1:Old, 2:EBITEM, 3:EBITEM+Isomer
+ file(1)  = c:/phits        # (D=c:/phits) PHITS install folder name
+ file(6)  = phits.out       # (D=phits.out) general output file name
+$  must option for DCHAIN 
+ jmout    =           1     # (D=0) Density echo, 0:input, 1:number density
+ e-mode   =           0     # (D=0) Event generator mode is not recommended for DCHAIN calculation
+
+set: c11[10.28]    $ g/cm3, density of Mo-metal sample
+set: c12[1.0]      $ cm, width of square-shaped sample
+set: c13[0.02]     $ cm, thickness of Mo sample
+
+[ Source ]
+  totfact =   1.0000        # (D=1.0) global factor
+   s-type =   2             # mono-energetic rectangular-solid source
+     proj =  proton         # kind of incident particle         
+       e0 =   20.0        # energy of beam [MeV/u]
+       x0 =  -c12/2            # minimum position of x-axis [cm]
+       x1 =   c12/2            # maximum position of x-axis [cm]
+       y0 =  -c12/2            # minimum position of y-axis [cm]
+       y1 =   c12/2            # maximum position of y-axis [cm]
+       z0 =  -40.000        # minimum position of z-axis [cm]
+       z1 =  -40.000        # maximum position of z-axis [cm]
+      dir =   1.0000        # z-direction of beam [cosine]
+
+[ Material ]
+MAT[ 1 ] $ 100Mo sample
+        100Mo         1.0000000E+00
+
+[ Surface ]
+   1  px     -c12/2
+   2  px      c12/2
+   3  py     -c12/2
+   4  py      c12/2
+   5  pz      0
+   6  pz      c13
+ 999  so      100.
+
+[ Cell ]
+   1     1 -c11  1 -2  3 -4 5 -6 $ sample
+ 101     0       -999 #1
+ 999    -1        999
+
+[ Volume ]
+  non      reg      vol
+    1        1      c12**2*c13
+
+[ Counter ]
+  counter = 3
+     part =  proton   
+# kf/name :  2212     
+   reg   ndata
+     1       1 
+
+[ T-DCHAIN ]
+$  must section for DCHAIN 
+    title = 20MeV proton into Mo sample
+     mesh =  reg            # mesh type is region-wise
+      reg =  1
+     file = dchain.out      # file name of dchain-sp input file
+    ndata = 3
+ ctmax(3) = 0
+    jmode = 0
+  timeevo =    2               # time evolution
+     1.0 h 1.0
+    10.0 h 0.0
+  outtime =    6               # output time
+    1.0 h
+    2.0 h
+    4.0 h
+    6.0 h
+    8.0 h
+   10.0 h
+$ beam current (nA)
+set:c1[1000.0]
+$ beam power (source/sec) 
+set:c2[ c1 * 1.0e-9 / (1.602177e-19) ]
+   amp = c2                 # (D=1.0) Source Intensity(source/sec)
+
+[ End ]

@@ -1,0 +1,68 @@
+[ T i t l e ]  
+Mass production cross section for 1 GeV proton + Pb 
+Figure 10 in JOURNAL OF NUCLEAR SCIENCE AND TECHNOLOGY, VOL. 54, 617-635.
+https://doi.org/10.1080/00223131.2017.1297742
+
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ itall    =           1     # (D=0) 0:no tally at batch, 1:same, 2:different
+ maxcas   =        1000     # (D=10) number of particles per one batch
+ maxbch   =         100     # (D=10) number of batches
+ file(1)  = c:/phits        # (D=c:/phits) PHITS install folder name
+
+[ S o u r c e ]
+  totfact =   1.0000        # (D=1.0) global factor
+   s-type =   1             # cylindrical source
+     proj =  proton         # kind of incident particle         
+       e0 =   1000.0        # energy of beam [MeV/u]
+       r0 =   0.0000        # radius [cm]
+       x0 =   0.0000        # (D=0.0) center position of x-axis [cm]
+       y0 =   0.0000        # (D=0.0) center position of y-axis [cm]
+       z0 =  -1.0000        # minimum position of z-axis [cm]
+       z1 =  -1.0000        # maximum position of z-axis [cm]
+      dir =   1.0000        # z-direction of beam [cosine]
+
+[ Forced Collisions ]
+   part = proton  
+   reg     fcl
+     1    -1.0
+
+[ M a t e r i a l ]
+m1   Pb 1.0
+set: c91[11.35]  $ density of target [g/cm3]
+set: c92[207.976652] $ molecular weight [g/mol]
+
+[ C e l l ]
+    1     1 -c91                 -1 2 -3 $ Target
+    2     0                          -99 #1
+   10    -1                 99 
+
+set: c20[10.0]    $ radius 
+set: c30[0.001]   $ depth of sample
+set: c40[0.001]   $ radius of sample
+set: c50[c91/c92*6.02e23*c30] $ target density particles/cm^2
+
+[ S u r f a c e ]
+  1       cz      c40
+  2       pz     0.0
+  3       pz      c30
+  99      so     c20
+
+[T-Yield]
+    title = [t-yield] in region mesh
+     mesh =  reg            # mesh type is region-wise
+      reg =    1
+  special =    0            # (D=0) number of repeated nuclear reactions
+ material =  all            # (D=all) number of specific material
+   mother =  all            # (D=all) number of specific mother
+  nucleus =  all            # (D=all) number of detected nucleus
+     unit =    1            # unit is [1/source]
+     axis = mass             # axis of output
+     file = pxs_yield.out
+     info =    0            # 0-> no, 1-> write magic number and stable nuclei
+   output = product         # (D=product) normal yeild
+   epsout =    1            # (D=0) generate eps file by ANGEL
+   factor = 1/c50*1.0E27
+    y-txt = Production XS (mb)
+
+[END]

@@ -1,0 +1,9 @@
+PHITS2DICOM input                   ! Signature of PHITS2DICOM input
+data/sample.dcm                     ! Name of RTdose sample file with PATH
+work/sample1/CT/60592375            ! Name of RTimage file with PATH 
+work/sample1/PHITSinput/deposit.out ! Name of PHITS 3D dose file with PATH
+work/sample1/PHITSinput/phits.out   ! Name of phits.out file with PATH
+work/sample1/DATfiles/              ! Intermediate file directory with PATH
+1  ! Dose normalization 0: as it is 1:One for max 2: By factor 3:Given below
+0.0 0.0 0.0             ! Normalization position (x,y,z) [mm]
+1.0                     ! Normalized value

@@ -1,0 +1,96 @@
+[ T i t l e ]
+Sample input for radiation shielding
+
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =        1000     # (D=10) number of particles per one batch
+ maxbch   =           2     # (D=10) number of batches
+
+set: c1[50]  $ Inner radius of Tungsten
+set: c2[10]  $ Thickness of each shell
+
+[ S o u r c e ] 
+totfact=1
+<source> = 0.99
+   s-type =   9             # mono-energetic spherical distribution source
+     proj =  neutron        # kind of incident particle         
+       e0 =   2.45
+       x0 =   0.            # (D=0.0) center position of x-axis [cm]
+       y0 =   0.            # (D=0.0) center position of y-axis [cm]
+       z0 =   0.            # (D=0.0) center position of z-axis [cm]
+       r1 =   c1-0.01       # inner radius [cm]
+       r2 =   c1            # outer radius [cm]
+      dir =  all            # direction of beam is outer normal to sphere
+<source> = 0.01
+   s-type =   9             # mono-energetic spherical distribution source
+     proj =  neutron        # kind of incident particle         
+       e0 =  14.1
+       x0 =   0.            # (D=0.0) center position of x-axis [cm]
+       y0 =   0.            # (D=0.0) center position of y-axis [cm]
+       z0 =   0.            # (D=0.0) center position of z-axis [cm]
+       r1 =   c1-0.01       # inner radius [cm]
+       r2 =   c1            # outer radius [cm]
+      dir =  all            # direction of beam is outer normal to sphere
+
+[ Material ] 
+$   W   19.25 g/cm^3
+m1      W  1.0
+
+[ surface ]
+1  so  c1
+2  so  c1+c2*1.0
+3  so  c1+c2*2.0
+4  so  c1+c2*3.0
+5  so  c1+c2*4.0
+6  so  c1+c2*5.0
+
+99 so  1000.
+
+[ cell ]
+1   0        -1
+2   1 -19.25  1 -2
+3   1 -19.25  2 -3
+4   1 -19.25  3 -4
+5   1 -19.25  4 -5
+6   1 -19.25  5 -6
+98  0         6 -99
+99 -1        99
+
+[importance] 
+part = neutron photon
+reg imp
+1   2.5**0
+2   2.5**0
+3   2.5**1
+4   2.5**2
+5   2.5**3
+6   2.5**4
+98  2.5**5
+
+[ T - T r a c k ]
+    title = [t-track] in xyz mesh
+     mesh =  xyz            # mesh type is xyz scoring mesh
+   x-type =    2            # x-mesh is linear given by xmin, xmax and nx
+     xmin =  -100.000       # minimum value of x-mesh points
+     xmax =   100.000       # maximum value of x-mesh points
+       nx =  200            # number of x-mesh points
+   y-type =    2            # y-mesh is linear given by ymin, ymax and ny
+     ymin =  -10.0000       # minimum value of y-mesh points
+     ymax =   10.0000       # maximum value of y-mesh points
+       ny =    1            # number of y-mesh points
+   z-type =    2            # z-mesh is linear given by zmin, zmax and nz
+     zmin =  -100.000       # minimum value of z-mesh points
+     zmax =   100.000       # maximum value of z-mesh points
+       nz =  200            # number of z-mesh points
+   e-type =    1            # e-mesh is given by the below data
+       ne =    1            # number of e-mesh points
+            1.00000E-10  1.00000E+03
+     unit =    1            # unit is [1/cm^2/source]
+ material =  all            # (D=all) number of specific material
+     axis =   xz            # axis of output
+     file = track.out    # file name of output for the above axis
+     part = ( neutron    photon   ) 
+    gshow =    1            # 0: no 1:bnd, 2:bnd+mat, 3:bnd+reg 4:bnd+lat
+   epsout =    1            # (D=0) generate eps file by ANGEL
+
+[END]

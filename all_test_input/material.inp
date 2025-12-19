@@ -1,0 +1,75 @@
+$   EXAMPLES of MATERIALS
+
+$   Water  1.0 g/cm^3 (can be used for letmat)
+m1           1H  6.6832156E-02
+            16O  3.3416078E-02
+dedxfile = water_liquid.txt
+mt1   lwtr.20t
+
+$   Air at ground level  1.21e-3 g/cm^3
+m1        N   4.0586E-05
+          O   1.0800E-05
+         Ar   2.4255E-07
+
+$   SUS-304    8.03 g/cm^3
+m1        C    -0.00060000      Si    -0.00800000
+          P    -0.00040000       S    -0.00020000
+         Cr    -0.19000000      Mn    -0.01800000
+         Fe    -0.69080000      Ni    -0.09200000
+
+$   Concrete   2.302 g/cm^3, taken from ANL-5800 Type 02-a
+$   Note: 2.302 g/cm^3 is US standard. There is no Japanese standard value,
+$   but 2.1 g/cm^3 is usually used for shielding calculation
+m1       H     -0.023       
+         C     -0.0023
+         O     -1.22
+         Na    -0.0368
+         Mg    -0.005
+         Al    -0.078
+         Si    -0.775
+         K     -0.0299
+         Ca    -0.1
+         Fe    -0.032
+
+$     Polythylene (JIS-K6922-1 1997-3-1)  0.942 g/cm3
+m1        H     2.0
+          C     1.0
+
+$   NE213  0.874 g/cm^3 
+m1        H  0.548
+          C  0.452
+
+$   NE110  1.032 g/cm^3 
+m1        H  0.524
+          C  0.476
+
+$   CsI     4.51 g/cm^3 
+m1       Cs  1.0
+          I  1.0
+
+$   ICRU soft tissue 1 g/cm^3
+m1     H  6.082e-2
+       C  5.570e-3
+       N  1.118e-3
+       O  2.868e-2
+
+$ Teflon (Seal Tape:assumed to be composed of CF2) 2.15 g/cm^3
+m1       C  0.333333
+         F  0.666667
+
+$ PMMA 1.19 g/cm^3
+m1        H  0.5333
+          C  0.3333
+          O  0.1334
+
+$   A150 plastic, 1.127 g/cm2, data taken from ESTAR
+m1    H  -0.101327
+      C  -0.775501
+      N  -0.035057
+      O  -0.052316
+      F  -0.017422
+     Ca  -0.018378
+
+More material information is available from
+https://www.pnnl.gov/main/publications/external/technical_reports/PNNL-15870Rev2.pdf
+

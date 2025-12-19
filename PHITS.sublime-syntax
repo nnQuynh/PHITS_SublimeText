@@ -845,32 +845,29 @@ contexts:
       captures:
         1: support.constant.filename
 
-
 ############################################################################################
-# [ M a t  N a m e  C o l o r ]
+# [ S u r f a c e ]
 ############################################################################################
-  material_name_color_section:
-    - meta_scope: material_name_color_section-section
-
+  surface_section:
+    - meta_scope: surface-section
     - include: comments
-    - include: begin_section      
-    - include: colume_name      
-    - include: mat_name_color      
+    - include: begin_section
 
-  colume_name:
-    - match: (?i)\s*(mat)\s+(name)\s+(color)
-      captures:
-        1: support.constant.material.name_color
-        2: variable.language.material.name_color 
-        3: constant.numeric.material.name_color
+    - include: set_parameter     
+    - include: intrinsic_functions   
 
-  mat_name_color:
-    - match: (?i)\s*([0-9]+)\s+([a-z]+)\s+({{color_name}})
+    # 1 <= surface number <= 99 999 999
+    - match: '(^\s{0,4}0*[1-9][0-9]{0,7})\s+({{surface_mnemonic}})'      # surface no transformation
       captures:
-        1: support.constant.material.name_color
-        2: variable.language.material.name_color 
-        3: constant.numeric.material.name_color
-        #constant.numeric.parameters.card.input_output_filename
+        1: entity.name.surface.number
+        2: keyword.surface.mnemonic
+
+      #       (group1: surface number   )   (group2: TRn)   (group3: mnemonic)
+    - match: '(^\s{0,4}0*[1-9][0-9]{0,7})\s+({{pos_int}})\s+({{surface_mnemonic}})'      # surface with transformation
+      captures:
+        1: entity.name.surface.number.mcnp
+        2: variable.parameter.transformation
+        3: keyword.surface.mnemonic
 
 ############################################################################################
 # [ C e l l ]
@@ -921,32 +918,98 @@ contexts:
     - match: (?i)(like|but|trcl|mat|lat|fill|u)  
       scope: support.constant.input_output_filename
 
-
-
-
 ############################################################################################
-# [ S u r f a c e ]
+# [ T r a n s f o r m ] 
 ############################################################################################
-  surface_section:
-    - meta_scope: surface-section
+  transform_section:
+    - meta_scope: transform-section
+
     - include: comments
-    - include: begin_section
+    - include: section_off
+    - include: begin_section 
 
     - include: set_parameter     
     - include: intrinsic_functions   
 
-    # 1 <= surface number <= 99 999 999
-    - match: '(^\s{0,4}0*[1-9][0-9]{0,7})\s+({{surface_mnemonic}})'      # surface no transformation
-      captures:
-        1: entity.name.surface.number
-        2: keyword.surface.mnemonic
+    - include: set_parameter
 
-      #       (group1: surface number   )   (group2: TRn)   (group3: mnemonic)
-    - match: '(^\s{0,4}0*[1-9][0-9]{0,7})\s+({{pos_int}})\s+({{surface_mnemonic}})'      # surface with transformation
-      captures:
-        1: entity.name.surface.number.mcnp
-        2: variable.parameter.transformation
-        3: keyword.surface.mnemonic
+############################################################################################
+# [ T e m p e r a t u r e ]
+############################################################################################
+  temperature_section:
+    - meta_scope: temperature-section
+
+    - include: comments
+    - include: section_off
+    - include: begin_section 
+
+    - include: set_parameter     
+    - include: intrinsic_functions   
+
+    - include: set_parameter
+
+    - match: (?i)\b(reg|tmp)\b  
+      scope: support.constant.number_history_bank
+
+############################################################################################
+# [ Mat Time  Change ]
+############################################################################################
+  mat_time_change_section:
+    - meta_scope: mat_time_change_section
+
+    - include: comments
+    - include: section_off
+    - include: begin_section 
+
+    - include: set_parameter     
+    - include: intrinsic_functions   
+
+    - include: set_parameter
+
+    - match: (?i)\b(mat|time|change)\b  
+      scope: support.constant.number_history_bank
+
+############################################################################################
+# [ Magnetic Field ]
+############################################################################################
+  magnetic_field_section:
+    - meta_scope: magnetic_field_section
+
+    - include: comments
+    - include: section_off
+    - include: begin_section 
+
+    - include: set_parameter     
+    - include: intrinsic_functions   
+
+    - include: set_parameter
+
+    - match: (?i)\b(reg|typ|gap|mgf|trcl|time|polar)\b  
+      scope: support.constant.number_history_bank
+
+    - match: (?i)\b(non)\b  
+      scope: constant.numeric.parameters.card.input_output_filename 
+
+############################################################################################
+# [ Electro Magnetic Field ]
+############################################################################################
+  electro_magnetic_field_section:
+    - meta_scope: electro_magnetic_field_section
+
+    - include: comments
+    - include: section_off
+    - include: begin_section 
+
+    - include: set_parameter     
+    - include: intrinsic_functions   
+
+    - include: set_parameter
+
+    - match: (?i)\b(reg|elf|mgf|trcle|trclm|type|typm|gap|filee|filem)\b  
+      scope: support.constant.number_history_bank
+
+    - match: (?i)\b(non)\b  
+      scope: constant.numeric.parameters.card.input_output_filename
 
 ############################################################################################
 # [I m p o r t a n c e]
@@ -967,6 +1030,68 @@ contexts:
       captures:
         1: support.constant.source.card.multi_source
         2: variable.language.card.material_definition
+
+############################################################################################
+# [ Weight Window ]
+############################################################################################
+  weight_window_section:
+    - meta_scope: weight_window_section
+
+    - include: comments
+    - include: section_off
+    - include: begin_section 
+
+    - include: set_parameter     
+    - include: intrinsic_functions   
+
+############################################################################################
+# [ WW Bias ]
+############################################################################################
+  ww_bias_section:
+    - meta_scope: ww_bias_section
+
+    - include: comments
+    - include: section_off
+    - include: begin_section 
+
+    - include: set_parameter     
+    - include: intrinsic_functions   
+
+############################################################################################
+#  [ Forced Collisions ]
+############################################################################################
+  forced_collisions:
+    - meta_scope: forced_collisions_section
+    - include: comments
+    - include: begin_section
+
+    - match: (?i)\s*(part)\s*=\s*((?:(?:{{particles}})\s+)*) # part = neutron proton alpha
+      captures:
+        1: support.constant.tally_particle_parameter
+        2: constant.numeric.tally_particle_parameter
+        3: constant.numeric.tally_particle_parameter
+
+############################################################################################
+# [ Repeated Collisions ]
+############################################################################################
+  repeated_collisions_section:
+    - meta_scope: repeated_collisions_section
+
+    - include: comments
+    - include: section_off
+    - include: begin_section 
+
+    - include: set_parameter     
+    - include: intrinsic_functions 
+
+############################################################################################
+#  [ V o l u m e ]
+############################################################################################
+  volume_section:
+    - meta_scope: volume_section
+    - include: comments
+    - include: begin_section
+    - include: set_parameter
 
 ############################################################################################
 # [ M u l t i p l i e r ]  
@@ -991,6 +1116,71 @@ contexts:
       captures:
         1: support.constant.source.card.multi_source
         2: variable.language.card.material_definition
+
+############################################################################################
+# [ M a t  N a m e  C o l o r ]
+############################################################################################
+  material_name_color_section:
+    - meta_scope: material_name_color_section-section
+
+    - include: comments
+    - include: begin_section      
+    - include: colume_name      
+    - include: mat_name_color      
+
+  colume_name:
+    - match: (?i)\s*(mat)\s+(name)\s+(color)
+      captures:
+        1: support.constant.material.name_color
+        2: variable.language.material.name_color 
+        3: constant.numeric.material.name_color
+
+  mat_name_color:
+    - match: (?i)\s*([0-9]+)\s+([a-z]+)\s+({{color_name}})
+      captures:
+        1: support.constant.material.name_color
+        2: variable.language.material.name_color 
+        3: constant.numeric.material.name_color
+        #constant.numeric.parameters.card.input_output_filename
+
+############################################################################################
+# [ Reg Name ]
+############################################################################################
+  reg_name_section:
+    - meta_scope: reg_name_section
+
+    - include: comments
+    - include: section_off
+    - include: begin_section 
+
+    - include: set_parameter     
+    - include: intrinsic_functions 
+
+############################################################################################
+# [ Counter ]
+############################################################################################
+  counter_section:
+    - meta_scope: counter_section
+
+    - include: comments
+    - include: section_off
+    - include: begin_section 
+
+    - include: set_parameter     
+    - include: intrinsic_functions 
+
+############################################################################################
+# [ Timer ]
+############################################################################################
+  timer_section:
+    - meta_scope: timer_section
+
+    - include: comments
+    - include: section_off
+    - include: begin_section 
+
+    - include: set_parameter     
+    - include: intrinsic_functions 
 
 ############################################################################################
 #  T a l l y - common parameters
@@ -1124,6 +1314,19 @@ contexts:
     - include: tally_common_parameters
 
 ############################################################################################
+# [ T-Adjoint ]
+############################################################################################
+  tally_t_adjoint_section:
+    - meta_scope: tally_t_adjoint_section
+
+    - include: comments
+    - include: section_off
+    - include: begin_section 
+
+    - include: set_parameter     
+    - include: intrinsic_functions 
+
+############################################################################################
 #  [ T - D e p o s i t ]
 ############################################################################################
   tally_t_deposit:
@@ -1176,29 +1379,6 @@ contexts:
 
     - include: tally_common_parameters
 
-
-############################################################################################
-#  [ Forced Collisions ]
-############################################################################################
-  forced_collisions:
-    - meta_scope: forced_collisions_section
-    - include: comments
-    - include: begin_section
-
-    - match: (?i)\s*(part)\s*=\s*((?:(?:{{particles}})\s+)*) # part = neutron proton alpha
-      captures:
-        1: support.constant.tally_particle_parameter
-        2: constant.numeric.tally_particle_parameter
-        3: constant.numeric.tally_particle_parameter
-
-############################################################################################
-#  [ V o l u m e ]
-############################################################################################
-  volume_section:
-    - meta_scope: volume_section
-    - include: comments
-    - include: begin_section
-    - include: set_parameter
 
 ############################################################################################
 # Others
@@ -1292,7 +1472,6 @@ contexts:
         2: entity.other.inherited-class.card.input_output_filename 
 
 
-
 ############################################################################################
 # Begin section
 ############################################################################################
@@ -1325,6 +1504,59 @@ contexts:
       scope: keyword.section_title
       set: surface_section
 
+    - match:  (?i)(^\s*)(\[\s*T\s*r\s*a\s*n\s*s\s*f\s*o\s*r\s*m\s*\]\s*\n)
+      scope: keyword.section_title
+      set: transform_section
+
+    - match:  (?i)(^\s*)(\[\s*T\s*e\s*m\s*p\s*e\s*r\s*a\s*t\s*u\s*r\s*e\s*\]\s*\n)
+      scope: keyword.section_title
+      set: temperature_section
+
+    - match:  (?i)(^\s*)(\[\s*M\s*a\s*t\s+T\s*i\s*m\s*e\s+C\s*h\s*a\s*n\s*g\s*e\s*\]\s*\n)
+      scope: keyword.section_title
+      set: mat_time_change_section
+
+    - match:  (?i)(^\s*)(\[\s*M\s*a\s*g\s*n\s*e\s*t\s*i\s*c\s+F\s*i\s*e\s*l\s*d\s*\]\s*\n)
+      scope: keyword.section_title
+      set: magnetic_field_section
+
+    - match:  (?i)(^\s*)(\[\s*E\s*l\s*e\s*c\s*t\s*r\s*o\s+M\s*a\s*g\s*n\s*e\s*t\s*i\s*c\s+F\s*i\s*e\s*l\s*d\s*\]\s*\n)
+      scope: keyword.section_title
+      set: electro_magnetic_field_section
+
+
+    - match:  (?i)(^\s*)(\[\s*I\s*m\s*p\s*o\s*r\s*t\s*a\s*n\s*c\s*e\s*\]\s*\n)
+      scope: keyword.section_title
+      set: importance_section
+
+
+    - match:  (?i)(^\s*)(\[\s*W\s*e\s*i\s*g\s*h\s*t\s+W\s*i\s*n\s*d\s*o\s*w\s*\]\s*\n)
+      scope: keyword.section_title
+      set: weight_window_section
+
+    - match:  (?i)(^\s*)(\[\s*W\s*W\s+B\s*i\s*a\s*s\s*\]\s*\n)
+      scope: keyword.section_title
+      set: ww_bias_section
+
+    - match:  (?i)(^\s*)(\[\s*R\s*e\s*p\s*e\s*a\s*t\s*e\s*d\s+C\s*o\s*l\s*l\s*i\s*s\s*i\s*o\s*n\s*s\s*\]\s*\n)
+      scope: keyword.section_title
+      set: repeated_collisions_section
+
+    - match:  (?i)(^\s*)(\[\s*R\s*e\s*g\s+N\s*a\s*m\s*e\s*\]\s*\n)
+      scope: keyword.section_title
+      set: reg_name_section
+
+    - match:  (?i)(^\s*)(\[\s*C\s*o\s*u\s*n\s*t\s*e\s*r\s*\]\s*\n)
+      scope: keyword.section_title
+      set: counter_section
+
+    - match:  (?i)(^\s*)(\[\s*T\s*i\s*m\s*e\s*r\s*\]\s*\n)
+      scope: keyword.section_title
+      set: timer_section
+
+
+
+
     - match:  (?i)(^\s*)(\[\s*T\s*-\s*T\s*r\s*a\s*c\s*k\s*]\s*\n)
       scope: keyword.section_title
       set: tally_t_track
@@ -1333,9 +1565,13 @@ contexts:
       scope: keyword.section_title
       set: tally_t_cross
 
-    - match:  (?i)(^\s*)(\[\s*T\s*-\s*P\s*o\s*i\s*n\s*t\s*]\s*\n)
+    - match:  (?i)(^\s*)(\[\s*T\s*-\s*A\s*d\s*j\s*o\s*i\s*n\s*t\s*\]\s*\n)
       scope: keyword.section_title
       set: tally_t_point
+
+    - match:  (?i)(^\s*)(\[\s*T\s*-\s*P\s*o\s*i\s*n\s*t\s*]\s*\n)
+      scope: keyword.section_title
+      set: tally_t_adjoint_section
 
     - match:  (?i)(^\s*)(\[\s*T\s*-\s*d\s*e\s*p\s*o\s*s\s*i\s*t\s*]\s*\n)
       scope: keyword.section_title
@@ -1357,9 +1593,7 @@ contexts:
       scope: keyword.section_title
       set: tally_t_3dshow
 
-    - match:  (?i)(^\s*)(\[\s*I\s*m\s*p\s*o\s*r\s*t\s*a\s*n\s*c\s*e\s*\]\s*\n)
-      scope: keyword.section_title
-      set: importance_section
+    
 
     - match:  (?i)(^\s*)(\[\s*M\s*u\s*l\s*t\s*i\s*p\s*l\s*i\s*e\s*r\s*]\s*\n)
       scope: keyword.section_title

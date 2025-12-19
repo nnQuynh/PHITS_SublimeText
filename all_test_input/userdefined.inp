@@ -1,0 +1,111 @@
+[ T i t l e ]
+Sample input for drawing particle trajectory using PHITS coupled with ParaView
+
+[ P a r a m e t e r s ]
+ icntl    =          0      # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas  = 1000
+ maxbch  = 1
+ emin(2)  = 1.000000000E-10 # (D=1.0) cut-off energy of neutron (MeV)
+ dmax(2)  =  20.0000000     # (D=emin(2)) data max. energy of neutron (MeV)
+ emin(14) = 1.000000000E-03 # (D=1.d9) cut-off energy of photon (MeV)
+ dmax(14) =  1000.00000     # (D=emin(14)) data max. energy of photon (MeV)
+ e-mode = 2
+ file(6)  = phits.out       # (D=phits.out) general output file name
+ file(7)  = c:/phits/data/xsdir.jnd # (D=c:/phits/data/xsdir.jnd) nuclear data input file name
+
+[ S o u r c e ]
+   s-type =   1             # mono-energetic axial source
+     proj =  proton        # kind of incident particle         
+      dir =   1.0           # z-direction of beam [cosine]
+       r0 =   1.0           # radius [cm]
+       z0 =   -30.          # minimum position of z-axis [cm]
+       z1 =   -30.          # maximum position of z-axis [cm]
+       e0 =    150.          # energy of beam [MeV]
+
+[ M a t e r i a l ]
+mat[1]    1H 2  16O 1
+
+[ S u r f a c e ]
+  1   so      25
+  99  so      99.0
+[ C e l l ]
+ 101     1  -1.               -1
+ 998     0               1   -99
+ 999    -1               99
+
+[ T - Gshow ]
+     mesh =  xyz
+   x-type =    2
+       nx =   50
+     xmin =  -30.
+     xmax =   30.
+   y-type =    2
+       ny =   50
+     ymin =  -30.
+     ymax =   30.
+  z-type =     2
+       nz =  10
+     zmin = -22.
+     zmax =  22.
+     axis =   xy
+     file = geometry.out
+   output = 2
+   vtkout = 1
+
+[ T - U s e r d e f i n e d ]
+
+ udtpara0 =  1000    $ Maximum number of tracks ( < 10,000 )
+ udtpara1 =  2112    $ neutron
+ udtpara2 =  2212    $ proton
+ udtpara3 =  22      $ photon
+
+     file = trajectory_neutron.vtk
+     file = trajectory_proton.vtk
+     file = trajectory_photon.vtk
+     file = userdefined.out
+
+$ ******************************************************************** *
+$                                                                      *
+$        kf code table                                                 *
+$                                                                      *
+$           kf-code: ityp :  description                               *
+$                                                                      *
+$             2212 :   1  :  proton                                    *
+$             2112 :   2  :  neutron                                   *
+$              211 :   3  :  pion (+)                                  *
+$              111 :   4  :  pion (0)                                  *
+$             -211 :   5  :  pion (-)                                  *
+$              -13 :   6  :  muon (+)                                  *
+$               13 :   7  :  muon (-)                                  *
+$              321 :   8  :  kaon (+)                                  *
+$              311 :   9  :  kaon (0)                                  *
+$             -321 :  10  :  kaon (-)                                  *
+$                                                                      *
+$               11 :  12  :  electron                                  *
+$              -11 :  13  :  positron                                  *
+$               22 :  14  :  photon                                    *
+$          1000002 :  15  :  deuteron                                  *
+$          1000003 :  16  :  triton                                    *
+$          2000003 :  17  :  3he                                       *
+$          2000004 :  18  :  alpha                                     *
+$      Z*1000000+A :  19  :  nucleus                                   *
+$                                                                      *
+$           kf-code of the other transport particles (ityp=11)         *
+$               12 :         nu_e                                      *
+$               14 :         nu_mu                                     *
+$              221 :         eta                                       *
+$              331 :         eta'                                      *
+$             -311 :         k0bar                                     *
+$            -2112 :         nbar                                      *
+$            -2212 :         pbar                                      *
+$             3122 :         Lanbda0                                   *
+$             3222 :         Sigma+                                    *
+$             3212 :         Sigma0                                    *
+$             3112 :         Sigma-                                    *
+$             3322 :         Xi0                                       *
+$             3312 :         Xi-                                       *
+$             3334 :         Omega-                                    *
+$                                                                      *
+$ ******************************************************************** *
+
+[ E n d ]

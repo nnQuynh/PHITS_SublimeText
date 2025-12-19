@@ -1,0 +1,82 @@
+ file = tetsimple.inp
+
+[ Parameters ]
+ icntl    =         8   # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =      1000   # (D=10) number of particles per one batch
+ maxbch   =         5   # (D=10) number of batches
+ file(6)  = phits.out   # (D=phits.out) general output file name
+ itetvol  =         1   # (D=0) =1 Volume calculation for tetrahedrons
+
+[ Source ]
+   s-type =  24
+   tetreg = 201
+      dir =  all
+     proj =  proton
+       e0 = 70.0
+
+[ Material ]
+MAT[1]   14N  78.1  16O  20.9  40Ar  0.93   $ Air
+MAT[2]    1H  2     16O  1                  $ Water
+MAT[3]  56Fe  1                             $ Iron
+
+[ Surface ]
+  10  rpp   -5.0  5.0  -3.0  3.0  -5.0  5.0
+  20  rpp   -7.0  7.0  -5.0  5.0  -7.0  7.0
+  90  so     500.0
+
+[ Cell ]
+ 101   1 -0.001205 -20  U=1     LAT=3   tfile=TetraSimple
+   1   0           -10  FILL=1
+   2  -1            10
+ 201   2 -1.0      -90  U=1000
+ 202   3 -7.874    -90  U=1001
+
+[ T-3Dshow ]
+     file =  tetsimple-3D.out
+       x0 =  0.0
+       y0 =  0.0
+       z0 =  0.0
+    e-the =  280.0
+    e-phi =  250.0
+    l-the =  30.0
+    l-phi =  310.0
+    w-wdt =  10.0
+    w-hgt =  10.0
+    w-dst =  10.0
+   heaven =  z
+    resol =  4
+   shadow =  0
+   epsout =  1
+ material = -1
+             1
+
+[ T-deposit ]
+     file =  tetsimple-deposit-xz.out
+     mesh =  xyz
+   x-type =  2
+       nx =  20
+     xmin = -3
+     xmax =  3
+   y-type =  2
+       ny =  1
+     ymin = -0.5
+     ymax =  0.5
+   z-type =  2
+       nz =  20
+     zmin = -3.0
+     zmax =  3.0
+   output =  dose
+     unit =  1
+     axis =  xz
+    gshow =  3
+   epsout =  1
+
+[ T-deposit ]
+     file =  tetsimple-deposit-reg.out
+     mesh =  reg
+      reg =  201 202
+   output =  dose
+     unit =  1
+     axis =  reg
+
+[ End ]

@@ -1,0 +1,63 @@
+[ T i t l e ]
+Sample input for reproducing 10B(n,a)7Li reaction
+
+[ P a r a m e t e r s ]
+ icntl = 0
+ maxcas   =        10     # (D=10) number of particles per one batch
+ maxbch   =         1     # (D=10) number of batches
+ e-mode   =           2     # (D=0) 0: Normal, 1: Event generator mode
+ file(6)  = phits.out       # (D=phits.out) general output file name
+ set:c1[5.0e-4]  $ Cell radius (sphere)
+ negs = 1
+
+[ S o u r c e ]
+iscorr = 3   # correlated source
+totfact = 2.0  # 2 particles generated
+<source> = 1.0
+   s-type =   9             # mono-energetic axial source
+     proj =  alpha          # kind of incident particle         
+       e0 =   1.47/4        # energy of beam [MeV/n]
+       r2 =  c1
+      dir =    all        # z-direction of beam [cosine]
+<source> = 1.0
+   s-type =   2             # mono-energetic axial source
+     proj =  7Li            # kind of incident particle         
+       e0 =   0.84/7        # energy of beam [MeV/n]
+       r2 =  c1
+      dir =    all        # z-direction of beam [cosine]
+
+[ Material ]
+m1   $ water
+      H 2.0
+      O 1.0
+[ S u r f a c e ]
+  1   so   c1
+ 99  so  1000
+
+[ C e l l ]
+  1  1 -1.0  -1      $ Cell
+ 98  1 -1.0   1 -99
+ 99 -1        99
+
+[ T-deposit ]
+mesh = xyz
+x-type = 2
+nx = 200
+xmin = -c1*2.0
+xmax =  c1*2.0
+y-type = 2
+ny = 1
+ymin = -c1*2.0
+ymax =  c1*2.0
+z-type = 2
+nz = 200
+zmin = -c1*2.0
+zmax =  c1*2.0
+  unit =    0       
+  axis =   xz            # axis of output
+  file = 2D-dose.out  # file name of output for the above axis
+  title = 2D-dose
+  gshow =    3            # 0: no 1:bnd, 2:bnd+mat, 3:bnd+reg 4:bnd+lat
+  epsout =    1            # (D=0) generate eps file by ANGEL
+  part = all alpha Li
+

@@ -1,0 +1,54 @@
+[ T i t l e ]
+sample input file of t-sed
+
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =          10     # (D=10) number of particles per one batch
+ maxbch   =          10     # (D=10) number of batches
+ file(6)  = phits.out       # (D=phits.out) general output file name
+
+[ S o u r c e ]
+   s-type =   1             # mono-energetic axial source
+     proj =  proton         # kind of incident particle         
+      dir =   1.0           # z-direction of beam [cosine]
+       r0 =   0.            # radius [cm]
+       z0 =   0.            # minimum position of z-axis [cm]
+       z1 =   0.            # maximum position of z-axis [cm]
+       e0 =   150.          # energy of beam [MeV]
+
+[ M a t e r i a l ]
+mat[1]    H 2  O 1     $ water
+
+mat[99]    H -2.0/18.0  O  -16.0/18.0  $ 1 g/cm3 water for letmat
+
+[ S u r f a c e ]
+  10  so     10.
+
+[ C e l l ]
+ 100     1 -1.               -10 
+ 101    -1              10
+
+[ T - S E D ]
+    title = Lineal-energy distribution in water in reg mesh
+     mesh =  reg            # mesh type is region-wise
+      reg = 100
+   volume                   # combined, lattice or level structure 
+   non     reg      vol     # reg definition
+    1      100   4/3*pi*10**3
+  se-type =    3            # e-mesh is log given by emin, emax and ne
+    emin  =  1.0000000E-02  # minimum value of e-mesh points
+    emax  =   10000.00      # maximum value of e-mesh points
+       ne =  180            # number of e-mesh points
+  se-unit =    2            # se-unit is [keV/um]
+     unit =    7            # unit is z*f(z) [dimensionless]
+    cdiam =  1.000000       # (D=1.0) diameter of SE cell [um]
+ material =  all            # (D=all) number of specific material
+     axis =  sed            # axis of output
+     file = y-distribution_reg.out  # file name of output for the above axis
+     part =  all      
+   epsout =    1
+   letmat =  -99            # (D=0) mat ID for LET, 0:real mat, <0: electron for H2O
+    model =    1            # (D=0) Model type 0:old, 1:new
+
+[ E n d ]
+

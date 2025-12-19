@@ -1,0 +1,129 @@
+[ T i t l e ]
+sample input for dchain: 250MeV protons incident on W/H2O/Fe rod surrounded in Be
+
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =        1000     # (D=10) number of particles per one batch
+ maxbch   =          10     # (D=10) number of batches
+ igamma   =           3     # (D=0) 0:No, 1:Old, 2:EBITEM, 3:EBITEM+Isomer
+ file(1)  = c:/phits        # (D=c:/phits) PHITS install folder name
+$  required options for DCHAIN 
+ jmout    =           1     # (D=0) Density echo, 0:input, 1:number density
+ e-mode   =           0     # (D=0) Event generator mode is not recommended for DCHAIN calculation
+
+[ S o u r c e ]
+   s-type =   1             # mono-energetic axial source
+     proj =  proton         # kind of incident particle         
+       e0 =   250.00        # energy of beam [MeV/u]
+       r0 =   0.5000        # radius [cm]
+       x0 =   0.0000        # (D=0.0) center position of x-axis [cm]
+       y0 =   0.0000        # (D=0.0) center position of y-axis [cm]
+       z0 =  -10.000        # minimum position of z-axis [cm]
+       z1 =  -10.000        # maximum position of z-axis [cm]
+      dir =   1.0000        # z-direction of beam [cosine]
+
+[ M a t e r i a l ]
+$ Tungsten, Density (g/cm3) = 19.300000 
+M1      74000  1.000000  $  W
+$ Water, Density (g/cm3) = 0.998207 ~= 1.0
+M2       1000  0.666657  $  H 
+         8000  0.333343  $  O
+$ Iron, Density (g/cm3) = 7.874000 
+M3      26000  1.000000  $  Fe           
+$ Beryllium, Density (g/cm3) = 1.848000            
+M4       4000  1.000000  $  Be
+
+[ S u r f a c e ]
+set:c1[3]  $ thickness of W portion
+set:c2[10] $ thickness of H2O portion
+set:c3[5]  $ thickness of Fe portion
+set:c4[5]  $ thickness of Be back end
+set:c5[4]  $ radius of inner cylinder
+set:c6[8]  $ radius of outer cylinder
+
+10 pz 0
+11 pz c1
+12 pz c1+c2
+13 pz c1+c2+c3 
+14 pz c1+c2+c3+c4 
+20 cz c5 
+21 cz c6
+99 so  80.0
+
+[ C e l l ]
+1   1 -19.3    10 -11 -20    $ W 
+2   2 -1.0     11 -12 -20    $ H20
+3   3 -7.874   12 -13 -20    $ Fe 
+4   4 -1.848   (10 -13 20 -21):(13 -14 -21) $ Be 
+99  0         (-99 -10):(-99 14):(-99 21)   $ vacuum 
+999 -1         99            $ particle graveyard
+
+[ V o l u m e ] 
+$ required section for DCHAIN 
+           reg   vol
+           1   pi*c1*c5**2
+           2   pi*c2*c5**2
+           3   pi*c3*c5**2
+           4   pi*(((c1+c2+c3+c4)*c6**2)-((c1+c2+c3)*c5**2))
+
+[ M a t  N a m e  C o l o r ]
+   mat     name     size          color   
+     0     void     1.00     lightgray   
+     1    Tungsten  1.00     darkgreen   
+     2    Water     1.00     pastelcyan  
+     3    Iron      1.00     orange  
+     4    Beryllium 1.00     pastelviolet  
+
+[ T - D C H A I N ]
+$  required section for DCHAIN 
+    title = 250MeV protons incident on Be-encased W/H2O/Fe column
+     mesh =  reg               # mesh type is region-wise
+      reg =  1 2 3 4
+     file = spallation.out     # file name of dchain-phits input file
+  timeevo =    3               # time evolution / irradiation schedule
+     6.0 m 1.0
+     4.0 m 0.5
+    50.0 m 0.0
+  outtime =    8               # output times
+     1.0 m
+     3.0 m
+     6.0 m
+    10.0 m
+    15.0 m
+    20.0 m
+    30.0 m
+    40.0 m
+$ beam current (nA)
+set:c11[100.0]
+$ beam power (source/sec) 
+set:c12[ c11 * 1.0e-9 / (1.602177e-19) ]
+   amp = c12                   # (D=1.0) Source Intensity(source/sec)
+
+[ T - T r a c k ]
+    title = proton and neutron distributions
+  mesh = xyz
+x-type = 2
+  xmin = -10
+  xmax =  10
+    nx = 1
+z-type = 2
+  zmin = -10
+  zmax =  30
+    nz = 200
+y-type = 2
+  ymin = -20
+  ymax =  20
+    ny = 200
+e-type = 2
+  emin = 0
+  emax =  2000
+    ne = 1
+  axis = yz
+  file = yz-track.out
+  part = proton neutron
+  unit = 1
+2D-type =  7   # 1:Cont, 2:Clust, 3:Color, 4:xyz, 5:mat, 6:Clust+Cont, 7:Col+Cont
+gshow =    3   # 0: no 1:bnd, 2:bnd+mat, 3:bnd+reg 4:bnd+lat
+ epsout=1
+
+[ E n d ]

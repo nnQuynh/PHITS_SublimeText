@@ -1,0 +1,91 @@
+[ T i t l e ]
+Sample input file for generating trapped-proton fluxes at low-earth orbit (LEO)
+
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =        10000     # (D=10) number of particles per one batch
+ maxbch   =           10     # (D=10) number of batches
+ e-mode   =           2     # (D=0) 0: Normal, 1: Event generator mode Ver.1, 2: Ver.2
+ negs     =           2     # (D=-1) =-1:original, =0:No, =1:EGS
+ mdbatima =        3000     # (D=500) max database size of ATIMA
+ maxbnk   =      100000     # (D=10000) maximum bank memory length
+ iMeVperU =           1     # (D=0) 0:[MeV] or 1:[MeV/u] is unit of tally output
+ emin(12) =  1.00000000     # (D=1.e+9) cut-off energy of electron (MeV)
+ emin(13) =  1.00000000     # (D=1.e+9) cut-off energy of positron (MeV)
+ esmax    =  100000000.     # (D=1.0e6) max energy/u for charged particle range
+ ipnint   =           1     # (D=0) 0: no, 1: consider photo-nuclear reaction
+
+[ S o u r c e ]
+set:c1[200.0]  $ Source radius
+
+  totfact =  pi*c1**2       # (D=1.0) global factor
+ <source> = 1.0       # should be 1.0 for e-type=25
+   s-type =   9       # mono-energetic axial source
+       r1 =   c1      # radius of sphere [cm]
+       r2 =   c1      # radius of source circle [cm]
+      dir =  iso      # inner direction with uniform dis. by analog
+   e-type =  25       # Cosmic-ray source
+    icenv =  -2       # 0>: Terrestiral GCR, D=0: Free-space GCR, <0:Free-space SEP
+ solarmod =   0.0000  # Solar activity W-index
+     alti = 400       # Mean altitude of the orbit (km)
+     proj =   proton        # kind of incident nucleus 
+
+[ M a t e r i a l ]
+MAT[ 1 ]  $ ground
+           Si 1.0
+            O 2.0
+
+[ C e l l ]
+ 1   0         -99
+ 99 -1          99
+
+[ S u r f a c e ]
+99  so  c1+0.001  
+
+[ T - T r a c k ]
+    title = Track Detection in reg mesh
+     mesh =  reg            # mesh type is region-wise
+      reg =    1
+   volume 
+      reg  vol
+        1  4.0/3.0*pi*c1**3
+   e-type =    3            # e-mesh is log given by emin, emax and ne
+       ne =   120            # number of e-mesh points
+     emin =   1.000000      # minimum value of e-mesh points
+     emax =   1.0e6      # maximum value of e-mesh points
+     unit =    2            # unit is [1/cm^2/MeV/source]
+     axis =   eng            # axis of output
+     file = track_reg.out  # file name of output for the above axis
+     part =  proton alpha fe
+    gshow =    1            # 0: no 1:bnd, 2:bnd+mat, 3:bnd+reg 4:bnd+lat
+   epsout =    1            # (D=0) generate eps file by ANGEL
+ y-txt    = Flux [1/cm^2/(MeV/n)/sec]
+
+[ T - C r o s s ]
+    title = Energy distribution in r-z mesh
+     mesh =  r-z            # mesh type is xyz scoring mesh
+   r-type =    1            # y-mesh is given by the below data
+       nr =    1            # number of y-mesh points
+            0.0 c1
+   z-type =    1            # z-mesh is linear given by zmin, zmax and nz
+       nz =    0            # number of z-mesh points
+            0.0
+   e-type =    2            # e-mesh is log given by emin, emax and ne
+     emin =   0.0           # minimum value of e-mesh points
+     emax =   1.0e10           # maximum value of e-mesh points
+       ne =   1            # number of e-mesh points
+   a-type =    2            # e-mesh is log given by emin, emax and ne
+     amin =  -1.0           # minimum value of e-mesh points
+     amax =   1.0           # maximum value of e-mesh points
+       na =   20            # number of e-mesh points
+     unit =    4            # unit is [1/cm^2/sr/source]
+     axis =  cos            # axis of output
+   output = a-flux            # surface crossing flux
+     file = cross.out   # file name of output for the above axis
+     part =  proton alpha fe
+   epsout =    2            # (D=0) generate eps file by ANGEL
+ y-txt    = Flux [1/cm^2/sr)/sec]
+
+
+[END]
+

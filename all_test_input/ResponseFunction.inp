@@ -1,0 +1,78 @@
+[ T i t l e ]
+************************************************************************
+Evaluation of response function and detection efficiency of a liquid 
+organic scintillator
+------------------------------------------------------------------------
+NE213 scintillator:
+Diameter = 12.7 cm
+Thickness= 12.7 cm
+------------------------------------------------------------------------
+Neutron energy = 65 MeV
+************************************************************************
+
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =    1.00E+06     # (D=10) number of particles per one batch
+ maxbch   =          10     # (D=10) number of batches
+ negs     =           1     # (D=0) =1 EGS photon and electron
+ iscinful =           1     # (D=0) SCINFUL mode. 0:off, 1:on
+ icxnp    =           1   
+ e-mode   =           2     # (D=0) 0: Normal, 1: Event generator mode Ver.1, 2: Ver.2
+
+set:c1[12.7]  # Diameter of beam and scintillator
+set:c2[12.7]  # Thickness of scintillator
+set:c3[c2*pi*(c1/2.0)**2]  # Volume of scintillator
+set:c4[pi*(c1/2.0)**2]     # Area of front face of scintillator
+
+[ S o u r c e ] 
+  totfact =   1.0000        # (D=1.0) global factor
+   s-type =   1             # mono-energetic axial source
+     proj =  neutron        # kind of incident particle         
+       e0 =   65.0           # energy of beam [MeV/u]
+       r0 =   c1/2.0        # radius [cm]
+       x0 =   0.0000        # (D=0.0) center position of x-axis [cm]
+       y0 =   0.0000        # (D=0.0) center position of y-axis [cm]
+       z0 =  -400.00        # minimum position of z-axis [cm]
+       z1 =  -400.00        # maximum position of z-axis [cm]
+      dir =   1.0000        # z-direction of beam [cosine]
+
+[Data Max] $ This section is mandatory for SCINFUL mode
+part = neutron
+ mat  nucleus   dmax
+   1        C    0.10   $ threshold energy of inelastic reaction, fixed for SCINFUL mode
+
+[ M a t e r i a l ]
+MAT[ 1 ] 
+           H       1.212
+           C       1.000
+
+[ C e l l ]
+ 1          1 -8.7400000E-01  -1 
+ 98         0                 -999 #1 
+ 99        -1                  999 
+
+[ S u r f a c e ]
+  1           rcc    0.0000000E+00  0.0000000E+00  0.0000000E+00
+                     0.0000000E+00  0.0000000E+00  c2
+                     c1/2.0
+  999         rcc    0.0000000E+00  0.0000000E+00 -1.0000000E+03
+                     0.0000000E+00  0.0000000E+00  2.0000000E+03
+                     1.0000000E+02
+
+[t-userdefined]
+file=Response.out
+nudtvar    = 14
+udtvar(1)  = 1              # option for scintillator type and software PSD
+udtvar(2)  = 1              # reg of scintillator
+udtvar(3)  = 0.000000       # lower value of the minimum light-output bin (MeVee)
+udtvar(4)  = 100.0000       # upper value of the maximum light-output bin (MeVee)
+udtvar(5)  = 200            # number of light-output bin
+udtvar(6)  = c2             # position of photocathode on z-axis
+udtvar(7)  = 0.0050         # light attenuation factor (cm-1)
+udtvar(8)  = 0.0000         # sigma; one standard deviation (MeVee)
+udtvar(9)  = 0.0750         # F; U = sqrt(sigma^2+F*L)
+udtvar(10) = 0.000          # bias(1) (MeVee)
+udtvar(11) = 0.493          # bias(2) (MeVee)
+udtvar(12) = 1.070          # bias(3) (MeVee)
+udtvar(13) = 4.330          # bias(4) (MeVee)
+udtvar(14) = 8.660          # bias(5) (MeVee)

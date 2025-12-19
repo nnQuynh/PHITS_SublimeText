@@ -1,0 +1,16 @@
+$ 209Bi(n,8n) cross section [b]
+ [Multiplier]
+ number= -264
+ interpolation = ghigh
+ part = neutron 
+ ne =    10
+6.50E+01	9.79E-03
+8.00E+01	1.71E-01
+1.00E+02	1.90E-01
+1.20E+02	1.10E-01
+1.60E+02	5.65E-02
+2.00E+02	3.58E-02
+2.50E+02	2.86E-02
+3.00E+02	2.44E-02
+3.50E+02	2.15E-02
+4.00E+02	1.95E-02

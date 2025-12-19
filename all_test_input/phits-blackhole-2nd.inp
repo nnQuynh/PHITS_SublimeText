@@ -1,0 +1,138 @@
+[ T i t l e ]
+Amount of water in soil effect. Flux are calculated by mono neutron beam.
+
+[ P a r a m e t e r s ]
+ icntl   =   0
+ maxcas   =        1000     # (D=10) number of particles per one batch
+ maxbch   =          10     # (D=10) number of batches
+ e-mode   =           2     # (D=0) 0: Normal, 1: Event generator mode Ver.1, 2: Ver.2
+ negs     =           2     # (D=-1) =-1:original, =0:No, =1:EGS
+ mdbatima =        3000     # (D=500) max database size of ATIMA
+ maxbnk   =      100000     # (D=10000) maximum bank memory length
+ iMeVperU =           1     # (D=0) 0:[MeV] or 1:[MeV/u] is unit of tally output
+ emin(12) =  1.00000000     # (D=1.e+9) cut-off energy of electron (MeV)
+ emin(13) =  1.00000000     # (D=1.e+9) cut-off energy of positron (MeV)
+ esmax    =  100000000.     # (D=1.0e6) max energy/u for charged particle range
+ ipnint   =           1     # (D=0) 0: no, 1: consider photo-nuclear reaction
+
+set:c1[10000.0]
+[ S o u r c e ] off
+  s-type = 9
+  proj = neutron
+  r1 = c1
+  r2 = c1
+  dir = iso
+  icyear = 2020
+  icmonth = 10    $ Month
+  icday = 1     $ Date
+  alti = 0     $ Altitude (km)
+  glat = 33.36  $ Latitude (deg)
+  glong = 130.25  $ Longitude (deg)
+  icenv = 5
+  e-type = 26
+
+[ S o u r c e ]
+   s-type =  17             # external source with PHITS dump file
+     file =  cross_dmp.out  # file name of dump file            
+     dump =   -11           # (D=0) number of dumped data, <0: ascii, >0: binary
+                1   2   3   4   5   6   7   8   9   18   19
+
+[ Material ]
+mat[1] $ Air. 0.0012 g/cm^3
+ 16O  0.232 
+ 14N  0.755
+ 40Ar 0.13
+
+MAT[5] $ Ground with 20 percent water, 2.7g/cm3
+  16O -0.592
+  28Si -0.28
+  27AL -0.106
+  1H  -0.022
+
+
+[ Cell ]
+    1  0            10  -11  -1
+$    2  -1           11  -12  -1  $ for 1st step
+    2  5  -2.7      11  -12  -1   $ for 2nd step
+    3  1  -1.21e-3  12  -13  -1   
+  99  -1   #(10 -13 -1)
+  
+[ Surface ]
+   *1  cz   c1   $ should be reflection surface for 2nd step
+   10  pz  -c1
+   11  pz  -100.0     $ down to  1 m
+   12  pz   0.0
+   13  pz   100000.0  $ up to 1000 m (=1 m water)
+
+[ T - T r a c k ]
+     mesh =  xyz            # mesh type is xyz scoring mesh
+   x-type =    2            # x-mesh is linear given by xmin, xmax and nx
+       nx =  200            # number of x-mesh points
+     xmin =  -c1           # minimum value of x-mesh points
+     xmax =   c1           # maximum value of x-mesh points
+   y-type =    1            # y-mesh is given by the below data
+       ny =    1            # number of y-mesh points
+           -c1   c1
+   z-type =    2            # z-mesh is linear given by zmin, zmax and nz
+       nz =  200            # number of z-mesh points
+     zmin =  -c1           # minimum value of z-mesh points
+     zmax =   c1           # maximum value of z-mesh points
+     part =  neutron      
+   e-type =    1            # e-mesh is given by the below data
+       ne =    1            # number of e-mesh points
+            0.0  1000.0
+     unit =    1            # unit is [1/cm^2/source]
+     axis =   xz            # axis of output
+     file = track_xz.out  # file name of output for the above axis
+    title = Track Detection using [T-track] tally
+    gshow =    3            # 0: no 1:bnd, 2:bnd+mat, 3:bnd+reg 4:bnd+lat
+   epsout =    1            # (D=0) generate eps file by ANGEL
+
+[ T - T r a c k ]
+ mesh = r-z
+  r-type = 2
+    nr = 1
+  rmin = 0.0
+  rmax = c1*0.8
+  z-type = 2
+    nz = 1
+  zmin = 0.0
+  zmax = 200.0  $ up to 2m
+e-type  = 3
+ne = 139
+emin = 1.13e-8
+emax = 8.97e+5
+part = neutron
+axis = eng
+unit = 1
+file = ttrack_rz-2nd.out
+epsout = 1
+sumtally start
+ isumtally = 2
+ nfile = 2
+ ttrack_rz-1st.out  1.0
+ ttrack_rz-2nd.out  1.0
+ sfile = ttrack_rz.out
+ sumfactor = 2.0
+sumtally end
+
+[ T - C r o s s ] off
+    title = Energy distribution in region mesh
+     mesh =  reg            # mesh type is region-wise
+      reg =    1            # number of crossing regions
+      non     r-from  r-to       area
+        2     3       2      1.0  
+   e-type =    2            # e-mesh is linear given by emin, emax and ne
+     emin =   0.0           # minimum value of e-mesh points
+     emax =   1.0e10           # maximum value of e-mesh points
+       ne =    1            # number of e-mesh points
+     unit =    1            # unit is [1/cm^2/source]
+     axis =  eng            # axis of output
+     file = cross.out   # file name of output for the above axis
+   output = flux            # surface crossing flux
+     part =  neutron  
+   epsout =    0            # (D=0) generate eps file by ANGEL
+     dump =   -11           # (D=0) number of dumped data, <0: ascii, >0: binary
+                1   2   3   4   5   6   7   8   9   18   19
+
+[END]

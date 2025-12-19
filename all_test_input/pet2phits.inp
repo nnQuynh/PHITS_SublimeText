@@ -1,0 +1,11 @@
+PET2PHITS input       # Signature of PET2PHITS
+"data/RIlist.dat"     # RI list file
+At-211                # Name of RI listed in RIlist.dat
+0 0 1 0 1             # all, photon, electron, positron, alpha; 0:off 1:on
+"work/sample1/DATfiles/"  # Intermediate file directory
+0                     # Skip reading PET files 0:off 1:on
+"work/sample1/PET/"   # PET image directory
+1 47                  # Minimum slice number, Maximum slice number
+55 145 60 140         # Clipping: Xmin, Xmax, Ymin, Ymax
+-1.0                  # Biological decay constant (if <0 Fitting from PET data)
+1                     # Source activity is normalized per MBq

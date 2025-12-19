@@ -1,0 +1,66 @@
+[ T i t l e ]
+Sample input for calculating shielding distribution
+
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =       10000     # (D=10) number of particles per one batch
+ maxbch   =          10     # (D=10) number of batches
+ file(6)  = phits.out       # (D=phits.out) general output file name
+ cmin(1)  = 1.000000000E+10 # (D=emin(1)) reaction cut-off of proton (MeV)
+ ismode   =           1     # (D=0) =1, shielding distribution calculation mode
+ ndedx    =           2     # (D=2) 0: SPAR, 1: ATIMA, 2: SPAR all for dE/dx, 3: ATIMA all for dE/dx
+
+[ S o u r c e ]
+   s-type =   9             # mono-energetic axial source
+     proj =  proton        # kind of incident nucleus          
+       e0 =   10000.00         # energy of beam [MeV/u]
+       r0 =    0.0000        # radius [cm]
+       x0 =    0.0000        # (D=0.0) center position of x-axis [cm]
+       y0 =    0.0000        # (D=0.0) center position of y-axis [cm]
+       z0 =    0.0000        # (D=0.0) center position of y-axis [cm]
+       r1 =    0.0000        # radius of sphere [cm]
+       r2 =    0.0000        # radius of source circle [cm]
+      dir =   all            # inner direction with uniform dis. by analog
+  totfact =    1.0       # (D=1.0) global factor
+     trcl = 1
+[ M a t e r i a l ]
+mat[1]    1H 2  16O 1     $ 1.0 g/cm3
+
+[ S u r f a c e ]
+   1  so      1
+   2  so      5
+   3  so     20.
+  99  so    1000.0 
+set: c99[500.0]  $ Radius to cover all cells except for void from the source point
+ 1000  so    c99
+ 1001  so    c99+1.0
+[ C e l l ]
+   1  0         -1
+   2  0       1 -2
+   3  1 -2.0  2 -3
+  99  0       3 -99 #1000
+ 100 -1      99
+ 1000 0     1000 -1001 trcl = 1
+
+[ Transform ]
+set: c94[0.0]   $ x (cm) of source location
+set: c95[0.0]   $ y (cm) of source location
+set: c96[10.0]  $ z (cm) of source location
+
+*tr1   c94 c95 c96    0  0  0    0  0  0  0  0  0    2
+
+[t-track] $ Shielding distribution calculation, set e0=10000.0, cmin(1)=1.0e10
+set: c97[0.5]    $ Resolution (g/cm^2)
+set: c98[100.0]  $ Maximum shielding thickness (g/cm^2)
+mesh = reg
+reg = 1000
+e-type = 2
+ne = int(c98/c97)
+emin = 10000.0-c98
+emax = 10000.0
+part = proton
+axis = eng
+file = Point-Distribution.out
+unit = 4
+epsout = 1
+

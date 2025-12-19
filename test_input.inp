@@ -1,9 +1,9 @@
-[ Title ]
+[ T i t l e ]
  Sample input for syntax highlight
 
  PHITS version 3.5
 
-[ Parameters ]
+[ P a r a m e t e r s ]
  $ Table 5.1: icntl parameter  
   icntl    =           0     # D = 0 - 17
   icntl    =           2     
@@ -722,7 +722,7 @@
   icommat      =         1  # D = 0 1
   icommat      =         2  # D = 0 1
 
-[ Source ]
+[ S o u r c e ]
  $ Table 5.38: Multi-source
   totfact     =          0   
   
@@ -953,20 +953,20 @@
   # tg2 Maximum cut off for time distribution [ns].
   
 [ M a t e r i a l ]
- m1 80196.49c 5.9595d-5
-    80198.49c 3.9611d-3
-    80199.49c 6.7025d-3
+ m1 80196.49c c1
+    80198.49c c2
+    80199.49c c14
     80200.49c 9.1776d-3
     80201.49c 5.2364d-3
     80202.49c 1.1863d-2
     80204.49c 2.2795d-3
- c ...Be...
+ 
  m3 4009.37c 1.2362E-1
  mt3 be.01
- c ...h2o (25C)...
+ 
  m4 1001.37c 6.6658d-2 8016.37c 3.3329d-2
  mt4 lwtr.01
- c ...b4c (natural boron; 25%-density)...
+ 
  m5 6012.37c 6.8118d-3
     5011.37c 2.1825d-2
  c ...liquid-h2 (20K)...
@@ -996,6 +996,56 @@
 
   chem = H2O 0.01 N2 0.8 CH4 0.4 Ar 0.1
 
+[ S u r f a c e ] 
+ set: c20[30]   $ angle of around Y (degree)
+ set: c21[cos(c20/180*pi)]
+ set: c22[sin(c20/180*pi)]
+ $ Table 5.83: Surfaces expressed by equations
+  01  p      5 0 0  0 5 0  0 0 c20 
+  2   px     10.
+  3   py     -10.
+  4   pz    -10.
+  4  1 pz      10
+  5   p     5 0 0  0 5 0  0 0 10    $ x1, y1, z1, x2, y2, z2, x3, y3, z3
+  6   so    1000.
+  7   s     1 2 3 4
+  8   sx    1. 5.
+  9   sy    1. 5.
+  10  sz    1. 5.
+  11  c/x   5.  10.  3.
+  12  c/y   15.  0.  3. 
+  13  c/z   5.  10.  3.
+  14  cx    5.
+  15  cy    5.
+  16  cz    5.
+  17  k/x   0. 20. 0. 1/3 1 
+  18  k/y   0. 20. 0. 1/3 1
+  19  k/z   0. 20. 0. 1/3 1   0. 20. 0. 1/3 1
+  20  kx    0. 1.
+  21  ky    0. 1.
+  22  kz   0. 1.
+  23  sq    1. 1/2**2 0.  0. 0. -1.  0.  0. 0. 0.
+  23  sq     1/9**2 1/6**2 1/3**2  0. 0. 0.  -1.  0. 0. 0.
+  24  gq     c21**2 1/2**2 c22**2  0. 0. -2*c21*c22  -c22 0 -c21  0
+  25  tx    1. 2. 3. 4. 5. 6.
+  26  ty    1. 2. 3. 4. 5. 6. 
+  27  tz     0 0 0  10 3 5
+
+ $ Table 5.84: Macro body
+  10  box    5 5 0  9 0 0  0 6 0  0 0 3
+  10  rpp    5 14  5 11  0 3
+  10  sph    5 5 C21  5
+  10  rcc    5 5 0  0 0 10  5
+  10  rhp    0 0 0  0 0 10  5 0 0  2 -5 0  -2 -5 0
+  10  hex    0 0 0  0 0 10  5 0 0  2 -5 0  -2 -5 0
+  10  rec    0 0 0  0 0 10  5 0 0  0 2 0
+  10  trc    0 0 0  0 0 10  5  2
+  10  ell    3 3 0  -c22 -3 0  9
+  10  wed    0 0 0  10 0 0  0 10 0  0 0 5
+
+  999999  wed    0 0 0  10 0 0  0 10 0  0 0 5
+  1000000  wed    0 0 0  10 0 0  0 10 0  0 0 5    $ TODO: Use any number from 1 to 999,999.
+ 
 [ C e l l ]  
  100     1 -1.         -10 11 -12
  101     1 -1.          20 11 -12
@@ -1031,10 +1081,146 @@
  101 0 -26 25 -22 21 LAT=1 U=1
           FILL=-1:1 -1:1 0:0
           2 2 3 2 3 2 3 2 2
-
- 101 0 -26 25 -22 21 LAT=1 U=1
-          FILL=-1:1 -1:1 0:0
+ 
+ 101 0 -26 25 -22 21 lat=1 u=1
+          fill=-1:1 -1:1 0:0
    2 2 3 2 3 2 3 2 2
 
+[ T r a n s f o r m ] 
+ set: c10[90] $ angle of around Z (degree)
+ set: c20[30] $ angle of around Y (degree)
+ set: c30[0] $ angle of around X (degree)
+ 
+ *tr1 0 0 0 90 30 0 0 0 0 0 0 0 2
+
+ tr2 0 0 0 pi/2 pi/6 0 0 0 0 0 0 0 2
+
+ tr1   0 0 0
+       cos(c10/180*pi)*cos(c20/180*pi)
+       sin(c10/180*pi)*cos(c30/180*pi)+cos(c10/180*pi)*sin(c20/180*pi)*sin(c30/180*pi)
+       sin(c10/180*pi)*sin(c30/180*pi)-cos(c10/180*pi)*sin(c20/180*pi)*cos(c30/180*pi)
+        -sin(c10/180*pi)*cos(c20/180*pi)
+        cos(c10/180*pi)*cos(c30/180*pi)-sin(c10/180*pi)*sin(c20/180*pi)*sin(c30/180*pi)
+        cos(c10/180*pi)*sin(c30/180*pi)+sin(c10/180*pi)*sin(c20/180*pi)*cos(c30/180*pi)
+        sin(c20/180*pi)
+        -cos(c20/180*pi)*sin(c30/180*pi)
+        cos(c20/180*pi)*cos(c30/180*pi)
+        1
+
+ *tr1 0.0 0.0 5.0 0.0 10.0 0.0 2 45.0 3 -60.0 0 0.0 3
+
+[ T e m p e r a t u r e ]
+      reg               tmp
+      1                 1.0*1.e-8
+      11                5.0*1.e-8
+      ( { 2 - 5 } 8 9 ) 2.0*1.e-8
+      ( 11 12 15 )      3.0*1.e-8
+      16                6.0*1.e-8
+
+[ Mat Time Change ]
+    mat  time    change
+    1    50.0    11
+    2    100.0   12
+    3    1000.0  0
+
+[ Magnetic Field ] 
+ $ Charged particle
+   reg           typ  gap      mgf          trcl    time
+    1            4    10.00000 -5.956540    3       non
+    2            4    10.00000 6.416140     1       non
+    3            2    10.00000 -7.611980    0       0.0
+    4            2    10.00000 3.516000     0       pi/2
+    ( 150 < 61 ) 4    13.00000 7.880140     2       non
+    ( 150 < 62 ) 4    13.00000 -7.440800    2       non
+
+ $ Neutron
+    reg    typ   gap         mgf       trcl polar time
+    1      60    0.00000     35000.0   3 non non
+    2      61    0.00000     35000.0   1 1 non
+    3      106    5.00000     7130.0   0 0 non
+    4      104    0.00000     3.5      0 non 5.0
+    5      102    0.00000     0.20     0 non non
+    6      101    3.00000     7130.0   2 1 non
+    7      103    0.00000     35000.0   0 -1 non
+
+[ Electro Magnetic Field ]
+ reg elf mgf trcle trclm  trcletrclm
+ 1   100 1   1     2
+ 2   100 1   1     2
+
+ reg type typm gap  elf   mgf  trcle trclm filee      filem
+ 102 -3   -1   10.0 100.0 10.0 0     0     xyzmap.dat xyzlist.dat
+
+[ I m p o r t a n c e ] 
+
+[ Weight Window ]
+
+[ WW Bias ]
+
+[ Forced Collisions ]
+
+[ Repeated Collisions ]
+
+[ Volume ]
+
+[ Multiplier ]
+
+[ Mat Name Color ]
+
+[ Reg Name ]
+
+[ Counter ]
+
+[ Timer ]
+
+[ User Defined Interaction ]
 
 
+$ tally common
+[ T-Track ] 
+
+[ T-Track ] 
+
+[ T-Cross ]
+
+[ T-Point ]
+
+[ T-Adjoint ]
+
+[ T-Deposit ]
+
+[ T-Deposit2 ]
+
+[ T-Heat ]
+
+[ T-Yield ]
+
+[ T-Product ]
+
+[ T-DPA ]
+
+[ T-LET ]
+
+[ T-SED ] 
+
+[ T-Time ]
+
+[T-Interact]
+
+[ T-Dchain ] 
+
+[ T-WWG ]
+
+[ T-WWBG ]
+
+[ T-Volume ]
+
+[ T-Userdefined ]
+
+[ T-Gshow ] 
+
+[ T-Rshow ]
+
+[ T-3Dshow ]
+
+[ T-4Dtrack ] 

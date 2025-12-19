@@ -1,0 +1,80 @@
+[ T i t l e ]
+Sample input for a photon adjoint mode calculation
+
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =     1000000     # (D=10) number of particles per one batch
+ maxbch   =          10     # (D=10) number of batches
+ dmax(14) =         3.0     # (D=1.0e+3) Upper energy limit for photons, must be 3 MeV for adjoint mode
+ negs     =          -1     # (D=-1) Transport only photons based on the PHITS original algorithm
+ iadjoint =           1     # (D=0) Option for adjoint mode
+ file(1)  = c:/phits        # (D=c:/phits) PHITS installation folder name
+ file(7)  = c:/phits/data/xsdir.adj   # (D=file(1)/data/xsdir.jnd) Adjoint cross section directory file name
+
+set: c1[100.]               # real source size (cube)
+set: c2[100.]               # gap
+set: c3[1.]                 # real tally size (cube)
+set: c4[0.661]              # real source energy [MeV]
+set: c5[0.851]              # real source emission probability
+set: c6[0.05]               # tally lower energy [MeV] 
+set: c7[0.75]                # tally upper energy [MeV] 
+
+[ S o u r c e ]
+  totfact =   1
+   s-type =   5
+     proj =   photon 
+       x0 =   -c3/2.
+       x1 =   c3/2.
+       y0 =   -c3/2.
+       y1 =   c3/2.
+       z0 =   -c3/2.-c2/2.
+       z1 =   c3/2.-c2/2.
+      dir =   all
+      e-type = 1
+       ne =   1
+       c6    1.0
+       c7
+
+[ M a t e r i a l ]
+$ Air D = 1.21e-3 g/cm3
+m1         H     7.199E-09
+         12C     7.585E-09
+           N     3.910E-05
+           O     1.054E-05
+
+[ S u r f a c e ]
+1   so   1000.
+
+[ C e l l ]
+ 1   1 -1.21e-3 -1
+99 -1            1
+
+[ T - A d j o i n t ]
+    title = Fluence spectrum in real tally (1/cm^2)
+     mesh =  xyz            # mesh type is xyz scoring mesh
+   x-type =    2            # x-mesh is linear given by xmin, xmax and nx
+     xmin = -c1/2.          # minimum value of x-mesh points
+     xmax =  c1/2.          # maximum value of x-mesh points
+       nx =    1            # number of x-mesh points
+   y-type =    2            # y-mesh is linear given by ymin, ymax and ny
+     ymin = -c1/2.          # minimum value of y-mesh points
+     ymax =  c1/2.          # maximum value of y-mesh points
+       ny =    1             # number of y-mesh points
+   z-type =    2            # z-mesh is linear given by zmin, zmax and nz
+     zmin = -c1/2.+c2/2.    # minimum value of z-mesh points
+     zmax =  c1/2.+c2/2.    # maximum value of y-mesh points
+       nz =    1            # number of z-mesh points
+   e-type =    2            # e-mesh is linear given by emin, emax and ne
+     emin =   c6            # minimum value of e-mesh points
+     emax =   c7            # maximum value of e-mesh points
+       ne =   14            # number of e-mesh points
+     unit =    1            # unit is [1/cm^2/source]
+     axis =  eng            # axis of output
+     file = tadjoint.out    # file name of output for the above axis
+   epsout =    1            # (D=0) generate eps file by ANGEL   
+   e-smin = c4-0.01         # minimum energy of the real photon source
+   e-smax = c4+0.01         # maximum energy of the real photon source
+   factor =   c5          # real source emission probability
+
+[END]
+

@@ -1,0 +1,6 @@
+INPUTCREATER4PHITS input   # Signature of INPUTCREATER4PHITS
+"work/sample2/DATfiles/"   # Intermediate file directory
+"work/sample2/PHITSinput/" # PHITS input directory
+0                          # Parameter option 0:default
+10000 1                     # Maxcas, Maxbch
+0                          # Parallelization 0:off 1:on

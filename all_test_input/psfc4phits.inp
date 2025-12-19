@@ -1,0 +1,5 @@
+Varian_Clinac_600C_6MV_1x1  $ input phase space file name without suffix extension
+dmp-PHITS.out               $ output file name
+1                           $ start particle ID (if you want to convert all PSF, you have to set 1)
+9414373                     $ last particle ID (if you want to convert all PSF, you have to set $PARTICLES written in header file)
+2                           $ iopt: 1 (w/o weight) 2 (w weight), please see below in detail

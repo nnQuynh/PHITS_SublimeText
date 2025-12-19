@@ -1,0 +1,67 @@
+[ T i t l e ]
+sample input file of t-track
+
+[ P a r a m e t e r s ]
+ icntl    =           5     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =        1000     # (D=10) number of particles per one batch
+ maxbch   =          10     # (D=10) number of batches
+ file(6)  = phits.out       # (D=phits.out) general output file name
+
+[ S o u r c e ]
+   s-type =   2             # mono-energetic axial source
+     proj =  proton         # kind of incident particle         
+      dir =   all           # z-direction of beam [cosine]
+       x0 = 0.
+       x1 = 0.
+       y0 = 0.
+       y1 = 0.
+       z0 = 0.            # minimum position of z-axis [cm]
+       z1 = 0.            # maximum position of z-axis [cm]
+       e0 = 1000.          # energy of beam [MeV]
+
+[ M a t e r i a l ]
+mat[1]    1H 2  16O 1     $ 1.0 g/cm3
+
+[ S u r f a c e ]
+   1  so      1
+   2  so      5
+   3  so     20.
+  99  so    1000.0 
+
+[ C e l l ]
+ 101 0         -1
+ 102 0       1 -2
+ 103 1 -2.0  2 -3
+ 104 0       3 -99
+ 105 -1      99
+
+[ T - T r a c k ]
+set: c99[10000.0]
+    title = [t-track] in r-z mesh
+     mesh =  xyz            # mesh type is xyz scoring mesh
+   x-type =    1            # x-mesh is linear given by xmin, xmax and nx
+       nx =    1            # number of x-mesh points
+   -c99  c99
+   y-type =    1            # y-mesh is linear given by ymin, ymax and ny
+       ny =    1            # number of y-mesh points
+   -c99  c99
+   z-type =    1            # z-mesh is given by the below data
+       nz =    1            # number of z-mesh points
+   -c99  c99
+   e-type =    1            # e-mesh is given by the below data
+       ne =    1            # number of e-mesh points
+            0  1.00000E+10
+     unit =    4            # unit is [1/cm^2/source]
+ material =  all            # (D=all) number of specific material
+     axis =    z           # axis of output
+     file = Mean.out   # file name of output for the above axis
+     part = all
+
+  multiplier = all          # number of material group
+     part =  proton  
+     emax =    1000.0    
+      mat              mset1  
+      all ( 1.0  -120 )
+
+[ E n d ]
+

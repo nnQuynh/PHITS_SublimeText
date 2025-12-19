@@ -1,0 +1,32 @@
+[ P a r a m e t e r s ] 
+ icntl    =           1     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ inucr    =          16     # (D=1) options of nuclear reaction for icntl = 1
+ inucl    =           1     # (D=0) 0:linear, 1:log for energy mesh of inucr
+ maxcas   =          1      # (D=10) number of reaction simulations (recommended to be 1 for cross section output mode)
+ maxbch   =         60      # (D=10) number of energy point
+ emin(14) = 1.000000000E-03 # (D=1.d9) minimum energy of incident photon (MeV)
+ file(6)  = phits.out       # (D=phits.out) general output file name
+[ S o u r c e ]
+  s-type =   1         # should be always 1 for icntl = 1
+    proj = alpha      # incident particle type
+    e-type = 1
+     ne = 5
+     1  1.0
+   1.5  1.0
+   4.0  1.0
+  10.0  1.0
+ 100.0  1.0
+1000.0
+
+[ M a t e r i a l ]
+m1   H  2.0   O  1.0          # material to be output
+dedxfile = water_liquid_icru90.txt
+
+[ C e l l ]
+    1    1 -1.0  -1
+    2   -1    1
+
+[ S u r f a c e ]
+  1   so  10
+
+[end]

@@ -1,0 +1,10 @@
+CT2PHITS input               # Signature of CT2PHITS input
+"data/HumanVoxelTable.data"  # File for conversion of human voxel data
+"work/sample2/CT/"          # DICOM file directory
+"work/sample2/DATfiles/"    # Directory for intermediate files
+1 126                        # Minimum slice number, Maximum slice number
+100 420 150 400               # Clipping: Nxmin, Nxmax, Nymin, Nymax
+8 8 2                        # Coarse graining: Nxc, Nyc, Nzc
+1                            # Coordinate 0:zero center 1:DICOM center
+
+

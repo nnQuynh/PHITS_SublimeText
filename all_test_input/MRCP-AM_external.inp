@@ -1,0 +1,77 @@
+# ----------------------------------------------------------------------------
+#    name               : MRCP PHANTOM                                        
+#    sex                : MALE                                              
+#    author             : HUREL
+# ----------------------------------------------------------------------------
+
+[ Parameters ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =        5000     # (D=10) number of particles per one batch
+ maxbch   =           2     # (D=10) number of batches
+ itetvol  =           0     # (D=0) =1 Volume calculation for tetrahedrons
+ ntetelem =        2000     # Number of tetra element allowed in sub-block
+ maxbnk   =     1000000     # (D=10000) maximum bank memory length
+ itetra   =           0     # (D=0) tetra data is read(=1)/write(=2) on binary
+ file(6)  =   phits.out     # (D=phits.out) general output file name
+ negs     =           1     # (D=-1) 1:EGS
+ ipegs    =           0     # [EGS](D=0) 0:Full
+
+[ Source ]
+  totfact =     1.00        # (D=1.0) global factor
+   s-type =     1           # cylindrical source
+     proj =   photon        # kind of incident particle         
+       e0 =     1.00        # energy of beam [MeV/u]
+       r0 =     0.00        # radius [cm]
+       x0 =     0.00        # (D=0.0) center position of x-axis [cm]
+       y0 =  -100.00        # (D=0.0) center position of y-axis [cm]
+       z0 =     0.00        # minimum position of z-axis [cm]
+       z1 =     0.00        # maximum position of z-axis [cm]
+      dir =   all           # z-direction of beam [isotropic]
+
+[ Material ]
+$ ----------------------------------------------------------------------------
+$ MATERIAL DATA FOR EACH ORGAN/TISSUE
+$ ----------------------------------------------------------------------------
+infl:{../phantoms/MRCP-AM.material}
+
+[ Surface ]
+  10  rpp -37.8854 37.8854 -24.56301 24.56301 -98.00236 98.00236  $ Phantom box
+  20  rpp -38.0854 38.0854 -24.76301 24.76301 -98.20236 98.20236
+  90  box -1000 -1000 -1000 2000 0 0 0 2000 0 0 0 2000         $ World boundary
+  
+[ Cell ]
+$ ----------------------------------------------------------------------------
+$ CELLS FOR PHANTOM
+$ ----------------------------------------------------------------------------
+infl:{../phantoms/MRCP-AM.cell}
+
+[ T-deposit ]
+# Deposit energy in a certain region.
+ file   = Dose_MRCP-AM_reg.out        # file name of output for the axis
+ mesh   = reg               # mesh type is region-wise
+ reg    = all               # all regions become tallying region
+ axis   = reg               # axis of output
+ unit   = 0                 # unit is [Gy/source]
+
+[ T - Deposit ]
+    title = Energy deposition in xyz mesh
+     mesh =    xyz            # mesh type is xyz scoring mesh
+   x-type =      2            # x-mesh is linear given by xmin, xmax and nx
+     xmin =    -37.8854       # minimum value of x-mesh points
+     xmax =     37.8854       # maximum value of x-mesh points
+       nx =     60            # number of x-mesh points
+   y-type =      1            # y-mesh is given by the below data
+       ny =      1            # number of y-mesh points
+           -24.56301  24.56301
+   z-type =      2            # z-mesh is linear given by zmin, zmax and nz
+     zmin =    -98.00236      # minimum value of z-mesh points
+     zmax =     98.00236      # maximum value of z-mesh points
+       nz =    180            # number of z-mesh points
+     axis =     xz            # axis of output
+     file = Dose_MRCP-AM_xyz.out     # file name of output for the above axis
+     part =  all      
+    gshow =    1            # 0: no 1:bnd, 2:bnd+mat, 3:bnd+reg 4:bnd+lat
+   epsout =    1            # (D=0) generate eps file by ANGEL
+
+
+[ End ]

@@ -1,0 +1,98 @@
+# ----------------------------------------------------------------------------
+#    name               : MRCP PHANTOM                                        
+#    sex                : FEMALE                                                
+#    author             : HUREL
+# ----------------------------------------------------------------------------
+
+[ Parameters ]
+ icntl    =           7     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =     1000000     # (D=10) number of particles per one batch
+ maxbch   =          10     # (D=10) number of batches
+ itetvol  =           0     # (D=0) =1 Volume calculation for tetrahedrons
+ ntetelem =        2000     # Number of tetra element allowed in sub-block
+ maxbnk   =     1000000     # (D=10000) maximum bank memory length
+ itetra   =           0     # (D=0) tetra data is read(=1)/write(=2) on binary
+ file(6)  =   phits.out     # (D=phits.out) General output file name
+
+[ Source ]
+  totfact =     1.00        # (D=1.0) global factor
+   s-type =     1           # cylindrical source
+     proj =   photon        # kind of incident particle         
+       e0 =     1.00        # energy of beam [MeV/u]
+       r0 =     0.00        # radius [cm]
+       x0 =     0.00        # (D=0.0) center position of x-axis [cm]
+       y0 =  -100.00        # (D=0.0) center position of y-axis [cm]
+       z0 =     0.00        # minimum position of z-axis [cm]
+       z1 =     0.00        # maximum position of z-axis [cm]
+      dir =   all           # z-direction of beam [isotropic]
+
+[ Material ]
+$ ----------------------------------------------------------------------------
+$ MATERIAL DATA FOR EACH ORGAN/TISSUE
+$ ----------------------------------------------------------------------------
+infl:{../phantoms/MRCP-AF.material}
+
+[ Surface ]
+  10  rpp -35.2695 35.2695 -23.60994 23.60994 -91.50872 91.50872  $ Phantom box
+  20  rpp -35.4695 35.4695 -23.80994 23.80994 -91.70872 91.70872
+  90  box -1000 -1000 -1000 2000 0 0 0 2000 0 0 0 2000  $ World boundary
+  
+[ Cell ]
+$ ----------------------------------------------------------------------------
+$ CELLS FOR PHANTOM
+$ ----------------------------------------------------------------------------
+infl:{../phantoms/MRCP-AF.cell}
+
+[ T - Gshow ]
+     mesh =    xyz            # mesh type is xyz scoring mesh
+   x-type =      2            # x-mesh is linear given by xmin, xmax and nx
+     xmin =    -35.2695       # minimum value of x-mesh points
+     xmax =     35.2695       # maximum value of x-mesh points
+       nx =     60            # number of x-mesh points
+   y-type =      1            # y-mesh is given by the below data
+       ny =      1            # number of y-mesh points
+           -23.60994  23.60994
+   z-type =      2            # z-mesh is linear given by zmin, zmax and nz
+     zmin =    -91.50872      # minimum value of z-mesh points
+     zmax =     91.50872      # maximum value of z-mesh points
+       nz =    180            # number of z-mesh points
+     axis =     xz            # axis of output
+     file = MRCP-AF_visualization.out  # file name of output for the above axis
+   output =      2            # (D=2) 1:bnd, 2:bnd+mat, 3:bnd+num 4:bnd+mat+num
+    ginfo =      0            # (D=0) 0:no, 1:show in graph, 2:add file
+$    resol =     15            # (D=1) resolution of gshow or rshow
+    width =   0.01            # (D=0.5) width of lines for gshow or rshow
+   epsout =      1            # (D=0) generate eps file by ANGEL
+
+[ T - 3Dshow ]
+    title = [t-3dshow: icnt = 11]
+     file = 3dshow.out      # file name of output
+ material =  -19             # Exclude Skin & muscle (D=all) show(+) or transparent(-) material
+             10600 10700 10800 10900 11600 11700 11800 11900 12000 12100 12200 12201 12300 12301 12400 12401 12500 12501 14000
+$ material =  -1             # All
+$             14000
+       x0 =  0.000000       # (D=0.0) x-coordinate of the origin
+       y0 =  0.000000       # (D=0.0) y-coordinate of the origin
+       z0 =  0.000000       # (D=0.0) z-coordinate of the origin
+    e-the =  80.0000       # (D=80.0) eye point theta(degree) from z-axis
+    e-phi =  225.00000       # (D=140.0) eye point phi(degree) from z-axis
+    l-the =  100.0000       # (D=e-the) light point theta from z-axis
+    l-phi =  225.00000       # (D=e-phi) light point phi from z-axis
+    w-wdt =  100.0000       # (D=100) width of window (cm)
+    w-hgt =  170.00000       # (D=100) hight of window (cm)
+    w-dst =  170.00000       # (D=200) window distance from origin
+    w-mnw =  50            # (D=100) mesh number of window width
+    w-mnh =  50            # (D=100) mesh number of window hight
+   heaven =    z            # (D=y) direction to heaven
+    w-ang =  0.000000       # (D=0.0) angle of frame (degree)
+   bright = 1.0000000       # (D=0.8) top brightness
+     dark = 0.2000000       # (D=0.2) bottom darkness
+    resol =   10             # (D=1) resolution of 3dshow
+    width = 0.1000000       # (D=0.5) width of lines for 3dshow
+    r-out =  50000.00       # (D=50000) radius of outer sphere
+   output =    3            # (D=3) 0:draft, 1:line, 2:col, 3:line+col
+     line =    0            # (D=0) 0:surface+mat, 1:+region
+   shadow =    1            # (D=0) 0:no, 1:shadow
+   epsout =    1            # (D=0) generate eps file by ANGEL
+
+[ End ]

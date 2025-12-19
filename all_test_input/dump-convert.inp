@@ -1,0 +1,7 @@
+0                          $ input file format 0:binary 1:ascii
+0                          $ purpose 0:convert format, 1:divide/combine, 2:user program
+sample/cross_binary_dmp.out
+11                         $ number of data in a record
+ 1 2 3 4 5 6 7 8 9 18 19   $ ID number of each record
+sample/cross_ascii_dmp.out
+0                          $ number of record to read (0: all data)

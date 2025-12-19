@@ -1,0 +1,103 @@
+ file = tetphits.inp
+
+[ Parameters ]
+ icntl    =         0  # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =      5000  # (D=10) number of particles per one batch
+ maxbch   =        10  # (D=10) number of batches
+ file(6)  = phits.out  # (D=phits.out) general output file name
+ itetvol  = 1          # (D=0) =1 Volume calculation for tetrahedrons
+
+[ Source ]
+  totfact = 1
+   s-type = 24
+   tetreg = 1000
+      dir = all
+     proj = proton
+       e0 = 100.0
+
+[ transform ]
+set: c71[0]   $ angle of around Z (degree)
+set: c72[0]   $ angle of around Y (degree)
+set: c73[0]   $ angle of around X (degree)
+set: c74[0]   $ displacement of Z (cm)
+set: c75[0]   $ displacement of Y (cm)
+set: c76[0]   $ displacement of X (cm)
+tr500 c76 c75 c74
+     cos(c71/180*pi)*cos(c72/180*pi)
+     sin(c71/180*pi)*cos(c73/180*pi)+cos(c71/180*pi)*sin(c72/180*pi)*sin(c73/180*pi)
+     sin(c71/180*pi)*sin(c73/180*pi)-cos(c71/180*pi)*sin(c72/180*pi)*cos(c73/180*pi)
+      -sin(c71/180*pi)*cos(c72/180*pi)
+     cos(c71/180*pi)*cos(c73/180*pi)-sin(c71/180*pi)*sin(c72/180*pi)*sin(c73/180*pi)
+     cos(c71/180*pi)*sin(c73/180*pi)+sin(c71/180*pi)*sin(c72/180*pi)*cos(c73/180*pi)
+     sin(c72/180*pi)
+     -cos(c72/180*pi)*sin(c73/180*pi)
+     cos(c72/180*pi)*cos(c73/180*pi)
+     1
+
+[ Material ]
+MAT[1] 14N  78.1  16O  20.9  40Ar  0.93   $ Air
+MAT[2]  1H     2  16O     1               $ Water
+
+[ Surface ]
+  10  rpp  -140.0  180.0   -40.0   40.0  -40.0  20.0
+  15  rpp  -200.0  240.0  -100.0  100.0  -60.0  40.0
+  90  so    500.0
+
+[ Cell ]
+  1   0         -10 FILL=1
+  10  0         -15 U=1 FILL=2 TRCL=500
+  20  1  -0.01  -15 U=2 LAT=3 tfile=TetraPHITS TSFAC=1.0
+  2  -1          10
+1000  2  -1.0   -90 u=1000
+
+[ T-deposit ]
+ file   = tetphits-deposit-xy.out
+ mesh   = xyz
+ x-type = 2
+ nx     =  200
+ xmin   =      -10.0
+ xmax   =       140.0
+ y-type = 2
+ ny     =  100
+ ymin   =     -5
+ ymax   =      40
+ z-type = 2
+ nz     =   1
+ zmin   =      -20
+ zmax   =       20
+ output = dose
+ unit   = 1
+ axis   = xy
+ gshow  = 1
+ epsout = 1
+
+[ T-deposit ]
+ file   = tetphits-deposit-reg.out
+ mesh   = reg
+ reg    = 1000 
+ axis   = reg
+ unit   = 1 
+
+[ T-3Dshow ]
+   file   = tetphits-3D.out
+       x0 =      70.00000
+       y0 =      20.00000
+       z0 =      0.00000
+    e-the =  20.0000
+    e-phi =  290.00000
+    l-the =  40.0000
+    l-phi =  310.00000
+    w-wdt =     150.
+    w-hgt =     50.
+    w-dst =    200
+    w-mnw = 40
+    w-mnh = 20
+   heaven =   y
+    resol =   8
+   shadow =   0
+$   output = 2
+   epsout =   1
+ material =  -1
+              1
+
+[ End ]

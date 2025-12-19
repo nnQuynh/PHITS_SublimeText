@@ -1,0 +1,7 @@
+SIMPLE SOURCE input    # Signature of SIMPLE SOURCE
+work/sample2/DATfiles/ # Intermediate file directory
+1           # Source option 0: 100 MeV Proton 1:6MV photon 2:190MeV proton SOBP
+50.0 50.0 # Field size horizontal and vertical (mm)
+0.0 0.0     # Off set from center horizontal and vertical (mm)
+2000.0      # Source distance from center (mm)
+0.0 0.0     # Beam direction angle horizontal and vertical (degree)

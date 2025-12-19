@@ -1,0 +1,28 @@
+$RWT=2
+[ P a r a m e t e r s ] 
+ icntl    =           1     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ inucr    =           2     # (D=1) options of nuclear reaction for icntl = 1
+ inucl    =           1     # (D=0) 0:linear, 1:log for energy mesh of inucr
+ maxcas   =           1     # (D=10) number of reaction simulations (recommended to be 1 for cross section output mode)
+ maxbch   =         100     # (D=10) number of energy point
+ emin(2)  =         1.0     # (D=1.0) minimum energy of incident neutron (MeV), should be below 20 MeV but below 20 MeV is not reliable
+ file(6)  = phits.out       # (D=phits.out) general output file name
+ icxsni   =           0     # (D=0) 0: Pearlstein-Niita, 1: KUROTAMA, 2: Sato
+ icrhi    =           2     # (D=2) 0: Shen, 1: NASA, 2: KUROTAMA, 3: Hashimoto
+
+[ S o u r c e ]
+  s-type =   1         # should be always 1 for icntl = 1
+    proj =  neutron    # incident particle type
+      e0 =  1000.0     # maximum energy of incident particle
+
+[ M a t e r i a l ]
+m1   56fe  1.0         # nucleus to be output
+
+[ C e l l ]
+    1    1  1.0  -1
+    2   -1    1
+
+[ S u r f a c e ]
+  1   so  10
+
+[end]

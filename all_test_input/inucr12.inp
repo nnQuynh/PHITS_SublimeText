@@ -1,0 +1,26 @@
+[ P a r a m e t e r s ] 
+ icntl    =           1     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ inucr    =          12     # (D=1) options of nuclear reaction for icntl = 1
+ inucl    =           1     # (D=0) 0:linear, 1:log for energy mesh of inucr
+ maxcas   =       10000     # (D=10) number of reaction simulations (recommended to be 1 for cross section output mode)
+ maxbch   =        50       # (D=10) number of energy point
+ emin(2)  = 1.000000000E-11 # (D=1.0) minimum energy of incident neutron (MeV)
+ file(6)  = phits.out       # (D=phits.out) general output file name
+ e-mode   =           2     # (D=0) version of event generator mode for calculating kerma
+
+[ S o u r c e ]
+  s-type =   1          # should be always 1 for icntl = 1
+    proj = neutron      # incident particle type
+      e0 = 20.0-1.0e-5  # maximum energy of incident particle, -1.0e-5 is a tips to output 20 MeV data
+
+[ M a t e r i a l ]
+m1   H  2.0   O  1.0          # material to be output
+
+[ C e l l ]
+    1    1  1.0  -1
+    2   -1    1
+
+[ S u r f a c e ]
+  1   so  10
+
+[end]

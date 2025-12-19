@@ -1,0 +1,1150 @@
+[title]
+ICRP voxel male phantom
+
+[parameters]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =       10000     # (D=10) number of particles per one batch
+ maxbch   =           1     # (D=10) number of batches
+ ivoxel   =           2     # (D=0) voxel data is read(=1)/write(=2) on binary
+ file(6)  = phits.out       # (D=phits.out) general output file name
+ file(18) = male-lattice.bin # (D=voxel.bin) binary voxel data
+
+[source]
+set: c3[100.0]  $ Radius of source sphere (cm)
+   s-type =   9             # mono-energetic axial source
+     proj =  proton        # kind of incident nucleus          
+       e0 =  200.00         # energy of beam [MeV]
+       r0 =   0.0000        # radius [cm]
+       x0 =   0.0000        # (D=0.0) center position of x-axis [cm]
+       y0 =   0.0000        # (D=0.0) center position of y-axis [cm]
+       r1 =  c3             # radius of sphere [cm]
+       r2 =  c3             # radius of source circle [cm]
+      dir =  iso            # inner direction with uniform dis. by analog
+  totfact =  pi*c3**2       # (D=1.0) global factor
+
+[material]
+$ m99  Water for calculating LET distribution, 1.0 g/cm^3
+m99        1H  6.6832156E-02
+          16O  3.3416078E-02
+
+$ m1   Teeth                                                         2.7500E+00
+m1  
+      H   -2.2
+      C   -9.5
+      N   -2.9
+      O   -42.1
+      Mg  -0.7
+      P   -13.7
+      Ca  -28.9
+ mt1   lwtr.20t
+
+$ m2   Mineral bone                                                  1.9200E+00
+m2  
+      H   -3.6
+      C   -15.9
+      N   -4.2
+      O   -44.8
+      Na  -0.3
+      Mg  -0.2
+      P   -9.4
+      S   -0.3
+      Ca  -21.3
+ mt2   lwtr.20t
+
+$ m3   Bone mixture (BM) humeri, upper half, spongiosa               1.2050E+00
+m3  
+      H   -8.5
+      C   -28.8
+      N   -2.6
+      O   -49.8
+      Na  -0.2
+      Mg  -0.1
+      P   -3.3
+      S   -0.4
+      Cl  -0.2
+      Ca  -6.1
+ mt3   lwtr.20t
+
+$ m4   BM humeri, lower half, spongiosa                              1.1080E+00
+m4  
+      H   -9.7
+      C   -43.9
+      N   -1.7
+      O   -38.1
+      Na  -0.2
+      P   -2.1
+      S   -0.3
+      Cl  -0.1
+      Ca  -3.9
+ mt4   lwtr.20t
+
+$ m5   BM lower arm bones, spongiosa                                 1.1080E+00
+m5  
+      H   -9.7
+      C   -43.9
+      N   -1.7
+      O   -38.1
+      Na  -0.2
+      P   -2.1
+      S   -0.3
+      Cl  -0.1
+      Ca  -3.9
+ mt5   lwtr.20t
+
+$ m6   BM hand bones, spongiosa                                      1.1080E+00
+m6  
+      H   -9.7
+      C   -43.9
+      N   -1.7
+      O   -38.1
+      Na  -0.2
+      P   -2.1
+      S   -0.3
+      Cl  -0.1
+      Ca  -3.9
+ mt6   lwtr.20t
+
+$ m7   BM clavicles, spongiosa                                       1.1510E+00
+m7  
+      H   -9.1
+      C   -34.8
+      N   -2.4
+      O   -45.7
+      Na  -0.2
+      P   -2.6
+      S   -0.3
+      Cl  -0.1
+      Ca  -4.8
+ mt7   lwtr.20t
+
+$ m8   BM cranium, spongiosa                                         1.1570E+00
+m8  
+      H   -9.0
+      C   -33.5
+      N   -2.5
+      O   -46.7
+      Na  -0.2
+      P   -2.6
+      S   -0.3
+      Cl  -0.2
+      K   -0.1
+      Ca  -4.9
+ mt8   lwtr.20t
+
+$ m9   BM femora, upper half, spongiosa                              1.1240E+00
+m9  
+      H   -9.4
+      C   -38.5
+      N   -2.2
+      O   -43.0
+      Na  -0.2
+      P   -2.2
+      S   -0.3
+      Cl  -0.1
+      Ca  -4.1
+ mt9   lwtr.20t
+
+$ m10  BM femora, lower half, spongiosa                              1.1080E+00
+m10 
+      H   -9.7
+      C   -43.9
+      N   -1.7
+      O   -38.1
+      Na  -0.2
+      P   -2.1
+      S   -0.3
+      Cl  -0.1
+      Ca  -3.9
+ mt10  lwtr.20t
+
+$ m11  BM lower leg bones, spongiosa                                 1.1080E+00
+m11 
+      H   -9.7
+      C   -43.9
+      N   -1.7
+      O   -38.1
+      Na  -0.2
+      P   -2.1
+      S   -0.3
+      Cl  -0.1
+      Ca  -3.9
+mt11  lwtr.20t
+
+$ m12  BM foot bones, spongiosa                                      1.1080E+00
+m12 
+      H   -9.7
+      C   -43.9
+      N   -1.7
+      O   -38.1
+      Na  -0.2
+      P   -2.1
+      S   -0.3
+      Cl  -0.1
+      Ca  -3.9
+mt12  lwtr.20t
+
+$ m13  BM mandible, spongiosa                                        1.2280E+00
+m13 
+      H   -8.3
+      C   -26.6
+      N   -2.7
+      O   -51.1
+      Na  -0.3
+      Mg  -0.1
+      P   -3.6
+      S   -0.4
+      Cl  -0.2
+      Ca  -6.7
+mt13  lwtr.20t
+
+$ m14  BM pelvis, spongiosa                                          1.1230E+00
+m14 
+      H   -9.4
+      C   -36.0
+      N   -2.5
+      O   -45.4
+      Na  -0.2
+      P   -2.1
+      S   -0.3
+      Cl  -0.2
+      K   -0.1
+      Ca  -3.8
+mt14  lwtr.20t
+
+$ m15  BM ribs, spongiosa                                            1.1650E+00
+m15 
+      H   -8.9
+      C   -29.2
+      N   -2.9
+      O   -50.7
+      Na  -0.2
+      P   -2.6
+      S   -0.4
+      Cl  -0.2
+      K   -0.1
+      Ca  -4.8
+mt15  lwtr.20t
+
+$ m16  BM scapulae, spongiosa                                        1.1830E+00
+m16 
+      H   -8.7
+      C   -30.9
+      N   -2.6
+      O   -48.3
+      Na  -0.2
+      Mg  -0.1
+      P   -3.0
+      S   -0.4
+      Cl  -0.2
+      Ca  -5.6
+mt16  lwtr.20t
+
+$ m17  BM cervical spine, spongiosa                                  1.0500E+00
+m17 
+      H   -10.3
+      C   -40.0
+      N   -2.7
+      O   -44.4
+      Na  -0.1
+      P   -0.7
+      S   -0.2
+      Cl  -0.2
+      K   -0.1
+      Ca  -1.2
+      Fe  -0.1
+mt17  lwtr.20t
+
+$ m18  BM thoracic spine, spongiosa                                  1.0740E+00
+m18 
+      H   -9.9
+      C   -37.6
+      N   -2.7
+      O   -45.9
+      Na  -0.1
+      P   -1.2
+      S   -0.2
+      Cl  -0.2
+      K   -0.1
+      Ca  -2.0
+      Fe  -0.1
+mt18  lwtr.20t
+
+$ m19  BM lumbar spine, spongiosa                                    1.1120E+00
+m19 
+      H   -9.5
+      C   -34.0
+      N   -2.8
+      O   -48.0
+      Na  -0.1
+      P   -1.8
+      S   -0.3
+      Cl  -0.2
+      K   -0.1
+      Ca  -3.2
+mt19  lwtr.20t
+
+$ m20  BM sacrum, spongiosa                                          1.0310E+00
+m20 
+      H   -10.5
+      C   -41.9
+      N   -2.7
+      O   -43.2
+      Na  -0.1
+      P   -0.4
+      S   -0.2
+      Cl  -0.2
+      K   -0.1
+      Ca  -0.6
+      Fe  -0.1
+mt20  lwtr.20t
+
+$ m21  BM sternum, spongiosa                                         1.0410E+00
+m21 
+      H   -10.4
+      C   -40.9
+      N   -2.7
+      O   -43.8
+      Na  -0.1
+      P   -0.6
+      S   -0.2
+      Cl  -0.2
+      K   -0.1
+      Ca  -0.9
+      Fe  -0.1
+mt21  lwtr.20t
+
+$ m22  BM humeri and femora, upper halves, medullary cavity          9.8000E-01
+m22 
+      H   -11.5
+      C   -63.6
+      N   -0.7
+      O   -23.9
+      Na  -0.1
+      S   -0.1
+      Cl  -0.1
+mt22  lwtr.20t
+
+$ m23  BM humeri and femora, lower halves, medullary cavity          9.8000E-01
+m23 
+      H   -11.5
+      C   -63.6
+      N   -0.7
+      O   -23.9
+      Na  -0.1
+      S   -0.1
+      Cl  -0.1
+mt23  lwtr.20t
+
+$ m24  BM lower arm bones, medullary cavity                          9.8000E-01
+m24 
+      H   -11.5
+      C   -63.6
+      N   -0.7
+      O   -23.9
+      Na  -0.1
+      S   -0.1
+      Cl  -0.1
+mt24  lwtr.20t
+
+$ m25  BM lower leg bones, medullary cavity                          9.8000E-01
+m25 
+      H   -11.5
+      C   -63.6
+      N   -0.7
+      O   -23.9
+      Na  -0.1
+      S   -0.1
+      Cl  -0.1
+mt25  lwtr.20t
+
+$ m26  Cartilage                                                     1.1000E+00
+m26 
+      H   -9.6
+      C   -9.9
+      N   -2.2
+      O   -74.4
+      Na  -0.5
+      P   -2.2
+      S   -0.9
+      Cl  -0.3
+mt26  lwtr.20t
+
+$ m27  Skin                                                          1.0900E+00
+m27 
+      H   -10.0
+      C   -19.9
+      N   -4.2
+      O   -65.0
+      Na  -0.2
+      P   -0.1
+      S   -0.2
+      Cl  -0.3
+      K   -0.1
+mt27  lwtr.20t
+
+$ m28  Blood                                                         1.0600E+00
+m28 
+      H   -10.2
+      C   -11.0
+      N   -3.3
+      O   -74.5
+      Na  -0.1
+      P   -0.1
+      S   -0.2
+      Cl  -0.3
+      K   -0.2
+      Fe  -0.1
+mt28  lwtr.20t
+
+$ m29  Muscle tissue                                                 1.0500E+00
+m29 
+      H   -10.2
+      C   -14.2
+      N   -3.4
+      O   -71.1
+      Na  -0.1
+      P   -0.2
+      S   -0.3
+      Cl  -0.1
+      K   -0.4
+mt29  lwtr.20t
+
+$ m30  Liver                                                         1.0500E+00
+m30 
+      H   -10.2
+      C   -13.0
+      N   -3.1
+      O   -72.5
+      Na  -0.2
+      P   -0.2
+      S   -0.3
+      Cl  -0.2
+      K   -0.3
+mt30  lwtr.20t
+
+$ m31  Pancreas                                                      1.0500E+00
+m31 
+      H   -10.5
+      C   -15.5
+      N   -2.5
+      O   -70.6
+      Na  -0.2
+      P   -0.2
+      S   -0.1
+      Cl  -0.2
+      K   -0.2
+mt31  lwtr.20t
+
+$ m32  Brain                                                         1.0500E+00
+m32 
+      H   -10.7
+      C   -14.3
+      N   -2.3
+      O   -71.3
+      Na  -0.2
+      P   -0.4
+      S   -0.2
+      Cl  -0.3
+      K   -0.3
+mt32  lwtr.20t
+
+$ m33  Heart                                                         1.0500E+00
+m33 
+      H   -10.4
+      C   -13.8
+      N   -2.9
+      O   -71.9
+      Na  -0.1
+      P   -0.2
+      S   -0.2
+      Cl  -0.2
+      K   -0.3
+mt33  lwtr.20t
+
+$ m34  Eyes                                                          1.0500E+00
+m34 
+      H   -9.7
+      C   -18.1
+      N   -5.3
+      O   -66.3
+      Na  -0.1
+      P   -0.1
+      S   -0.3
+      Cl  -0.1
+mt34  lwtr.20t
+
+$ m35  Kidneys                                                       1.0500E+00
+m35 
+      H   -10.3
+      C   -12.4
+      N   -3.1
+      O   -73.1
+      Na  -0.2
+      P   -0.2
+      S   -0.2
+      Cl  -0.2
+      K   -0.2
+      Ca  -0.1
+mt35  lwtr.20t
+
+$ m36  Stomach                                                       1.0400E+00
+m36 
+      H   -10.5
+      C   -11.4
+      N   -2.5
+      O   -75.0
+      Na  -0.1
+      P   -0.1
+      S   -0.1
+      Cl  -0.2
+      K   -0.1
+mt36  lwtr.20t
+
+$ m37  Small intestine                                               1.0400E+00
+m37 
+      H   -10.5
+      C   -11.3
+      N   -2.6
+      O   -75.0
+      Na  -0.1
+      P   -0.1
+      S   -0.1
+      Cl  -0.2
+      K   -0.1
+mt37  lwtr.20t
+
+$ m38  Large intestine                                               1.0400E+00
+m38 
+      H   -10.5
+      C   -11.3
+      N   -2.6
+      O   -75.0
+      Na  -0.1
+      P   -0.1
+      S   -0.1
+      Cl  -0.2
+      K   -0.1
+mt38  lwtr.20t
+
+$ m39  Spleen                                                        1.0400E+00
+m39 
+      H   -10.2
+      C   -11.1
+      N   -3.3
+      O   -74.3
+      Na  -0.1
+      P   -0.2
+      S   -0.2
+      Cl  -0.3
+      K   -0.2
+      Fe  -0.1
+mt39  lwtr.20t
+
+$ m40  Thyroid                                                       1.0400E+00
+m40 
+      H   -10.4
+      C   -11.7
+      N   -2.6
+      O   -74.5
+      Na  -0.2
+      P   -0.1
+      S   -0.1
+      Cl  -0.2
+      K   -0.1
+      I   -0.1
+mt40  lwtr.20t
+
+$ m41  Urinary bladder                                               1.0400E+00
+m41 
+      H   -10.5
+      C   -9.6
+      N   -2.6
+      O   -76.1
+      Na  -0.2
+      P   -0.2
+      S   -0.2
+      Cl  -0.3
+      K   -0.3
+mt41  lwtr.20t
+
+$ m42  Testes                                                        1.0400E+00
+m42 
+      H   -10.6
+      C   -10.0
+      N   -2.1
+      O   -76.4
+      Na  -0.2
+      P   -0.1
+      S   -0.2
+      Cl  -0.2
+      K   -0.2
+mt42  lwtr.20t
+
+$ m43  Adrenals                                                      1.0300E+00
+m43 
+      H   -10.4
+      C   -22.1
+      N   -2.8
+      O   -63.7
+      Na  -0.1
+      P   -0.2
+      S   -0.3
+      Cl  -0.2
+      K   -0.2
+mt43  lwtr.20t
+
+$ m44  Oesophagus                                                    1.0300E+00
+m44 
+      H   -10.4
+      C   -21.3
+      N   -2.9
+      O   -64.4
+      Na  -0.1
+      P   -0.2
+      S   -0.3
+      Cl  -0.2
+      K   -0.2
+mt44  lwtr.20t
+
+$ m45  Remaining tissues                                             1.0300E+00
+m45 
+      H   -10.4
+      C   -23.1
+      N   -2.8
+      O   -62.7
+      Na  -0.1
+      P   -0.2
+      S   -0.3
+      Cl  -0.2
+      K   -0.2
+mt45  lwtr.20t
+
+$ m46  Prostate                                                      1.0300E+00
+m46 
+      H   -10.4
+      C   -23.1
+      N   -2.8
+      O   -62.7
+      Na  -0.1
+      P   -0.2
+      S   -0.3
+      Cl  -0.2
+      K   -0.1
+mt46  lwtr.20t
+
+$ m47  Lymph                                                         1.0300E+00
+m47 
+      H   -10.8
+      C   -4.2
+      N   -1.1
+      O   -83.1
+      Na  -0.3
+      S   -0.1
+      Cl  -0.4
+mt47  lwtr.20t
+
+$ m48  Breast (mammary gland)                                        1.0200E+00
+m48 
+      H   -11.2
+      C   -51.6
+      N   -1.1
+      O   -35.8
+      Na  -0.1
+      S   -0.1
+      Cl  -0.1
+mt48  lwtr.20t
+
+$ m49  Adipose tissue                                                9.5000E-01
+m49 
+      H   -11.4
+      C   -58.8
+      N   -0.8
+      O   -28.7
+      Na  -0.1
+      S   -0.1
+      Cl  -0.1
+mt49  lwtr.20t
+
+$ m50  Lung tissue (compressed lungs)                                3.8200E-01
+m50 
+      H   -10.3
+      C   -10.7
+      N   -3.2
+      O   -74.6
+      Na  -0.2
+      P   -0.2
+      S   -0.3
+      Cl  -0.3
+      K   -0.2
+mt50  lwtr.20t
+
+$ m51  Gastro-intestinal tract - contents                            1.0400E+00
+m51 
+      H   -10.0
+      C   -22.2
+      N   -2.2
+      O   -64.4
+      Na  -0.1
+      P   -0.2
+      S   -0.3
+      Cl  -0.1
+      K   -0.4
+      Ca  -0.1
+mt51  lwtr.20t
+
+$ m52  Urine                                                         1.0400E+00
+m52 
+      H   -10.7
+      C   -0.3
+      N   -1.0
+      O   -87.3
+      Na  -0.4
+      P   -0.1
+      K   -0.2
+mt52  lwtr.20t
+
+$ m53  Air                                                           1.2930E-03
+m53 
+      N   -80.0
+      O   -20.0
+
+[ mat name color ]
+   mat   name   size  color
+    1    Teeth           2.0  pastelyellow
+    2    Bone            2.0  white
+ {3-21}  Spongiosa       2.0  gray
+ {22-25} BoneMarrow      2.0  darkred
+   26    Cartilage       2.0  lightgray
+   27    Skin            2.0  pastelpink
+   28    Blood           2.0  red
+   29    Muscle          2.0  orange
+   30    Liver           2.0  brown
+   31    Pancreas        2.0  darkbrown
+   32    Brain           2.0  pastelbrown
+   33    Heart           2.0  orangeyellow
+   34    Eyes            2.0  darkgray
+   35    Kidneys         2.0  yellow
+   36    Stomach         2.0  pastelgreen
+   37    SmallIntestine  2.0  yellowgreen
+   38    LargeIntestine  2.0  green
+   39    Spleen          2.0  darkgreen
+   40    Thyroid         2.0  mossgreen
+   41    UrinaryBladder  2.0  bluegreen
+   42    Testes          2.0  pastelcyan
+   43    Adrenals        2.0  pastelblue
+   44    Oesophagus      2.0  cyan
+   45    RemainingTissue 2.0  cyanblue
+   46    Prostate        2.0  blue
+   47    Lymph           2.0  violet
+   48    Breast          2.0  purple
+   49    AdiposeTissue   2.0  magenta
+   50    LungTissue      2.0  winered
+   51    Intest.Contents 2.0  pastelmagenta
+   52    Urine           2.0  pastelpurple
+   53    Air             2.0  white
+
+[cell]
+c    voxel( cubic voxel )
+1     43   -1.030      -666  u=  1
+2     43   -1.030      -666  u=  2
+3     45   -1.030      -666  u=  3
+4     45   -1.030      -666  u=  4
+5     29   -1.050      -666  u=  5
+6     29   -1.050      -666  u=  6
+7     45   -1.030      -666  u=  7
+8     45   -1.030      -666  u=  8
+9     28   -1.060      -666  u=  9
+10    28   -1.060      -666  u= 10
+11    28   -1.060      -666  u= 11
+12    28   -1.060      -666  u= 12
+13    2    -1.920      -666  u= 13
+14    3    -1.205      -666  u= 14
+15    22   -0.980      -666  u= 15
+16    2    -1.920      -666  u= 16
+17    4    -1.108      -666  u= 17
+18    23   -0.980      -666  u= 18
+19    2    -1.920      -666  u= 19
+20    5    -1.108      -666  u= 20
+21    24   -0.980      -666  u= 21
+22    2    -1.920      -666  u= 22
+23    6    -1.108      -666  u= 23
+24    2    -1.920      -666  u= 24
+25    7    -1.151      -666  u= 25
+26    2    -1.920      -666  u= 26
+27    8    -1.157      -666  u= 27
+28    2    -1.920      -666  u= 28
+29    9    -1.124      -666  u= 29
+30    22   -0.980      -666  u= 30
+31    2    -1.920      -666  u= 31
+32    10   -1.108      -666  u= 32
+33    23   -0.980      -666  u= 33
+34    2    -1.920      -666  u= 34
+35    11   -1.108      -666  u= 35
+36    25   -0.980      -666  u= 36
+37    2    -1.920      -666  u= 37
+38    12   -1.108      -666  u= 38
+39    2    -1.920      -666  u= 39
+40    13   -1.228      -666  u= 40
+41    2    -1.920      -666  u= 41
+42    14   -1.123      -666  u= 42
+43    2    -1.920      -666  u= 43
+44    15   -1.165      -666  u= 44
+45    2    -1.920      -666  u= 45
+46    16   -1.183      -666  u= 46
+47    2    -1.920      -666  u= 47
+48    17   -1.050      -666  u= 48
+49    2    -1.920      -666  u= 49
+50    18   -1.074      -666  u= 50
+51    2    -1.920      -666  u= 51
+52    19   -1.112      -666  u= 52
+53    2    -1.920      -666  u= 53
+54    20   -1.031      -666  u= 54
+55    2    -1.920      -666  u= 55
+56    21   -1.041      -666  u= 56
+57    26   -1.100      -666  u= 57
+58    26   -1.100      -666  u= 58
+59    26   -1.100      -666  u= 59
+60    26   -1.100      -666  u= 60
+61    32   -1.050      -666  u= 61
+62    49   -0.950      -666  u= 62
+63    48   -1.020      -666  u= 63
+64    49   -0.950      -666  u= 64
+65    48   -1.020      -666  u= 65
+66    34   -1.050      -666  u= 66
+67    34   -1.050      -666  u= 67
+68    34   -1.050      -666  u= 68
+69    34   -1.050      -666  u= 69
+70    45   -1.030      -666  u= 70
+71    45   -1.030      -666  u= 71
+72    36   -1.040      -666  u= 72
+73    51   -1.040      -666  u= 73
+74    37   -1.040      -666  u= 74
+75    51   -1.040      -666  u= 75
+76    38   -1.040      -666  u= 76
+77    51   -1.040      -666  u= 77
+78    38   -1.040      -666  u= 78
+79    51   -1.040      -666  u= 79
+80    38   -1.040      -666  u= 80
+81    51   -1.040      -666  u= 81
+82    38   -1.040      -666  u= 82
+83    51   -1.040      -666  u= 83
+84    38   -1.040      -666  u= 84
+85    51   -1.040      -666  u= 85
+86    38   -1.040      -666  u= 86
+87    33   -1.050      -666  u= 87
+88    28   -1.060      -666  u= 88
+89    35   -1.050      -666  u= 89
+90    35   -1.050      -666  u= 90
+91    35   -1.050      -666  u= 91
+92    35   -1.050      -666  u= 92
+93    35   -1.050      -666  u= 93
+94    35   -1.050      -666  u= 94
+95    30   -1.050      -666  u= 95
+96    28   -1.060      -666  u= 96
+97    50   -0.382      -666  u= 97
+98    28   -1.060      -666  u= 98
+99    50   -0.382      -666  u= 99
+100   47   -1.030      -666  u=100
+101   47   -1.030      -666  u=101
+102   47   -1.030      -666  u=102
+103   47   -1.030      -666  u=103
+104   47   -1.030      -666  u=104
+105   47   -1.030      -666  u=105
+106   29   -1.050      -666  u=106
+107   29   -1.050      -666  u=107
+108   29   -1.050      -666  u=108
+109   29   -1.050      -666  u=109
+110   44   -1.030      -666  u=110
+111   42   -1.040      -666  u=111
+112   42   -1.040      -666  u=112
+113   31   -1.050      -666  u=113
+114   45   -1.030      -666  u=114
+115   46   -1.030      -666  u=115
+116   49   -0.950      -666  u=116
+117   49   -0.950      -666  u=117
+118   49   -0.950      -666  u=118
+119   49   -0.950      -666  u=119
+120   45   -1.030      -666  u=120
+121   45   -1.030      -666  u=121
+122   27   -1.090      -666  u=122
+123   27   -1.090      -666  u=123
+124   27   -1.090      -666  u=124
+125   27   -1.090      -666  u=125
+126   45   -1.030      -666  u=126
+127   39   -1.040      -666  u=127
+128   1    -2.750      -666  u=128
+129   42   -1.040      -666  u=129
+130   42   -1.040      -666  u=130
+131   45   -1.030      -666  u=131
+132   40   -1.040      -666  u=132
+133   29   -1.050      -666  u=133
+134   45   -1.030      -666  u=134
+135   45   -1.030      -666  u=135
+136   45   -1.030      -666  u=136
+137   41   -1.040      -666  u=137
+138   52   -1.040      -666  u=138
+139   46   -1.030      -666  u=139
+140   53   -0.001293   -666  u=140
+141   27   -1.090      -666  u=141
+555   0                -666  u=555
+c
+c --------------------------------------------------------------
+c    voxel lattice of each devided region
+901    0  -922   921  -924   923  -926   925    lat= 1   u= 901
+       fill=0:253  0:126  0:221
+ infl: {male-lattice.inp}  $ Comment out when ivoxel = 1
+
+  990     0     -912 911 -914 913 -916 915   fill=901  $ if you want to transform phantom, insert trcl here
+c
+ 2500     0     -666 #990
+  666    -1     666
+
+[surface]
+c  *** rectangular parallelepiped surrounding voxel model ***
+  911   px  -27.1399+0.001
+  912   px   27.1399-0.001
+  913   py  -13.56995+0.001
+  914   py   13.56995-0.001
+  915   pz  -88.8+0.001
+  916   pz   88.8-0.001
+c
+c  **** unit voxel ****
+  921   px   -27.1399
+  922   px   -26.9262
+  923   py   -13.56995
+  924   py   -13.35625
+  925   pz   -88.8
+  926   pz   -88.0
+c
+c --------------------------------------------------------------
+c
+  666   so   500.0
+
+[volume]
+reg   vol
+1     6.7953522720E+00
+2     6.7953522720E+00
+3     1.0704506536E+01
+4     2.7583284760E+01
+5     2.9263855752E+01
+6     4.8590422160E+00
+7     9.7180844320E+00
+8     6.4373175824E+01
+9     8.0375134400E-01
+10    2.5650628119E+02
+11    1.4832865712E+01
+12    7.8329221888E+01
+13    7.0437845056E+01
+14    1.5344343840E+02
+15    3.4159432120E+01
+16    6.6674827400E+01
+17    5.3887874200E+01
+18    3.7885915624E+01
+19    1.4102182672E+02
+20    1.6411141078E+02
+21    2.3126118216E+01
+22    9.3600497424E+01
+23    1.2593322194E+02
+24    2.4879757512E+01
+25    4.6106099824E+01
+26    2.9311350150E+02
+27    3.8963673108E+02
+28    1.3627238696E+02
+29    4.1996007724E+02
+30    2.6304589440E+01
+31    1.5315116518E+02
+32    3.9566486616E+02
+33    8.2530649368E+01
+34    2.7670966725E+02
+35    6.5801661167E+02
+36    8.0265531944E+01
+37    1.2111071388E+02
+38    4.5810173193E+02
+39    3.9639554920E+01
+40    6.0171748344E+01
+41    2.0758705166E+02
+42    6.0675919642E+02
+43    1.9016026116E+02
+44    4.4615506422E+02
+45    1.1515564710E+02
+46    1.6243083979E+02
+47    5.3595600984E+01
+48    7.0035969384E+01
+49    1.4924201092E+02
+50    3.1222086299E+02
+51    9.6961639408E+01
+52    2.7170448842E+02
+53    5.6883674664E+01
+54    1.6820323581E+02
+55    5.1513154320E+00
+56    5.4107079112E+01
+57    1.4504058344E+01
+58    8.0594339312E+01
+59    5.3705203440E+00
+60    3.1565507328E+01
+61    1.3807717407E+03
+62    7.8913768320E+00
+63    4.8955763680E+00
+64    7.8913768320E+00
+65    4.8955763680E+00
+66    1.8267076000E-01
+67    6.9414888800E+00
+68    1.8267076000E-01
+69    6.9780230320E+00
+70    1.3517636240E+01
+71    5.2499576424E+01
+72    1.4420029794E+02
+73    2.4035818601E+02
+74    6.2491666996E+02
+75    3.3651607407E+02
+76    8.6512871936E+01
+77    5.2901452096E+01
+78    5.7687426008E+01
+79    9.1335380000E+01
+80    5.7687426008E+01
+81    3.8470462056E+01
+82    8.6512871936E+01
+83    3.3647953992E+01
+84    3.8470462056E+01
+85    7.2081881896E+01
+86    2.8825445928E+01
+87    3.1423024135E+02
+88    4.8108171354E+02
+89    1.0200335238E+02
+90    3.6424549544E+01
+91    7.2702962480E+00
+92    1.0467034548E+02
+93    3.7374437496E+01
+94    7.4895011600E+00
+95    1.7140728094E+03
+96    7.4529670080E+01
+97    1.2415035533E+03
+98    6.7478578744E+01
+99    1.5074356457E+03
+100   2.1920491200E+00
+101   6.2108058400E+00
+102   5.8089301680E+00
+103   1.0134573765E+02
+104   7.5991036160E+00
+105   1.0777574840E+01
+106   1.1596670528E+03
+107   1.4290333555E+04
+108   2.6192064252E+03
+109   9.5463373834E+03
+110   3.8835803576E+01
+111   0.0000000000E+00
+112   0.0000000000E+00
+113   1.3331312065E+02
+114   5.8454643200E-01
+115   1.6513436704E+01
+116   1.1035505953E+03
+117   1.3019383475E+04
+118   1.7297459606E+03
+119   5.6797454065E+03
+120   4.1247057608E+01
+121   4.1247057608E+01
+122   2.6724732188E+02
+123   1.3440549179E+03
+124   5.8619046884E+02
+125   1.2222500552E+03
+126   3.5547729896E+01
+127   1.4420029794E+02
+128   1.8194007696E+01
+129   1.6805709920E+01
+130   1.6842244072E+01
+131   2.4258676928E+01
+132   1.9216963952E+01
+133   4.0260635504E+01
+134   2.9227321600E+00
+135   8.2567183520E+00
+136   7.2702962480E+00
+137   4.8078944032E+01
+138   1.9227924198E+02
+139   0.0000000000E+00
+140   1.5442986050E+02
+141   1.4175250976E+02
+
+[t-deposit] 
+    title = Absorbed Dose in each region
+     mesh = reg
+      reg = { 1 - 141 }
+     axis = reg
+ material = all
+   output = dose
+     file = male-dose.out
+     unit = 2
+
+[t-deposit] 
+    title = Dose Equivalent in each cell
+     mesh = reg
+      reg = { 1 - 141 }
+     axis = reg
+ material = all
+   output = dose
+     file = male-dose-equivalent.out
+     unit = 2
+   letmat = -99
+  dedxfnc = 1
+
+[ T-Deposit ] 
+  title = [2D-show: icnt = 8]
+  mesh = xyz
+  x-type = 2
+  nx = 100
+  xmin = -100.0
+  xmax = 100.0
+  y-type = 2
+  ny = 1
+  ymin =   3.0
+  ymax =   5.0
+  z-type = 2
+  nz = 100
+  zmin = -100.0
+  zmax = 100.0
+  axis = xz
+  material = all
+  output = dose
+  unit = 2
+  file = male-2d.out
+  epsout = 1
+  gshow = 1
+  gslat = 0
+  angel = cmin(1.e-00) cmax(1.e+02)  
+
+[ T - 3Dshow ]
+    title = [t-3dshow: icnt = 11]
+     file = 3dshow.out      # file name of output
+c material =  26             # Bone (D=all) show(+) or transparent(-) material
+c             1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
+ material =  -27             # Bone + Important tissues (D=all) show(+) or transparent(-) material
+             3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 27 28 29 45 47 48 49 53
+c material =  -3             # Exclude Skin & Adipose tissue (D=all) show(+) or transparent(-) material
+c             27 49 53
+c material =  -1             # All
+c             53
+       x0 =  0.000000       # (D=0.0) x-coordinate of the origin
+       y0 =  0.000000       # (D=0.0) y-coordinate of the origin
+       z0 =  0.000000       # (D=0.0) z-coordinate of the origin
+    e-the =  80.0000       # (D=80.0) eye point theta(degree) from z-axis
+    e-phi =  225.00000       # (D=140.0) eye point phi(degree) from z-axis
+    l-the =  100.0000       # (D=e-the) light point theta from z-axis
+    l-phi =  225.00000       # (D=e-phi) light point phi from z-axis
+    w-wdt =  100.0000       # (D=100) width of window (cm)
+    w-hgt =  170.00000       # (D=100) hight of window (cm)
+    w-dst =  170.00000       # (D=200) window distance from origin
+    w-mnw =  50            # (D=100) mesh number of window width
+    w-mnh =  50            # (D=100) mesh number of window hight
+   heaven =    z            # (D=y) direction to heaven
+    w-ang =  0.000000       # (D=0.0) angle of frame (degree)
+   bright = 1.0000000       # (D=0.8) top brightness
+     dark = 0.2000000       # (D=0.2) bottom darkness
+    resol =   40             # (D=1) resolution of 3dshow
+    width = 0.1000000       # (D=0.5) width of lines for 3dshow
+    r-out =  50000.00       # (D=50000) radius of outer sphere
+   output =    3            # (D=3) 0:draft, 1:line, 2:col, 3:line+col
+     line =    0            # (D=0) 0:surface+mat, 1:+region
+   shadow =    1            # (D=0) 0:no, 1:shadow
+   epsout =    1            # (D=0) generate eps file by ANGEL
+
+[end]
+

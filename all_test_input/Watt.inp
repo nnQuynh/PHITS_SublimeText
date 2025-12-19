@@ -1,0 +1,54 @@
+[ T i t l e ]
+Sample input file for generating neutron fluence from AmBe source. Data are taken from ISO 8529(1989)
+
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =        1000000     # (D=10) number of particles per one batch
+ maxbch   =           1     # (D=10) number of batches
+
+[ S o u r c e ]
+  totfact = 1.0             # You have to input your AmBe source intensity (neutron/s) here
+   s-type = 1
+     proj =  neutron        # kind of incident particle         
+       r0 =    0.000        # radius [cm]
+       x0 =    0.000        # (D=0.0) center position of x-axis [cm]
+       y0 =    0.000        # (D=0.0) center position of y-axis [cm]
+       z0 =    0.00        # minimum position of z-axis [cm]
+       z1 =    0.00        # maximum position of z-axis [cm]
+      dir =    all         # z-direction of beam [cosine]
+set:c1[0.9655] $ typical value for U-235, 1.02 for Pu-239
+set:c2[2.29]   $ typical value for U-235, 2.72 for Pu-239
+   e-type =  5
+   f(x) = exp(-x/c1)*sinh(sqrt(c2*x))
+ eg1 = 1.0e-4
+ eg2 = 20.0
+  nm = -200
+
+[ M a t e r i a l ]
+MAT[ 1 ]  $ water (not used)
+            H 2.0
+            O 1.0
+
+[ C e l l ]
+ 1   0         -99
+ 99 -1          99
+
+[ S u r f a c e ]
+99  so  100
+
+[ T - T r a c k ]
+    title = Track Detection in reg mesh
+     mesh =  reg            # mesh type is region-wise
+      reg =    1
+   e-type =    3            # e-mesh is log given by emin, emax and ne
+       ne =   100            # number of e-mesh points
+     emin =   1e-3      # minimum value of e-mesh points
+     emax =   20.0      # maximum value of e-mesh points
+     unit =    2            # unit is [1/cm^2/MeV/source]
+     axis =   eng            # axis of output
+     file = track_reg.out  # file name of output for the above axis
+     part =  neutron
+    gshow =    1            # 0: no 1:bnd, 2:bnd+mat, 3:bnd+reg 4:bnd+lat
+   epsout =    1            # (D=0) generate eps file by ANGEL
+[END]
+

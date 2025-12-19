@@ -1,0 +1,36 @@
+[ T i t l e ]
+minimized input file for lecture
+
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =          50     # (D=10) number of particles per one batch
+ maxbch   =           2     # (D=10) number of batches
+ file(1)  = c:/phits        # (D=c:/phits) PHITS install folder name
+ file(6)  = phits.out       # (D=phits.out) general output file name
+
+[ S o u r c e ]
+   s-type =   1             # mono-energetic axial source
+     proj =  proton         # kind of incident particle         
+      dir =   1.0           # z-direction of beam [cosine]
+       r0 =   0.            # radius [cm]
+       z0 =   0.            # minimum position of z-axis [cm]
+       z1 =   0.            # maximum position of z-axis [cm]
+       e0 =   150.          # energy of beam [MeV/u]
+
+[ M a t e r i a l ]
+mat[1]    H 2  O 1
+
+[ S u r f a c e ]
+  10  so      10.
+
+[ C e l l ]
+ 100     1 -1.0  -10
+ 101    -1        10
+
+[ T - User Defined ]
+     file = userdefined.out  # file name of output
+ udtpara0 =  1.000000       # (D=0.0) parameters for user defined tally
+ udtpara1 =  10.00000       # (D=0.0) parameters for user defined tally
+
+[ E n d ]
+

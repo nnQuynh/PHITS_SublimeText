@@ -1,0 +1,51 @@
+[ T i t l e ]
+sample input file of t-let
+
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =          10     # (D=10) number of particles per one batch
+ maxbch   =          10     # (D=10) number of batches
+ file(6)  = phits.out       # (D=phits.out) general output file name
+
+[ S o u r c e ]
+   s-type =   1             # mono-energetic axial source
+     proj =  proton         # kind of incident particle         
+      dir =   1.0           # z-direction of beam [cosine]
+       r0 =   0.            # radius [cm]
+       z0 =   0.            # minimum position of z-axis [cm]
+       z1 =   0.            # maximum position of z-axis [cm]
+       e0 =   150.          # energy of beam [MeV]
+
+[ M a t e r i a l ]
+mat[1]    H 2  O 1     $ water
+
+mat[99]    H -2.0/18.0  O  -16.0/18.0  $ 1 g/cm3 water for letmat
+
+[ S u r f a c e ]
+  10  so     10.
+
+[ C e l l ]
+ 100     1 -1.               -10 
+ 101    -1              10
+
+[ T - L E T ] 
+    title = LET distribution in water in reg mesh
+     mesh =  reg            # mesh type is region-wise
+      reg = 100
+   volume                   # combined, lattice or level structure 
+   non     reg      vol     # reg definition
+    1      100   4/3*pi*10**3
+   l-type =    3            # l-mesh is log given by lmin, lmax and nl
+     lmin =  1.0000000E-02  # minimum value of l-mesh points
+     lmax =   10000.00      # maximum value of l-mesh points
+       nl =  180            # number of l-mesh points
+     unit =   14            # unit is [MeV/(keV/um)/source]
+ material =  all            # (D=all) number of specific material
+     axis =  let            # axis of output
+     file = let-distribution_reg.out  # file name of output for the above axis
+     part =  all      
+   epsout =    1
+   letmat =  -99            # (D=0) mat ID for LET, 0:real mat, <0: electron for H2O
+
+[ E n d ]
+

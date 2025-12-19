@@ -1,0 +1,185 @@
+[ T i t l e ]  
+Photon energy spectra for 1 MeV electron on 0.078-cm-thick Fe
+Figure 17 in JOURNAL OF NUCLEAR SCIENCE AND TECHNOLOGY, VOL. 54, 617-635.
+https://doi.org/10.1080/00223131.2017.1297742
+
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ itall    =           1     # (D=0) 0:no tally at batch, 1:same, 2:different
+ maxcas   =      100000    # (D=10) number of particles per one batch
+ maxbch   =         100     # (D=10) number of batches
+ negs     =           1     # (D=-1) =-1:original, =0:No, =1:EGS
+ file(1)  = c:/phits        # (D=c:/phits) PHITS install folder name
+
+[ S o u r c e ] 
+  totfact =   1.0000        # (D=1.0) global factor
+   s-type =   1             # mono-energetic axial source
+     proj =  electron       # kind of incident particle         
+       e0 =  1.00        # energy of beam [MeV]
+       r0 =   1          # radius [cm]
+       x0 =   0.0000        # (D=0.0) center position of x-axis [cm]
+       y0 =   0.0000        # (D=0.0) center position of y-axis [cm]
+       z0 =  -10.000        # minimum position of z-axis [cm]
+       z1 =  -10.000        # maximum position of z-axis [cm]
+      dir =   1.0000        # z-direction of beam [cosine]
+
+[ M a t e r i a l ]
+m1 Fe 1
+set: c4[7.874]  $ density of target [g/cm3]
+set:c30[0.613/c4]  $ target thickness in cm 
+
+[ C e l l ]
+    1     1 -c4                     -120 121 -119   $ Target
+    2     0                          -101 102 117 -118 
+    3     0                          -103 104 117 -118 
+    4     0                          -105 106 117 -118 
+    5     0                          -107 108 117 -118 
+    6     0                          -109 110 117 -118 
+    7     0                          -111 112 117 -118 
+    8     0                          -113 114 117 -118 
+    9     0                          -115 116 117 -118 
+   20     0                  130 117 -118
+   10     0                          -117 (120:-121:119) 
+   11     0                          117 -118 
+                                     (101:-102:-117:118) 
+                                     (103:-104:-117:118) 
+                                     (105:-106:-117:118) 
+                                     (107:-108:-117:118)  
+                                     (109:-110:-117:118) 
+                                     (111:-112:-117:118)  
+                                     (113:-114:-117:118) 
+                                     (115:-116:-117:118) 
+                                     (-130:-117:118)
+
+   12    -1                 118 
+
+set: c10[4.0]     $ width of angle
+set: c20[100.0]   $ radius of sphere
+set: c40[1.0]   $ radius of sample
+
+set: c1[15.0]     $ 1st angel
+set: c2[30.0]     $ 2nd angel
+set: c3[45.0]     $ 3th angel
+set: c4[60.0]     $ 4th angel
+set: c5[75.0]     $ 5th angel
+set: c6[90.0]     $ 6th angel
+set: c7[120.0]    $ 7th angel
+set: c8[150.0]    $ 8th angel
+
+set: c11[c10/2]
+
+set: c21[c1+c11]
+set: c22[c2+c11]
+set: c23[c3+c11]
+set: c24[c4+c11]
+set: c25[c5+c11]
+set: c26[c6+c11]
+set: c27[c7+c11]
+set: c28[c8+c11]
+
+set: c31[c1-c11]
+set: c32[c2-c11]
+set: c33[c3-c11]
+set: c34[c4-c11]
+set: c35[c5-c11]
+set: c36[c6-c11]
+set: c37[c7-c11]
+set: c38[c8-c11]
+
+set: c41[c20*cos(c31*pi/180.)]
+set: c42[c20*cos(c32*pi/180.)]
+set: c43[c20*cos(c33*pi/180.)]
+set: c44[c20*cos(c34*pi/180.)]
+set: c45[c20*cos(c35*pi/180.)]
+set: c46[c20*cos(c36*pi/180.)]
+set: c47[c20*cos(c37*pi/180.)]
+set: c48[c20*cos(c38*pi/180.)]
+
+set: c51[c20*cos(c21*pi/180.)]
+set: c52[c20*cos(c22*pi/180.)]
+set: c53[c20*cos(c23*pi/180.)]
+set: c54[c20*cos(c24*pi/180.)]
+set: c55[c20*cos(c25*pi/180.)]
+set: c56[c20*cos(c26*pi/180.)]
+set: c57[c20*cos(c27*pi/180.)]
+set: c58[c20*cos(c28*pi/180.)]
+
+set: c59[c20*cos(c10*pi/180.)]
+
+set: c61[2*pi*c20*(c41-c51)]
+set: c62[2*pi*c20*(c42-c52)]
+set: c63[2*pi*c20*(c43-c53)]
+set: c64[2*pi*c20*(c44-c54)]
+set: c65[2*pi*c20*(c45-c55)]
+set: c66[2*pi*c20*(c46-c56)]
+set: c67[2*pi*c20*(c47-c57)]
+set: c68[2*pi*c20*(c48-c58)]
+
+set: c90[2*pi*c20*c20*(1-cos(c10*pi/180.))]
+
+[ S u r f a c e ]
+  101       pz     c41
+  102       pz     c51
+  103       pz     c42
+  104       pz     c52
+  105       pz     c43
+  106       pz     c53
+  107       pz     c44
+  108       pz     c54
+  109       pz     c45
+  110       pz     c55
+  111       pz     c46
+  112       pz     c56
+  113       pz     c47
+  114       pz     c57
+  115       pz     c48
+  116       pz     c58
+
+  117       so     c20
+  118       so     c20+1.0  
+
+  119       cz     c40
+  120       pz     c30/2
+  121       pz     -c30/2
+  130       pz     c59
+
+[T-Cross]
+    title = [t-cross] in region mesh
+     mesh =  reg            # mesh type is region-wise
+      reg =    9            # number of crossing regions
+      non     r-in   r-out    area
+        1     10     2       c61   $ 1st angel
+        2     10     3       c62   $ 2nd angel
+        3     10     4       c63   $ 3th angel
+        4     10     5       c64   $ 4th angel
+        5     10     6       c65   $ 5th angel
+        6     10     7       c66   $ 6th angel
+        7     10     8       c67   $ 7th angel
+        8     10     9       c68   $ 8th angel
+        9     10    20       c90   $ 0 degree
+   e-type =    1            # e-mesh is log given by emin, emax and ne
+       ne =   118           # number of e-mesh points
+0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 0.10 
+0.11 0.12 0.13 0.14 0.15 0.16 0.17 0.18 0.19 0.20 
+0.21 0.22 0.23 0.24 0.25 0.26 0.27 0.28 0.29 0.30 
+0.31 0.32 0.33 0.34 0.35 0.36 0.37 0.38 0.39 0.40 
+0.41 0.42 0.43 0.44 0.45 0.46 0.47 0.48 0.49 0.50 
+0.51 0.52 0.53 0.54 0.55 0.56 0.57 0.58 0.59 0.60 
+0.61 0.62 0.63 0.64 0.65 0.66 0.67 0.68 0.69 0.70 
+0.71 0.72 0.73 0.74 0.75 0.76 0.77 0.78 0.79 0.80 
+0.81 0.82 0.83 0.84 0.85 0.86 0.87 0.88 0.89 0.90 
+0.91 0.92 0.93 0.94 0.95 0.96 0.97 0.98 0.99 1.00 
+1.05 1.10 1.15 1.20 1.25 1.30 1.35 1.40 1.45 1.50 
+1.55 1.60 1.65 1.70 1.75 1.80 1.85 1.90 1.95 
+
+     unit =    2            # unit is [1/cm^2/MeV/source]
+     axis =  eng            # axis of output
+     file = ddx_cross.out   # file name of output for the above axis
+   output = flux            # surface crossing flux
+     part =  photon
+   epsout =    1            # (D=0) generate eps file by ANGEL
+   factor = c20*c20
+    y-txt = Yield (/sr/MeV/electron)
+angel = ylog xlog
+
+[END]

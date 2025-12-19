@@ -1,0 +1,39 @@
+[ P a r a m e t e r s ] 
+ icntl    =           1     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ inucr    =         100     # (D=1) options of nuclear reaction for icntl = 1
+ maxcas   =      100000     # (D=10) number of reaction simulations (should be large to calculate differential cross-section)
+ file(6)  = phits.out       # (D=phits.out) general output file name
+ dmax(1)  =  200.000000     # (D=emin(1)) data max. energy of proton (MeV)
+
+[ S o u r c e ]
+  s-type =   1         # should be always 1 for icntl = 1
+    proj =  proton     # incident particle type
+      e0 =   100.0
+
+[ M a t e r i a l ]
+m1   56fe  1.0         # nucleus to be output
+
+[ C e l l ]
+    1    1  1.0  -1
+    2   -1    1
+
+[ S u r f a c e ]
+  1   so  10
+
+[ libout ]
+  part = neutron
+  eneinc = 100
+  e-type = 3
+  ne = 50
+  emin = 1
+  emax = 100
+  epsout = 1
+  a-type = -3
+  na = 9
+  12.5 17.5
+  27.5 32.5
+  42.5 47.5
+  57.5 62.5
+  72.5 77.5
+
+[end]

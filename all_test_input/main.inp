@@ -1,0 +1,27 @@
+[ parameters ]
+  maxcas = 2
+  maxbch = 1
+  rseed = 2
+
+[ source ]
+   s-type = 1             # mono-energetic axial source
+     proj = proton
+       z0 = -50
+       z1 = -50
+       e0 = 300
+
+[ surface ]
+ 1  rpp    -10 10  -10 10  -10 10
+ 99  so     100
+
+[ material ]
+ mat[1] Cu 1
+
+[ cell ]
+ 101    1  -8.96  -1
+ 98     0         -99 #101
+ 99    -1          99
+
+[ t-4Dtrack ]
+file = track.out
+verbose = 1

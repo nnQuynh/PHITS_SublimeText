@@ -1,0 +1,125 @@
+[ T i t l e ]  
+Sample input for generating ground level muon using s-type = 1 (parallel beam)
+
+[ P a r a m e t e r s ]
+ maxcas   =        1000     # (D=10) number of particles per one batch
+ maxbch   =           10     # (D=10) number of batches
+ e-mode   =           2     # (D=0) 0: Normal, 1: Event generator mode Ver.1, 2: Ver.2
+ negs     =           2     # (D=-1) =-1:original, =0:No, =1:EGS
+ mdbatima =        3000     # (D=500) max database size of ATIMA
+ maxbnk   =      100000     # (D=10000) maximum bank memory length
+ iMeVperU =           1     # (D=0) 0:[MeV] or 1:[MeV/u] is unit of tally output
+ emin(12) =  1.00000000     # (D=1.e+9) cut-off energy of electron (MeV)
+ emin(13) =  1.00000000     # (D=1.e+9) cut-off energy of positron (MeV)
+ esmax    =  100000000.     # (D=1.0e6) max energy/u for charged particle range
+ ipnint   =           1     # (D=0) 0: no, 1: consider photo-nuclear reaction
+
+[ S o u r c e ]
+set:c1[100.0]   $ radius of source
+set:c41[-cos(85/180*pi)]  $ above 85 degree
+set:c42[-cos(90/180*pi)]  $ below 90 degree
+set:c43[2*pi*(c42-c41)] $ solid angle 
+ totfact =  -(pi*c1**2)/c43       # (D=1.0) global factor normalized to (/cm2/s/sr)
+ <source> = 1.0
+   s-type =   1             # mono-energetic axial source
+     proj =  muon-           # kind of incident nucleus          
+       r0 =   c1             # radius of sphere [cm]
+  z0 = -10.0
+  z1 = -10.0
+      dir =  1.0            # inner direction with uniform dis. by analog
+  ag1 = c41
+ ag2 =  c42
+ e-type = 26
+ eg1 = 10.0
+ eg2 = 1.0e8 
+ icenv = 2
+ alti = 0
+ rigid = 0
+ icyear = 2020
+ icmonth = 1
+ icday = 5
+
+ <source> = 1.0
+   s-type =   1             # mono-energetic axial source
+     proj =  muon+           # kind of incident nucleus          
+       r0 =   c1             # radius of sphere [cm]
+  z0 = -10.0
+  z1 = -10.0
+      dir =  1.0            # inner direction with uniform dis. by analog
+  ag1= c41
+ ag2=  c42
+ e-type = 26
+ eg1 = 10.0
+ eg2 = 1.0e8
+ icenv = 2
+ alti = 0
+ rigid = 0
+ icyear = 2020
+ icmonth = 1
+ icday = 5
+
+[ M a t e r i a l ]
+MAT[ 1 ] $ water
+          H 2 O 1
+
+[ C e l l ]
+   1   1 -1.0  1  -2  -11
+  98   0    #1  -999
+  99  -1         999
+
+[ S u r f a c e ]
+set:c2[1000] $ target thickness
+   1    pz    0.0
+   2    pz     c2
+ *11    cz     c1
+ 999    so  10000
+
+[ T - T r a c k ]  $ check incident energy spectrum
+    title = Track Detection in reg mesh
+     mesh =  r-z            # mesh type is region-wise
+   r-type =    2            # x-mesh is linear given by xmin, xmax and nx
+     rmin =    0      # minimum value of x-mesh points
+     rmax =    c1      # maximum value of x-mesh points
+       nr =   1
+   z-type =    2            # z-mesh is linear given by zmin, zmax and nz
+     zmin =   -1.0      # minimum value of z-mesh points
+     zmax =    0.0     # maximum value of z-mesh points
+       nz =    1            # number of z-mesh points
+   e-type =    3            # e-mesh is log given by emin, emax and ne
+     emin =   10      # minimum value of e-mesh points
+     emax =   1.0e6      # maximum value of e-mesh points
+       ne =   100            # number of e-mesh points
+     unit =    2           # unit is [1/cm^2/MeV/source]
+     axis =   eng            # axis of output
+     file = track_eng.out  # file name of output for the above axis
+     part =  muon+ muon-
+   epsout =    1            # (D=0) generate eps file by ANGEL
+   y-txt = Flux [/MeV/cm2/s/sr]
+
+[ T - T r a c k ] $ check depth-flux distribution
+    title = Track Detection in reg mesh
+     mesh =  r-z            # mesh type is region-wise
+   r-type =    2            # x-mesh is linear given by xmin, xmax and nx
+     rmin =   0      # minimum value of x-mesh points
+     rmax =   c1      # maximum value of x-mesh points
+       nr =   1
+   z-type =    2            # z-mesh is linear given by zmin, zmax and nz
+     zmin =   0      # minimum value of z-mesh points
+     zmax =   c2     # maximum value of z-mesh points
+       nz =  100            # number of z-mesh points
+   e-type =    2            # e-mesh is linear given by emin, emax and ne
+     emin =   0.000000      # minimum value of e-mesh points
+     emax =   100000000.00      # maximum value of e-mesh points
+       ne =    1            # number of e-mesh points
+     unit =    1            # unit is [1/cm^2/source]
+ material =  all            # (D=all) number of specific material
+  2D-type =    3            # 1:Cont, 2:Clust, 3:Color, 4:xyz, 5:mat, 6:Clust+Cont, 7:Col+Cont
+     axis =   z            # axis of output
+     file = track_z.out     # file name of output for the above axis
+     part =  muon+ muon-
+   epsout =    1            # (D=0) generate eps file by ANGEL
+   y-txt = Flux [/cm2/s/sr]
+
+[END]
+
+ 

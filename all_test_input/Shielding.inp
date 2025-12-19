@@ -1,0 +1,287 @@
+[ T i t l e ]
+Sample input for radiation shielding
+
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =         100     # (D=10) number of particles per one batch
+ maxbch   =           2     # (D=10) number of batches
+ dmax(1)  =  200.000000     # (D=emin(1)) data max. energy of proton (MeV)
+ dmax(2)  =  200.000000     # (D=emin(2)) data max. energy of neutron (MeV)
+
+[ S o u r c e ] 
+  totfact =   1.0000        # (D=1.0) global factor
+   s-type =   1             # mono-energetic axial source
+     proj =  neutron         # kind of incident particle         
+       e0 =  1000.00        # energy of beam [MeV/u]
+       r0 =   0.0000        # radius [cm]
+       x0 =   0.0000        # (D=0.0) center position of x-axis [cm]
+       y0 =   0.0000        # (D=0.0) center position of y-axis [cm]
+       z0 =   0.0000        # minimum position of z-axis [cm]
+       z1 =   0.0000        # maximum position of z-axis [cm]
+      dir =   1.0000        # z-direction of beam [cosine]
+      dom =  1.00000E-02    # spread of beam direction [degree]
+     trcl =  103            # transform ID
+
+[ Material ] 
+$[m30 Fe shield D=-7.2]
+m30      Fe  8.4760E-02
+
+$[m40 Concrete D=-2.2]
+m40       H  1.3407e-2
+          C  1.1030e-3
+          O  4.3887e-2
+         Al  1.7971e-3
+         Si  1.6123e-2
+         Ca  1.8940e-3
+         Fe  3.3448e-4
+
+[ Mat Name Color ]
+   mat                    name     size             color   # HSB color value
+     0                    void     1.00         lightgray   # { -0.800  1.000  1.000 }
+    30                      Fe     1.00     pastelmagenta   # {  0.067  0.600  1.000 }
+    40                Concrete     1.00           darkred   # {  1.000  1.000  0.600 }
+
+
+[ T r a n s f o r m ]
+set: c1[-402.0]   $ transposition to X (cm)
+set: c2[0]        $ transposition to Y (cm)
+set: c3[21.07]    $ transposition to Z (cm)
+set: c10[0]   $ angle of around Z (degree)
+set: c20[-77]  $ angle of around Y (degree)
+set: c30[0]   $ angle of around X (degree)
+tr100   c1 c2 c3
+      cos(c10/180*pi)*cos(c20/180*pi)
+      sin(c10/180*pi)*cos(c30/180*pi)+cos(c10/180*pi)*sin(c20/180*pi)*sin(c30/180*pi)
+      sin(c10/180*pi)*sin(c30/180*pi)-cos(c10/180*pi)*sin(c20/180*pi)*cos(c30/180*pi)
+     -sin(c10/180*pi)*cos(c20/180*pi)
+      cos(c10/180*pi)*cos(c30/180*pi)-sin(c10/180*pi)*sin(c20/180*pi)*sin(c30/180*pi)
+      cos(c10/180*pi)*sin(c30/180*pi)+sin(c10/180*pi)*sin(c20/180*pi)*cos(c30/180*pi)
+      sin(c20/180*pi)
+     -cos(c20/180*pi)*sin(c30/180*pi)
+      cos(c20/180*pi)*cos(c30/180*pi)
+      1
+
+set: c1[-670.3]   $ transposition to X (cm)
+set: c2[0]        $ transposition to Y (cm)
+set: c3[135.0]    $ transposition to Z (cm)
+set: c10[0]   $ angle of around Z (degree)
+set: c20[-57]  $ angle of around Y (degree)
+set: c30[0]   $ angle of around X (degree)
+tr101   c1 c2 c3
+      cos(c10/180*pi)*cos(c20/180*pi)
+      sin(c10/180*pi)*cos(c30/180*pi)+cos(c10/180*pi)*sin(c20/180*pi)*sin(c30/180*pi)
+      sin(c10/180*pi)*sin(c30/180*pi)-cos(c10/180*pi)*sin(c20/180*pi)*cos(c30/180*pi)
+     -sin(c10/180*pi)*cos(c20/180*pi)
+      cos(c10/180*pi)*cos(c30/180*pi)-sin(c10/180*pi)*sin(c20/180*pi)*sin(c30/180*pi)
+      cos(c10/180*pi)*sin(c30/180*pi)+sin(c10/180*pi)*sin(c20/180*pi)*cos(c30/180*pi)
+      sin(c20/180*pi)
+     -cos(c20/180*pi)*sin(c30/180*pi)
+      cos(c20/180*pi)*cos(c30/180*pi)
+      1
+
+set: c1[-814.0]   $ transposition to X (cm)
+set: c2[0]        $ transposition to Y (cm)
+set: c3[269.0]    $ transposition to Z (cm)
+set: c10[0]   $ angle of around Z (degree)
+set: c20[-33]  $ angle of around Y (degree)
+set: c30[0]   $ angle of around X (degree)
+tr102   c1 c2 c3
+      cos(c10/180*pi)*cos(c20/180*pi)
+      sin(c10/180*pi)*cos(c30/180*pi)+cos(c10/180*pi)*sin(c20/180*pi)*sin(c30/180*pi)
+      sin(c10/180*pi)*sin(c30/180*pi)-cos(c10/180*pi)*sin(c20/180*pi)*cos(c30/180*pi)
+     -sin(c10/180*pi)*cos(c20/180*pi)
+      cos(c10/180*pi)*cos(c30/180*pi)-sin(c10/180*pi)*sin(c20/180*pi)*sin(c30/180*pi)
+      cos(c10/180*pi)*sin(c30/180*pi)+sin(c10/180*pi)*sin(c20/180*pi)*cos(c30/180*pi)
+      sin(c20/180*pi)
+     -cos(c20/180*pi)*sin(c30/180*pi)
+      cos(c20/180*pi)*cos(c30/180*pi)
+      1
+
+set: c1[0]   $ transposition to X (cm)
+set: c2[125]        $ transposition to Y (cm)
+set: c3[0]    $ transposition to Z (cm)
+set: c10[0]   $ angle of around Z (degree)
+set: c20[-90]  $ angle of around Y (degree)
+set: c30[0]   $ angle of around X (degree)
+tr103   c1 c2 c3
+      cos(c10/180*pi)*cos(c20/180*pi)
+      sin(c10/180*pi)*cos(c30/180*pi)+cos(c10/180*pi)*sin(c20/180*pi)*sin(c30/180*pi)
+      sin(c10/180*pi)*sin(c30/180*pi)-cos(c10/180*pi)*sin(c20/180*pi)*cos(c30/180*pi)
+     -sin(c10/180*pi)*cos(c20/180*pi)
+      cos(c10/180*pi)*cos(c30/180*pi)-sin(c10/180*pi)*sin(c20/180*pi)*sin(c30/180*pi)
+      cos(c10/180*pi)*sin(c30/180*pi)+sin(c10/180*pi)*sin(c20/180*pi)*cos(c30/180*pi)
+      sin(c20/180*pi)
+     -cos(c20/180*pi)*sin(c30/180*pi)
+      cos(c20/180*pi)*cos(c30/180*pi)
+      1
+
+[surface]  
+set: c50[40]   $ thickness of each wall
+
+  100 pz -300-200
+  101 pz -300-200+c50
+  102 pz -300-200+c50*2
+  103 pz -300-200+c50*3
+  104 pz -300-200+c50*4
+  105 pz -300-200+c50*5
+
+  200 px -1842-200
+  201 px -1842-200+c50*1
+  202 px -1842-200+c50*2
+  203 px -1842-200+c50*3
+  204 px -1842-200+c50*4
+  205 px -1842-200+c50*5
+
+ 1000 pz -300-200
+ 1001 pz  900
+ 1002 px -1842-200
+ 1003 px  200
+ 1004 py  0-200
+ 1005 py  600
+ 1006 py  0
+ 1007 pz -300
+ 1008 px -1842
+
+ 1009 pz -300-200-200
+ 1010 pz  900+200
+ 1011 px -1842-200-200
+ 1012 px  200+200
+ 1013 py  0-200-200
+ 1014 py  600+200
+
+$target-place?
+ 1100 pz 149.2/(-2)
+ 1101 pz 149.2/2
+ 1102 px 85/(-2)
+ 1103 px 85/2
+ 1104 py 58/(-2)+125
+ 1105 py 58/2+125
+
+$target?
+ 1200 pz 149.2/(-2)-0.01
+ 1201 pz 149.2/2+0.01
+ 1202 px 85/(-2)-0.01
+ 1203 px 85/2+0.01
+ 1204 py 58/(-2)+125-0.01
+ 1205 py 58/2+125+0.01
+
+ 1206 px 31/(-2)
+ 1207 px 31/2
+ 1208 py 5.5/(-2)+125
+ 1209 py 5.5/2+125
+ 1210 px 31/(-2)-10
+ 1211 px 31/2+10
+ 1212 py 24/(-2)+125
+ 1213 py 24/2+125
+
+[cell] 
+ 1000  0        1007 -1001 1008 -1003 1006 -1005 #1004 #1005 #1006
+
+$kabe
+$ 1001 40 -2.2   1000 -1007 1002 -1003 1006 -1005
+$ 1002 40 -2.2   1007 -1001 1002 -1008 1006 -1005
+
+ 101 40 -2.2 100 -101 1002 -1003 1006 -1005
+ 102 40 -2.2 101 -102 1002 -1003 1006 -1005
+ 103 40 -2.2 102 -103 1002 -1003 1006 -1005
+ 104 40 -2.2 103 -104 1002 -1003 1006 -1005
+ 105 40 -2.2 104 -105 1002 -1003 1006 -1005
+
+ 201 40 -2.2 1007 -1001 200 -201 1006 -1005
+ 202 40 -2.2 1007 -1001 201 -202 1006 -1005
+ 203 40 -2.2 1007 -1001 202 -203 1006 -1005
+ 204 40 -2.2 1007 -1001 203 -204 1006 -1005
+ 205 40 -2.2 1007 -1001 204 -205 1006 -1005
+
+$yuka
+ 1003 40 -2.2   1000 -1001 1002 -1003 1004 -1006
+
+$target-place?
+ 1004  0        1100 -1101 1102 -1103 1104 -1105 fill=101 trcl=100
+ 1005  0        1100 -1101 1102 -1103 1104 -1105 fill=101 trcl=101
+ 1006  0        1100 -1101 1102 -1103 1104 -1105 fill=101 trcl=102
+
+$void
+ 1098  0        1009 -1010 1011 -1012 1013 -1014 (-1000 : 1001 : -1002 : 1003 : -1004 : 1005)
+ 1099 -1       -1009 : 1010 : -1011 : 1012 : -1013 : 1014
+
+$target?
+ 1100  0         1200 -1201 1206 -1207 1208 -1209 u=101
+ 1101 30 -7.86   1200 -1201 1206 -1207 1212 -1213 (-1208 : 1209) u=101
+ 1102  0         1200 -1201 1210 -1211 1212 -1213 (-1206 : 1207) u=101
+ 1103 30 -7.86   1200 -1201 1202 -1203 1204 -1205 (-1210 : 1211 : -1212 : 1213) u=101
+ 1199  0        -1200 : 1201 : -1202 : 1203 : -1204 : 1205 u=101
+
+[importance]
+part = neutron photon
+reg imp
+101   2.0**0
+102   2.0**1
+103   2.0**2
+104   2.0**3
+105   2.0**4
+201   2.0**0
+202   2.0**1
+203   2.0**2
+204   2.0**3
+205   2.0**4
+
+[ T - T r a c k ]
+    title = [t-track] in xyz mesh
+     mesh =  xyz            # mesh type is xyz scoring mesh
+   x-type =    2            # x-mesh is linear given by xmin, xmax and nx
+     xmin =  -2100.000      # minimum value of x-mesh points
+     xmax =   250.0000      # maximum value of x-mesh points
+       nx =  100            # number of x-mesh points
+   y-type =    2            # y-mesh is linear given by ymin, ymax and ny
+     ymin =   0.000000      # minimum value of y-mesh points
+     ymax =   250.0000      # maximum value of y-mesh points
+       ny =    1            # number of y-mesh points
+   z-type =    2            # z-mesh is linear given by zmin, zmax and nz
+     zmin =  -550.0000      # minimum value of z-mesh points
+     zmax =   1000.000      # maximum value of z-mesh points
+       nz =  100            # number of z-mesh points
+   e-type =    1            # e-mesh is given by the below data
+       ne =    1            # number of e-mesh points
+            1.00000E-10  1.00000E+03
+     unit =    1            # unit is [1/cm^2/source]
+ material =  all            # (D=all) number of specific material
+  2D-type =    3            # 1:Cont, 2:Clust, 3:Color, 4:xyz, 5:mat, 6:Clust+Cont, 7:Col+Cont
+     axis =   xz            # axis of output
+     file = track-xyz.out    # file name of output for the above axis
+     part = neutron photon
+ multiplier =all
+     emax = 1000
+  mat mset1 
+   all ( 3600*1e-6 -202 ) $  (pSv/sec) -> (uSv/h)  Effective dose based on ICRP103
+    gshow =    3            # 0: no 1:bnd, 2:bnd+mat, 3:bnd+reg 4:bnd+lat
+    resol =    2            # (D=1) resolution of gshow or rshow
+    width = 0.1000000       # (D=0.5) width of lines for gshow or rshow
+   epsout =    1            # (D=0) generate eps file by ANGEL
+
+[ T - T r a c k ]
+    title = [t-track] in r-z mesh
+     mesh =  r-z            # mesh type is r-z scoring mesh
+   r-type =    2            # y-mesh is linear given by ymin, ymax and ny
+     rmin =   0.000000      # minimum value of y-mesh points
+     rmax =   200.0000      # maximum value of y-mesh points
+       nr =    1            # number of y-mesh points
+   z-type =    2            # z-mesh is linear given by zmin, zmax and nz
+     zmin =    0.0000       # minimum value of z-mesh points
+     zmax =  2000.000        # maximum value of z-mesh points
+       nz =    100            # number of z-mesh points
+   e-type =    1            # e-mesh is given by the below data
+       ne =    1            # number of e-mesh points
+            1.00000E-10  1.00000E+03
+     unit =    1            # unit is [1/cm^2/source]
+ material =  all            # (D=all) number of specific material
+     axis =    z           # axis of output
+     file = track-rz.out   # file name of output for the above axis
+     part = neutron photon
+ multiplier =all
+     emax = 1000
+  mat mset1 
+   all ( 3600*1e-6 -202 ) $  (pSv/sec) -> (uSv/h)  Effective dose based on ICRP103
+   epsout =    1            # (D=0) generate eps file by ANGEL
+     trcl =  103            # transform ID
+[END]

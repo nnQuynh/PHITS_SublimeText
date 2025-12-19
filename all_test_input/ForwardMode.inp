@@ -1,0 +1,92 @@
+[ T i t l e ]
+Sample input for forward calculation (calculates same as AdjointMode.inp)
+
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =     1000000     # (D=10) number of particles per one batch
+ maxbch   =          10     # (D=10) number of batches
+ dmax(14) =         3.0     # (D=1.0e+3) Upper energy limit for photons
+ negs     =          -1     # (D=-1) Transport only photons based on the PHITS original algorithm
+ iadjoint =           0     # (D=0) Option for adjoint mode
+
+file(1)  = c:/phits        # (D=c:/phits) PHITS installation folder name
+
+set: c1[1.]               # real source size (cube)
+set: c2[100.]               # gap
+set: c3[100.]                 # real tally size (cube)
+set: c4[0.661]              # real source energy [MeV]
+set: c5[0.851]              # real source emission probability
+set: c6[0.05]               # tally lower energy [MeV] 
+set: c7[0.75]                # tally upper energy [MeV] 
+
+[ S o u r c e ]
+  totfact =   c5
+   s-type =   5
+     proj =   photon 
+       x0 =   -c3/2.
+       x1 =   c3/2.
+       y0 =   -c3/2.
+       y1 =   c3/2.
+       z0 =   -c3/2.-c2/2.
+       z1 =   c3/2.-c2/2.
+      dir =   all
+      e-type = 1
+       ne =   1
+       c4-0.01    1.0
+       c4+0.01
+
+[ M a t e r i a l ]
+$ Air D = 1.21e-3 g/cm3
+m1         H     7.199E-09
+           C     7.585E-09
+           N     3.910E-05
+           O     1.054E-05
+
+[ S u r f a c e ]
+1   so   1000.
+
+[ C e l l ]
+ 1   1 -1.21e-3 -1
+99 -1            1
+
+[ T - P o i n t ]
+    title = Fluence spectrum in real tally (1/cm^2)
+    point =    1            # number of point tallies
+non x    y    z   r0
+1 0.0  0.0 c2/2. 1.0
+   e-type =    2            # e-mesh is linear given by emin, emax and ne
+     emin =   c6            # minimum value of e-mesh points
+     emax =   c7            # maximum value of e-mesh points
+       ne =   14            # number of e-mesh points
+     unit =    1            # unit is [1/cm^2/source]
+     axis =  eng            # axis of output
+     file = point.out    # file name of output for the above axis
+   epsout =    1            # (D=0) generate eps file by ANGEL   
+     part = photon
+
+[ T - T r a c k ]
+    title = Fluence spectrum in real tally (1/cm^2)
+     mesh =  xyz            # mesh type is xyz scoring mesh
+   x-type =    2            # x-mesh is linear given by xmin, xmax and nx
+     xmin = -c1/2.          # minimum value of x-mesh points
+     xmax =  c1/2.          # maximum value of x-mesh points
+       nx =    1            # number of x-mesh points
+   y-type =    2            # y-mesh is linear given by ymin, ymax and ny
+     ymin = -c1/2.          # minimum value of y-mesh points
+     ymax =  c1/2.          # maximum value of y-mesh points
+       ny =    1             # number of y-mesh points
+   z-type =    2            # z-mesh is linear given by zmin, zmax and nz
+     zmin = -c1/2.+c2/2.    # minimum value of z-mesh points
+     zmax =  c1/2.+c2/2.    # maximum value of y-mesh points
+       nz =    1            # number of z-mesh points
+   e-type =    2            # e-mesh is linear given by emin, emax and ne
+     emin =   c6            # minimum value of e-mesh points
+     emax =   c7            # maximum value of e-mesh points
+       ne =   14            # number of e-mesh points
+     unit =    1            # unit is [1/cm^2/source]
+     axis =  eng            # axis of output
+     file = track.out    # file name of output for the above axis
+   epsout =    1            # (D=0) generate eps file by ANGEL   
+
+[END]
+

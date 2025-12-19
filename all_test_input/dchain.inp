@@ -1,0 +1,119 @@
+[ T i t l e ]
+sample input for dchain: 150MeV proton into water
+
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =        1000     # (D=10) number of particles per one batch
+ maxbch   =          10     # (D=10) number of batches
+ igamma   =           3     # (D=0) 0:No, 1:Old, 2:EBITEM, 3:EBITEM+Isomer
+$  must option for DCHAIN 
+ jmout    =           1     # (D=0) Density echo, 0:input, 1:number density
+ e-mode   =           0     # (D=0) Event generator mode is not recommended for DCHAIN calculation
+ dmax(1)  =  200.000000     # (D=emin(1)) data max. energy of proton (MeV)
+ dmax(2)  =  200.000000     # (D=emin(2)) data max. energy of neutron (MeV)
+
+[ S o u r c e ]
+   s-type =   1             # mono-energetic axial source
+     proj =  proton         # kind of incident particle         
+       e0 =   150.00        # energy of beam [MeV/u]
+       r0 =   0.5000        # radius [cm]
+       x0 =   0.0000        # (D=0.0) center position of x-axis [cm]
+       y0 =   0.0000        # (D=0.0) center position of y-axis [cm]
+       z0 =  -30.000        # minimum position of z-axis [cm]
+       z1 =  -30.000        # maximum position of z-axis [cm]
+      dir =   1.0000        # z-direction of beam [cosine]
+
+[ M a t e r i a l ]
+MAT[ 1 ]      H 2    O 1
+
+[ S u r f a c e ]
+1  px -10.0
+2  px  10.0
+3  py -30.0
+4  py -10.0
+5  py  10.0
+6  py  30.0
+7  pz -20.0
+8  pz   0.0
+9  pz  20.0
+99 so  80.0
+
+[ C e l l ]
+1        1 -1       1 -2 3 -4 7 -8
+2        1 -1       1 -2 3 -4 8 -9
+3        1 -1       1 -2 4 -5 7 -8
+4        1 -1       1 -2 4 -5 8 -9
+5        1 -1       1 -2 5 -6 7 -8
+6        1 -1       1 -2 5 -6 8 -9
+99       0          -99 #(1 -2 3 -6 7 -9)
+999      -1          99
+
+[ V o l u m e ] 
+$  must section for DCHAIN 
+           reg   vol
+           1   20.0*20.0*20.0
+           2   20.0*20.0*20.0
+           3   20.0*20.0*20.0
+           4   20.0*20.0*20.0
+           5   20.0*20.0*20.0
+           6   20.0*20.0*20.0
+
+[ M a t  N a m e  C o l o r ]
+   mat     name     size          color   
+     0     void     1.00      lightgray   
+     1    Water     1.00     pastelcyan   
+
+[ T - D C H A I N ]
+$  must section for DCHAIN 
+    title = 150MeV proton into water
+     mesh =  reg            # mesh type is region-wise
+      reg =  3 4
+     file = 150pH2O.out        # file name of dchain-sp input file
+  timeevo =    2               # time evolution
+    6.0 m  1.0
+    50.0 m 0.0
+  outtime =    7               # output time
+    1.0 m
+    3.0 m
+    6.0 m
+   10.0 m
+   20.0 m
+   30.0 m
+   40.0 m
+$ beam current (nA)
+set:c1[100.0]
+$ beam power (source/sec) 
+set:c2[ c1 * 1.0e-9 / (1.602177e-19) ]
+   amp = c2                 # (D=1.0) Source Intensity(source/sec)
+ mxnuclei = 3000
+ iaonucl = 3
+ aonucl = N-16 O-15 H-3
+
+[ T - T r a c k ]
+    title = proton and neutron distributions
+  mesh = xyz
+x-type = 2
+  xmin = -20
+  xmax =  20
+    nx = 1
+z-type = 2
+  zmin = -40
+  zmax =  40
+    nz = 200
+y-type = 2
+  ymin = -40
+  ymax =  40
+    ny = 200
+e-type = 2
+  emin = 0
+  emax =  2000
+    ne = 1
+  axis = yz
+  file = yz-track.out
+  part = proton neutron
+  unit = 1
+2D-type =  7            # 1:Cont, 2:Clust, 3:Color, 4:xyz, 5:mat, 6:Clust+Cont, 7:Col+Cont
+gshow =    3            # 0: no 1:bnd, 2:bnd+mat, 3:bnd+reg 4:bnd+lat
+ epsout=1
+
+[ E n d ]

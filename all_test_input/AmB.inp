@@ -1,0 +1,187 @@
+file=AmB.inp
+
+[ T i t l e ]
+Sample input file for generating neutron fluence from AmB source. 
+
+[ P a r a m e t e r s ]
+$
+$ Parameter setup $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$
+$ Capsule model number was taken from https://doi.org/10.1093/rpd/ncm085 and size parameter taken from https://www.qsa-global.com/industrial-ambe-neutron-sources
+set: c1[1.75] $ source diameter (cm)
+set: c2[1.94] $ source height (cm)
+$ size parameter taken from https://doi.org/10.1016/0168-9002(94)01051-X  Table 3
+set: c3[(c1-1.4)/2] $ side wall thickness (cm)
+set: c4[(c2-1.16)/2] $ bottom wall thickness (cm)
+$ mass parameter not found. Taken from https://doi.org/10.1093/oxfordjournals.rpd.a080571
+set: c5[0.5] $ AmO2 mass (g)
+set: c6[4.7] $ B mass (g)
+set: c7[2.e-4] $ alpha source grain radius
+$ Am isotopic molar fraction taken from https://doi.org/10.1016/j.apradiso.2020.109066 
+set: c10[2.599*1e-3] $ Am-241
+set: c11[9.879*1e-5] $ Am-242
+set: c12[4.920*1e-5] $ Am-243
+$
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+$
+set: c30[1000000] $ maxcas. ntmax is theoretically higher than pi/6
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =         c30     # (D=10) number of particles per one batch
+ maxbch   =        1000     # (D=10) number of batches
+ negs     =           1
+ dmax(18) =       3.75
+ emin(18) =        0
+ lib(18)  =      20a
+
+[ S o u r c e ]
+  totfact = 1.0             
+ ntmax    =    c30*10
+   s-type = 22
+     mesh = xyz
+      x-type = 1
+         nx  = 30
+infl:{src-meshXY.txt}
+   c1/2 $ Final coordinate
+$
+	  y-type = 1
+	     ny  = 30
+infl:{src-meshXY.txt}
+   c1/2 $ Final coordinate
+$
+	  z-type = 1
+	     nz  = 30
+infl:{src-meshXY.txt}
+   c1/2 $ Final coordinate
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev2.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev2.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev2.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev2.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev2.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev2.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev2.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev2.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev2.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev1.txt}
+infl:{src-intensity-lev2.txt}
+infl:{src-intensity-lev1.txt}
+     proj =  alpha        # source particle species        
+      dir =    all         # z-direction of beam [cosine]
+	  reg =      (3<(101[-5:4 -5:4 -5:4]))
+   e-type =  28
+$      ni  = 1   $ simplified version
+$      Am241 1
+      ni  = 3   
+      Am-241 (1-c11/c10*432.6/141*0.0045-c12/c10*432.6/7364)
+      Am-242 c11/c10*432.6/141*0.0045  $ numbers are half-lves of Am isotopes (years).  0.0045 is alpha-decay probability
+      Am-243 c12/c10*432.6/7364        $ total activity is 1 Bq
+     dtime = 0
+
+[ M a t e r i a l ]
+MAT[ 1 ]  $ taken from https://doi.org/10.1016/j.apradiso.2020.109066  Explicit grains of material #10 are negligible
+        5000 9.918*10**(-1)    8000 (5.481*10**(-3)+2.088*10**(-6)+1.126*10**(-5))    95241 c10      95242 c11     95243   c12  
+
+MAT[ 10 ]   $ https://doi.org/10.1016/j.apradiso.2020.109066
+        8000 (5.481*10**(-3)+2.088*10**(-6)+1.126*10**(-5))    95241 c10      95242 c11     95243   c12  
+
+MAT[ 2 ]  
+        C   -0.004
+        Mn  -1.59
+        P   -0.011
+        S   -0.008
+        Si  -0.37
+        Cr  -16.96
+        Ni  -13.61
+        Mo  -2.29
+        Fe  -65.16
+
+[ C e l l ]
+set: c20[(c5+c6)/(c2*(c1/2)**2*pi)] $ density of mixture
+ 1   0         -1  fill=1
+ 2   2  -7.8    1  -2
+ 99 -1          2 -99 
+$ Universe 1
+ 101  0  -4  lat=1 u=1 
+      fill=-5:4  -5:4   -5:4
+      2 -999
+ 3   10 -11.68  -3     u=2
+ 4   1  -c20     3     u=2
+
+[ S u r f a c e ]
+ 99  so  100000
+ 1   RCC  0  0  -c2/2    0  0  c2    c1/2
+ 2   RCC  0  0  -c2/2-c4 0  0  c2+c4*2 c1/2+c3
+ 3   s    c1/20  c1/20  c1/20  c7
+ 4   RPP  0   c1/10  0   c1/10  0   c2/10
+
+[ T - P r o d u c t ]
+    title = Particle production in reg mesh
+     mesh =  reg            # mesh type is region-wise
+      reg = 3 4
+   e-type =    2            # e-mesh is log given by emin, emax and ne
+     emin =   0.000000      # minimum value of e-mesh points
+     emax =   5.50000      # maximum value of e-mesh points
+       ne =   275            # number of e-mesh points
+ material =  all            # (D=all) number of specific material
+   mother =  all            # (D=all) number of specific mother
+     unit =    3            # unit is [1/MeV/source]
+     axis =   eng           # axis of output
+     file = product_reg.out  # file name of output for the above axis
+   output = nuclear         # (D=nuclear) products from all reactions
+     part =  neutron photon
+   epsout =    1            # (D=0) generate eps file by ANGEL
+
+[ T - P r o d u c t ] 
+    title = Particle production in reg mesh
+     mesh =  reg            # mesh type is region-wise
+      reg = 3
+   e-type =    2            # e-mesh is log given by emin, emax and ne
+     emin =   0.000000      # minimum value of e-mesh points
+     emax =   6.00000       # maximum value of e-mesh points
+       ne =   1000          # number of e-mesh points
+ material =  all            # (D=all) number of specific material
+   mother =  all            # (D=all) number of specific mother
+     unit =    3            # unit is [1/MeV/source]
+     axis =   eng           # axis of output
+     file = source.out      # file name of output for the above axis
+   output = source         # (D=nuclear) products from all reactions
+     part =  alpha      
+   epsout =    1            # (D=0) generate eps file by ANGEL
+
+[ T - C r o s s ]
+    title = Energy distribution in region mesh
+     mesh =  reg            # mesh type is region-wise
+      reg =    2            # number of crossing regions
+      non     r-from  r-to      area
+        1        2     99      1.000000    
+        2        1      2      1.000000    
+   e-type =    2            # e-mesh is log given by emin, emax and ne
+     emin =   0.000000      # minimum value of e-mesh points
+     emax =   5.50000      # maximum value of e-mesh points
+       ne =   275            # number of e-mesh points
+     unit =    2            # unit is [1/MeV/source]
+     axis =  eng            # axis of output
+     file = cross_reg.out   # file name of output for the above axis
+   output = current            # surface crossing flux
+     part =  neutron
+   epsout =    1            # (D=0) generate eps file by ANGEL
+
+[END]
+

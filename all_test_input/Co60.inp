@@ -1,0 +1,62 @@
+[ T i t l e ]
+Sample input for detector response calculation using iscorr = 2 source
+[ P a r a m e t e r s ]
+ icntl    =           0     # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
+ maxcas   =       10000     # (D=10) number of particles per one batch
+ maxbch   =          10     # (D=10) number of batches
+ negs     =           1     # (D=-1) =-1:original, =0:No, =1:EGS
+ e-mode = 2
+
+[ S o u r c e ]
+ totfact = 2.0 
+ iscorr = 2
+ <source> = 1.0
+   s-type =   1             # mono-energetic axial source
+     proj =  photon         # kind of incident nucleus          
+       e0 =   1.17323       # energy of beam [MeV/u]
+      dir =  all            # inner direction with uniform dis. by analog
+ <source> = 1.0
+   s-type =   1             # mono-energetic axial source
+     proj =  photon         # kind of incident nucleus          
+       e0 =   1.33249       # energy of beam [MeV/u]
+      dir =  all            # inner direction with uniform dis. by analog
+
+[ M a t e r i a l ]
+MAT[ 1 ] 
+           Na  1.0
+            I  1.0
+
+[ C e l l ]
+ 1      1 -3.67   1 -2 -11  $ NaI scintillator
+ 98     0        #1 -999 
+ 99    -1            999
+
+[ S u r f a c e ]
+set: c1[1.0]  $ Distance to the detector (cm)
+set: c2[2.54] $ Scintillator size (1 inch)
+ 1            pz     c1
+ 2            pz     c1+c2
+11            cz     c2
+ 999          so     100
+
+[ T-Deposit ]
+    title = Energy Deposition for each cell
+     mesh =  reg            # mesh type is region-wise
+      reg = 1
+     unit =    3            # unit is [1/source] : only for output=deposit
+   letmat =    0            # (D=0) material id for LET, 0: real material
+  dedxfnc =    0            # (D=0) user defined multiplier, 0(no), 1, 2
+ material =  all            # (D=all) number of specific material
+   output = deposit         # deposit enerygy distribution
+   e-type =    2            # e-mesh is linear given by emin, emax and ne
+     emin =   0.000000      # minimum value of e-mesh points
+     emax =   3.000000      # maximum value of e-mesh points
+       ne =  300            # number of e-mesh points
+     axis =   eng           # axis of output
+     file = deposit.out     # file name of output for the above axis
+     part =  all      
+   y-txt  = Response [cm^2]
+   epsout =    1            # (D=0) generate eps file by ANGEL
+
+[END]
+
