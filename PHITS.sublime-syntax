@@ -52,7 +52,8 @@ contexts:
     - include: comments
     - include: begin_section
     - include: set_parameter        
-    - include: intrinsic_functions        
+    - include: intrinsic_functions     
+    - include: include_file   
 
     - include: calculation_mode
     - include: number_history_bank
@@ -80,14 +81,15 @@ contexts:
     - include: voxel_tetrahedron_geometry
     - include: geometry_errors
     - include: input_output_filename
-    - include: others
+    - include: other_parameters
 
   calculation_mode:   
+
     # Table 5.1: icntl parameter
     - match: (?i)\s*(icntl)(\s+=\s+)([0-9]|1[0-7])\b
       captures:
-        1: support.constant.calculation-mode
-        3: constant.numeric.parameters.card.calculation-mode
+        1: support.constant.calculation_mode
+        3: constant.numeric.parameters.calculation_mode
 
   number_history_bank:  
     # Table 5.2: Parameters for number of history and bank
@@ -98,19 +100,19 @@ contexts:
     - match: (?i)\s*(istdev)(\s+=\s+)(-2|-1|0|1|2)\b   
       captures:
         1: support.constant.calculation-mode
-        3: constant.numeric.parameters.card.calculation-mode
+        3: constant.numeric.parameters.number_history_bank
 
     - match: (?i)\s*(italsh|ireschk|nrandgen)(\s+=\s+)(0|1)\b    
       captures:
         1: support.constant.calculation-mode
-        3: constant.numeric.parameters.card.calculation-mode
+        3: constant.numeric.parameters.card.number_history_bank
 
   random_number:  
     # Table 5.3: Parameters for random numbers
     - match: (?i)\s*(nrandgen|itimrand)(\s+=\s+)(0|1)\b    
       captures:
         1: support.constant.calculation-mode
-        3: constant.numeric.parameters.card.calculation-mode
+        3: constant.numeric.parameters.card.random_number
 
     - match: (?i)\s*(irskip|rseed|bitrseed)()()     # \s+=\s+
       captures:
@@ -120,8 +122,8 @@ contexts:
     # Table 5.4: Parameters for cut-off energies (1)
     - match: (?i)\s*(emin|dmax)\(([1-9]|1[0-9])\)  
       captures:
-        1: support.constant.input_output_filename
-        2: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.cut_switch_energy
+        2: constant.numeric.parameters.card.cut_switch_energy
 
     - match: (?i)\s*(dpnmax)()() 
       captures:
@@ -129,8 +131,8 @@ contexts:
 
     - match: (?i)\s*(lib)()() 
       captures:
-        1: support.constant.input_output_filename
-        2: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.cut_switch_energy
+        2: constant.numeric.parameters.card.cut_switch_energy
 
     # Table 5.5: Parameters for cut-off energies (2)
     - match: (?i)\s*(esmin|esmax|etsmin|etsmax|tsmax)()() 
@@ -139,19 +141,19 @@ contexts:
 
     - match: (?i)\s*(cmin)\((\d+)\)  
       captures:
-        1: support.constant.input_output_filename
+        1: support.constant.cut_switch_energy
         # 2: constant.numeric.parameters.card.input_output_filename
 
     # Table 5.6: Parameters for transport of photons, electrons, positrons, and neutrons
     - match: (?i)\s*(negs)(\s+=\s+)(-1|0|1|2)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.cut_switch_energy
+        3: constant.numeric.parameters.card.cut_switch_energy
 
     - match: (?i)\s*(nucdata|ieleh)(\s+=\s+)(0|1)  
       captures:
         1: support.constant.cut_switch_energy
-        3: constant.numeric.parameters.card.input_output_filename
+        3: constant.numeric.parameters.card.cut_switch_energy
 
     # Table 5.7: Parameters for switching energies 1
     - match: (?i)\s*(ejamnu|ejampi|eisobar|eqmdnu|eqmdmin|ejamqmd|einclmin|einclmax|eielfmin|eielfmax)()()  
@@ -161,40 +163,40 @@ contexts:
     - match: (?i)\s*(isobar|irqmd)(\s+=\s+)(0|1)  
       captures:
         1: support.constant.cut_switch_energy
-        3: constant.numeric.parameters.card.input_output_filename
+        3: constant.numeric.parameters.card.cut_switch_energy
 
     - match: (?i)\s*(inclg|incelf)(\s+=\s+)(0|1|2)  
       captures:
         1: support.constant.cut_switch_energy
-        3: constant.numeric.parameters.card.input_output_filename
+        3: constant.numeric.parameters.card.cut_switch_energy
 
     # Table 5.8: Parameters for switching energies 2
     - match: (?i)\s*(iscinful|tsxcl)(\s+=\s+)(0|1)  
       captures:
         1: support.constant.cut_switch_energy
-        3: constant.numeric.parameters.card.input_output_filename
+        3: constant.numeric.parameters.card.cut_switch_energy
 
     - match: (?i)\s*(lionprd)(\s+=\s+)(-1|0|1)  
       captures:
         1: support.constant.cut_switch_energy
-        3: constant.numeric.parameters.card.input_output_filename
+        3: constant.numeric.parameters.card.cut_switch_energy
 
     - match: (?i)\s*(epseudo)()()  
       captures:
         1: support.constant.cut_switch_energy
-        3: constant.numeric.parameters.card.input_output_filename
+        3: constant.numeric.parameters.card.cut_switch_energy
 
   cut_time_weight_window:
     # Table 5.9: Parameters for cut-off time, cut-off weight, and weight window
     - match: (?i)\s*(tmax)\(([1-9]|1[0-9]|20)\)  
       captures:
-        1: support.constant.input_output_filename
-        2: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.cut_time_weight_window
+        2: constant.numeric.parameters.card.cut_time_weight_window
 
     - match: (?i)\s*(iwwbias|istdcut)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.cut_switch_energy
-        3: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.cut_time_weight_window
+        3: constant.numeric.parameters.card.cut_time_weight_window
 
     - match:  (?i)\s*(wc1|wc2|swtm)\((.)\)
       captures: 
@@ -202,93 +204,93 @@ contexts:
 
     - match: (?i)\s*(wupn|wsurvn|mxspln|mwhere|nfcseg|istdbat)(\s+=\s+)()  
       captures:
-        1: support.constant.cut_switch_energy  
+        1: support.constant.cut_time_weight_window  
 
   stopping_power_models:
     # Table 5.10: Parameters for stopping power models
     - match: (?i)\s*(ndedx)(\s+=\s+)(0|1|2|3)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.stopping_power_models
+        3: constant.numeric.parameters.card.stopping_power_models
 
     - match: (?i)\s*(ifixchg|irlet)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.stopping_power_models
+        3: constant.numeric.parameters.card.stopping_power_models
 
     - match: (?i)\s*(mdbatima|dbcutoff|)
       captures:
-        1: support.constant.cut_switch_energy
+        1: support.constant.stopping_power_models
 
   cross_section:
     # Table 5.11: Parameters for elastic scatterings, total cross sections, and reaction cross sections
     - match: (?i)\s*(ielas|icrhi)(\s+=\s+)(0|1|2)  
       captures:
-        1: support.constant.input_output_filename
+        1: support.constant.cross_section
         3: constant.numeric.parameters.card.input_output_filename
 
     - match: (?i)\s*(icxnp|icrdm|icxspi)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.cross_section
+        3: constant.numeric.parameters.card.cross_section
 
     - match: (?i)\s*(ielms)()()      
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.cross_section
+        3: constant.numeric.parameters.card.cross_section
 
   decay_model:
     # Table 5.12: Parameters for decays and de-excited process models
     - match: (?i)\s*(nevap)(\s+=\s+)(0|3)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.decay_model
+        3: constant.numeric.parameters.card.decay_model
 
     - match: (?i)\s*(ngem|ifission)(\s+=\s+)(0|1|2)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.decay_model
+        3: constant.numeric.parameters.card.decay_model
 
     - match: (?i)\s*(igamma)(\s+=\s+)(-3|-2|-1|0|1|2|3)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.decay_model
+        3: constant.numeric.parameters.card.decay_model
 
     - match: (?i)\s*(ismm)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.decay_model
+        3: constant.numeric.parameters.card.decay_model
         
   event_generator_kerma_approx:
     # Table 5.13: Parameters for event generator mode and kerma approximation
     - match: (?i)\s*(e-mode)(\s+=\s+)(0|1|2)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.event_generator_kerma_approx
+        3: constant.numeric.parameters.card.event_generator_kerma_approx
 
     - match: (?i)\s*(ikerman|ikermap)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.event_generator_kerma_approx
+        3: constant.numeric.parameters.card.event_generator_kerma_approx
 
   adjoint_mode:
     # Table 5.14: Parameter for adjoint mode
     - match: (?i)\s*(iadjoint)(\s+=\s+)(0|1|2)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.adjoint_mode
+        3: constant.numeric.parameters.card.adjoint_mode
 
   nuclear_reaction_model:
     # Table 5.15: Parameters for nuclear reaction model options
     - match: (?i)\s*(inmed|andit)(\s+=\s+)(0|1|2)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.nuclear_reaction_model
+        3: constant.numeric.parameters.card.nuclear_reaction_model
 
     - match: (?i)\s*(iidfs|idwba|npidk)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.nuclear_reaction_model
+        3: constant.numeric.parameters.card.nuclear_reaction_model 
 
   low_energy_neutron:
     # Table 5.16: Parameters for low energy neutrons
@@ -297,240 +299,240 @@ contexts:
 
     - match: (?i)\s*(nonu|isaba|isans)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.low_energy_neutron
+        3: constant.numeric.parameters.card.low_energy_neutron 
 
 
   photon_PHITS_model:
     # Table 5.17: Parameters for photon transport based on the PHITS original model
     - match: (?i)\s*(emcpf)()()  
-      scope: support.constant.photon_electron_PHITS_model
+      scope: support.constant.photon_PHITS_model
 
     - match: (?i)\s*(nocoh|xnum)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.photon_PHITS_model
+        3: constant.numeric.parameters.card.photon_PHITS_model 
 
 
   EGS5_parameters:
     # Table 5.18: EGS5 parameters 1
     - match: (?i)\s*(ipegs)(\s+=\s+)(-1|0|1|2)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.EGS5_parameters
+        3: constant.numeric.parameters.card.EGS5_parameters 
 
     - match: (?i)\s*(imsegs)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.EGS5_parameters
+        3: constant.numeric.parameters.card.EGS5_parameters 
 
     - match: (?i)\s*(iegsout)(\s+=\s+)(0|1|2)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.EGS5_parameters
+        3: constant.numeric.parameters.card.EGS5_parameters 
 
     - match: (?i)\s*(iegsrand)()()  
       captures:
-        1: support.constant.input_output_filename
+        1: support.constant.EGS5_parameters
 
     # Table 5.19: EGS5 parameters 2
     - match: (?i)\s*(iedgfl|iauger|iraylr|lpolar|epstfl)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.EGS5_parameters
+        3: constant.numeric.parameters.card.EGS5_parameters 
 
     - match: (?i)\s*(chard|gasegs)()()  
       captures:
-        1: support.constant.input_output_filename
+        1: support.constant.EGS5_parameters
 
     # Table 5.20: EGS5 parameters 3
     - match: (?i)\s*(incohr|iprofr|impacr|ieispl|ibrdst|iprdst|iphter|ibound)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.EGS5_parameters
+        3: constant.numeric.parameters.card.EGS5_parameters 
 
     - match: (?i)\s*(neispl)()()  
       captures:
-        1: support.constant.input_output_filename
+        1: support.constant.EGS5_parameters
 
     - match: (?i)\s*(iaprim)(\s+=\s+)(0|1|2)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.EGS5_parameters
+        3: constant.numeric.parameters.card.EGS5_parameters 
 
   photon_muon_induced_reaction:
     # Table 5.21: Parameters for photon- and muon-induced reaction models 1
     - match: (?i)\s*(ipnint|imucap)(\s+=\s+)(0|1|2)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.photon_muon_induced_reaction
+        3: constant.numeric.parameters.card.photon_muon_induced_reaction 
 
     - match: (?i)\s*(iqmdscm)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.photon_muon_induced_reaction
+        3: constant.numeric.parameters.card.photon_muon_induced_reaction 
 
     - match: (?i)\s*(scm_h0|scm_d|scm_rcls)()()  
       captures:
-        1: support.constant.input_output_filename
+        1: support.constant.photon_muon_induced_reaction
 
     # Table 5.22: Parameters for photon- and muon-induced reaction models 2
     - match: (?i)\s*(imuint|imubrm|imuppd)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.photon_muon_induced_reaction
+        3: constant.numeric.parameters.card.photon_muon_induced_reaction 
 
     - match: (?i)\s*(emumin|emumax)()()  
       captures:
-        1: support.constant.input_output_filename
+        1: support.constant.photon_muon_induced_reaction
 
   muon_production_model:
     # TTable 5.23: Parameters for muon production models
     - match: (?i)\s*(igmuppd)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.muon_production_model
+        3: constant.numeric.parameters.card.muon_production_model 
 
     - match: (?i)\s*(gmumul)()()  
       captures:
-        1: support.constant.input_output_filename
+        1: support.constant.muon_production_model
 
   neutrino_induced_reaction_model:
     # Table 5.24: Parameters for neutrino-induced reaction model
     - match: (?i)\s*(ntrnore)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.neutrino_induced_reaction_model
+        3: constant.numeric.parameters.card.neutrino_induced_reaction_model 
   
   coulomb_diffusion:
     # Table 5.26: Parameters for Coulomb diffusion
     - match: (?i)\s*(nspred)(\s+=\s+)(0|1|2)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.coulomb_diffusion
+        3: constant.numeric.parameters.card.coulomb_diffusion 
 
     - match: (?i)\s*(nedisp)(\s+=\s+)(0|1)  
       captures:
         1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        3: constant.numeric.parameters.card.coulomb_diffusion 
 
     - match: (?i)\s*(ascat1|ascat2)()()  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.coulomb_diffusion
+        3: constant.numeric.parameters.card.coulomb_diffusion 
 
   gravitational_electromagnetic_field:
     # Table 5.26: Parameters for Coulomb diffusion
     - match: (?i)\s*(usrmgt|usrelst)(\s+=\s+)(1|2)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.gravitational_electromagnetic_field
+        3: constant.numeric.parameters.card.gravitational_electromagnetic_field 
 
     - match: (?i)\s*(imagnf|ielctf)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.gravitational_electromagnetic_field
+        3: constant.numeric.parameters.card.gravitational_electromagnetic_field 
 
     - match: (?i)\s*(gravx|gravy|gravz)()()  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.gravitational_electromagnetic_field
+        3: constant.numeric.parameters.card.gravitational_electromagnetic_field 
 
   output_options:
     # Table 5.28: Parameters for output options (1)
     - match: (?i)\s*(infout)(\s+=\s+)([0-8])  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.output_options
+        3: constant.numeric.parameters.card.output_options 
 
     - match: (?i)\s*(ncvalout|nrecover)()()  
       captures:
-        1: support.constant.input_output_filename
+        1: support.constant.output_options
 
     - match: (?i)\s*(ierrout|idmprijk)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.output_options
+        3: constant.numeric.parameters.card.output_options 
 
     # Table 5.29: Parameters for output options (2)
     - match: (?i)\s*(dumpall)(\s+=\s+)(-1|0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.output_options
+        3: constant.numeric.parameters.card.output_options 
 
     - match: (?i)\s*(idpara)(\s+=\s+)(0|1|3)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.output_options
+        3: constant.numeric.parameters.card.output_options 
 
     # Table 5.30: Parameters for output options (3)
     - match: (?i)\s*(itall)(\s+=\s+)(-1|[0-4])  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.output_options
+        3: constant.numeric.parameters.card.output_options 
 
     - match: (?i)\s*(iMeVperu|itstep|kmout)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.output_options
+        3: constant.numeric.parameters.card.output_options 
 
     - match: (?i)\s*(imout|jmout)(\s+=\s+)(0|1|2)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.output_options
+        3: constant.numeric.parameters.card.output_options 
 
     # Table 5.30: Parameters for output options (3)
     - match: (?i)\s*(matadd|iggcm|icput|ipara)(\s+=\s+)(0|1)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.output_options
+        3: constant.numeric.parameters.card.output_options 
 
     - match: (?i)\s*(natural)(\s+=\s+)(0|1|2)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.output_options
+        3: constant.numeric.parameters.card.output_options 
 
     - match: (?i)\s*(gsline)(\s+=\s+)(0|1|2|3)  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.output_options
+        3: constant.numeric.parameters.card.output_options 
 
     - match: (?i)\s*(nwsors)()()  
       captures:
-        1: support.constant.input_output_filename
+        1: support.constant.output_options
 
   voxel_tetrahedron_geometry:
     # Table 5.32: Parameters for voxel and tetrahedron geometry options
     - match: (?i)\s*(icells|ivoxel)(\s+=\s+)([0-3])  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.voxel_tetrahedron_geometry
+        3: constant.numeric.parameters.card.voxel_tetrahedron_geometry 
 
     # Table 5.33: Parameters for voxel and tetrahedron geometry options
     - match: (?i)\s*(itetvol|itetauto|itgchk)(\s+=\s+)([0-1])  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.voxel_tetrahedron_geometry
+        3: constant.numeric.parameters.card.voxel_tetrahedron_geometry 
 
     - match: (?i)\s*(itetra)(\s+=\s+)([0-2])  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.voxel_tetrahedron_geometry
+        3: constant.numeric.parameters.card.voxel_tetrahedron_geometry 
 
     - match: (?i)\s*(ntetsurf|ntetelem)(\s+=\s+)()  
       captures:
-        1: support.constant.input_output_filename
+        1: support.constant.voxel_tetrahedron_geometry
 
   geometry_errors:
     # Table 5.34: Parameters for geometrical errors
     - match: (?i)\s*(nlost|igerr|deltb|deltm|deltc|delt0|deltg|deltt|deltxyz)()()  
       captures:
-        1: support.constant.input_output_filename
+        1: support.constant.geometry_errors
 
     - match: (?i)\s*(ichkmat|idelt)(\s+=\s+)([0-1])  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.geometry_errors
+        3: constant.numeric.parameters.card.geometry_errors 
 
   input_output_filename:
     # Table 5.35: Parameters for Input-output file name
@@ -539,21 +541,21 @@ contexts:
         1: support.constant.input_output_filename
         2: constant.numeric.parameters.card.input_output_filename
 
-  others:
+  other_parameters:
     # Table 5.36: Parameters for others
     - match: (?i)\s*(idam|rdam)\((.)\)  
       captures:
-        1: support.constant.Others
+        1: support.constant.other_parameters
 
     - match: (?i)\s*(inucr)(\s+=\s+)(2|12|14|16|100)  
       captures:
-        1: support.constant.Others
-        3: constant.numeric.parameters.card.input_output_filename
+        1: support.constant.other_parameters
+        3: constant.numeric.parameters.card.other_parameters
 
     - match: (?i)\s*(icommat)(\s+=\s+)([0-1])  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.other_parameters
+        3: constant.numeric.parameters.card.other_parameters 
 
 ############################################################################################
 # [ S o u r c e ]
@@ -565,25 +567,33 @@ contexts:
     - include: begin_section
     - include: set_parameter     
     - include: intrinsic_functions   
+    - include: include_file
 
     - include: multi_source
     - include: common_parameters
+
     - include: source_type
+    - include: common_parameters_source
+    - include: energy_distribution
+    - include: angular_distribtion
+    - include: time_distribution
+    - include: duct_source_option
 
     - include: include_file
+
+    - include: source_parameter_todo
 
 
   multi_source: 
     # Table 5.38: Multi-source
     - match: (?i)\s*(totfact|<source>)(\s+=\s+)()  
       captures:
-        1: support.constant.source.card.multi_source
+        1: support.constant.keywrod.multi_source
 
     - match: (?i)\s*(iscorr)(\s+=\s+)([0-3])  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
-
+        1: support.constant.keywrod.multi_source
+        3: constant.numeric.value.multi_source 
 
   common_parameters:
     # Table 5.39: Common source parameters (1)
@@ -595,8 +605,8 @@ contexts:
     # no Parentheses only
     - match: (?i)\s*(proj)\s*=\s*(({{particles}}\s*)*)
       captures:
-        1: support.constant.common_parameters.source
-        2: constant.numeric.tally_particle_parameter
+        1: support.constant.common_parameters
+        2: constant.numeric.common_parameters
 
     - match: (?i)\s*(sx|sy|sz|ntmax|trcl|wgt|wgt|izst)(\s+=\s+)()  
       captures:
@@ -605,7 +615,7 @@ contexts:
     - match: (?i)\s*(reg)(\s+=\s+)(all|)  
       captures:
         1: support.constant.common_parameters
-        3: constant.numeric.parameters.card.input_output_filename 
+        3: constant.numeric.common_parameters
 
     - match: (?i)\s*(cnt)\(({{pos_int}})\)  
       captures:
@@ -615,164 +625,143 @@ contexts:
     # Table 5.40: Common source parameters (2)
     - match: (?i)\s*(ispfs)(\s+=\s+)([0-2])  
       captures:
-        1: support.constant.input_output_filename
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.common_parameters
+        3: constant.numeric.parameters.card.common_parameters 
 
     - match: (?i)\s*(ibatch)(\s+=\s+)(all|)  
       captures:
         1: support.constant.common_parameters
-        3: constant.numeric.parameters.card.input_output_filename 
+        3: constant.numeric.parameters.card.common_parameters 
 
-  source_type:    # cylinder, sphere,...
-    # Table 5.41: Parameters for cylinder source
-    # Table 5.42: Parameters for rectangular solid source
-    # Table 5.43: Parameters for Gaussian source
-    # Table 5.44: Parameters for generic parabola distribution
-    # Table 5.45: Parameters for Gaussian source
-    # Table 5.46: Parameters for generic parabola distribution
-    # Table 5.47: Parameters for sphere and spherical shell source
-    # Table 5.48: Parameters for s-type=11
-    # Table 5.49: Parameters for s-type=12
-    # Table 5.50: Decay-turtle data
-    # Table 5.51: Parameters for cone shape
-    # Table 5.52: Parameters for triangle prism shape
-
-    - match:   (?i)\s*(s-type)(\s*=\s*)\b(1|2|3|7|13|15|9|11|12|18|20|22|24|26|17|100)\b  # source type
+  source_type:  
+    - match:   (?i)\s*(s-type)(\s*=\s*)\b(1|2|3|7|13|15|9|11|12|18|20|22|24|26|17|100)\b  
     # - match:   (?i)\s*(s-type)\s*=\s* # source type
       captures: 
         1: support.constant.source_type
-        3: constant.numeric.parameters.card.input_output_filename 
+        3: constant.numeric.parameters.card.source_type 
 
 
-    # - match:  (?i)\s*(ne|x0|y0|y0|z0|r0|x1|y1|z1|r1|r2|e0|dir|phi|dom|e-type|rn|rx|ry|x2|y2|z2|x3|y3|z3|xmrad1|ymrad1|xmrad2|ymrad2|file|xp|yp|xq|yq|wt0|pz0|isbias|mesh|tetreg|suf|cut|dump|sx|sy|sz|wgt|factor|t-type|reg|mtmax|trcl|idmpmode|dmpmulti)(\s+=\s+)
-    #   captures: 
-    #     1: support.constant.source_type
-
+  # common_parameters_source
+  common_parameters_source:
     - match:  (?i)\s*(x0|y0|y0|z0|r0|x1|y1|z1|r1|r2|x2|y2|z2|x3|y3|z3|)(\s+=\s+)
       captures: 
-        1: support.constant.source_type
+        1: support.constant.common_parameters_source
 
     - match:  (?i)\s*(phi|dom|exa|e0)(\s+=\s+)
       captures: 
-        1: support.constant.source_type
+        1: support.constant.common_parameters_source
 
     - match:  (?i)\s*(dir)(\s+=\s+)(all|)
       captures: 
-        1: support.constant.source_type
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.common_parameters_source
+        3: constant.numeric.parameters.card.common_parameters_source 
 
     - match:  (?i)\s*(rn|ag1|ag2|pg2)(\s+=\s+)()
       captures: 
-        1: support.constant.source_type
+        1: support.constant.common_parameters_source
 
     - match:  (?i)\s*(rx|ry|wem|xmrad1|ymrad1|xmrad2|ymrad2)(\s+=\s+)
       captures: 
-        1: support.constant.source_type
+        1: support.constant.common_parameters_source
 
     # TODO: [a-z][0-9][_.]
     - match: (?i)\s*(file)\s*=\s*(.*)(#.*) # have a comment at the end of line
       captures:
-        1: support.constant.filename
-        2: entity.other.inherited-class.filename
+        1: support.constant.common_parameters_source
+        2: entity.other.inherited-class.common_parameters_source
         3: comment
 
     - match: (?i)\s*(file)\s*=\s*(.*)    # no comment at the end of line
       captures:
-        1: support.constant.filename
-        2: entity.other.inherited-class.filename
+        1: support.constant.common_parameters_source
+        2: entity.other.inherited-class.common_parameters_source
 
-
-    # Table 5.50: Decay-turtle data
-    - match:  (?i)\s*(xp|xq|yp|yq|wt0|pz0)(\s+=\s+)
+  energy_distribution:
+   # energy distribution
+    - match:   (?i)\s*(e-type)(\s*=\s*)\b(1|11|4|14|21|31|8|18|22|32|23|33|2|12|3|7|5|15|6|16|28|29|20|25|26)\b
       captures: 
-        1: support.constant.source_type
+        1: support.constant.energy_distribution_type
+        3: constant.numeric.parameters.card.energy_distribution_type 
 
-    # Table 5.53: Parameters for xyz-mesh distribution source
-    - match:  (?i)\s*(isbias)(\s+=\s+)([0-2])  
+    - match:  (?i)\s*(ne|nm|ni|eg0|eg1|eg2|eg3|et0|et1|et2|et3|dtime)(\s+=\s+)()  
       captures: 
-        1: support.constant.source_type
-        3: constant.numeric.parameters.card.input_output_filename 
-
-    # Table 5.54: Parameters for tetra-mesh source
-    # Table 5.55: Parameters for surface definition source
-    - match:  (?i)\s*(tetreg|suf)(\s+=\s+)()  
-      captures: 
-        1: support.constant.source_type
-        3: constant.numeric.parameters.card.input_output_filename 
-
-    # Table 5.56: Parameters for dump file source (1)
-    # Table 5.57: Parameters for dump file source (2)
-    - match:  (?i)\s*(dump|jpsf|sx|sy|sz|factor|idmpmode|dmpmulti)(\s+=\s+)()  
-      captures: 
-        1: support.constant.source_type
-        3: constant.numeric.parameters.card.input_output_filename 
-
-
-    # energy distribution
-    - match:  (?i)\s*(e-type|ne|nm|ni|eg1|eg2|dtime)(\s+=\s+)()  
-      captures: 
-        1: support.constant.source_type
+        1: support.constant.energy_distribution
         # 3: constant.numeric.parameters.card.input_output_filename 
 
     - match:  (?i)\s*(p-type)(\s+=\s+)(0|1)  
       captures: 
-        1: support.constant.source_type
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.energy_distribution
+        3: constant.numeric.parameters.card.energy_distribution
 
+    # Table 5.69: Parameters for source energy distribution (8)
     - match:  (?i)\s*(actlow|norm|iaugers|iannih|icharctx|icenv|solarmod|icyear|icmonth|icday|depatom|alti)(\s+=\s+)()  
       captures: 
-        1: support.constant.source_type
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.energy_distribution
+        3: constant.numeric.parameters.card.energy_distribution 
 
     # Table 5.74: Parameters for source energy distribution (13)
     - match:  (?i)\s*(rigid|glat|glong|environ)(\s+=\s+)()  
       captures: 
-        1: support.constant.source_type
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.energy_distribution
+        3: constant.numeric.parameters.card.energy_distribution 
 
+    - match:  (?i)\s*(f\(x\))(\s+=\s+)()  
+      captures: 
+        1: support.constant.angular_distribtion
+        3: constant.numeric.parameters.card.angular_distribtion
+
+  angular_distribtion:
     # Table 5.75: Parameters for source angular distribution (1)
     # Table 5.76: Parameters for source angular distribution (2)
-    - match:  (?i)\s*(a-type)(\s+=\s+)()  
+    - match:  (?i)\s*(a-type)(\s+=\s+)\b(1|11|4|14|5|15|6|16)\b  
       captures: 
-        1: support.constant.source_type
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.angular_distribtion_type
+        3: constant.numeric.parameters.card.angular_distribtion_type 
 
     - match:  (?i)\s*(q-type)(\s+=\s+)(0|1)  
       captures: 
-        1: support.constant.source_type
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.angular_distribtion
+        3: constant.numeric.parameters.card.angular_distribtion 
 
     - match:  (?i)\s*(na|nn)(\s+=\s+)()  
       captures: 
-        1: support.constant.source_type
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.angular_distribtion
+        3: constant.numeric.parameters.card.angular_distribtion 
 
     - match:  (?i)\s*(g\(x\))(\s+=\s+)()  
       captures: 
-        1: support.constant.source_type
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.angular_distribtion
+        3: constant.numeric.parameters.card.angular_distribtion
 
+
+  time_distribution:
     # Table 5.77: Parameters for time distribution (1)
     # Table 5.78: Parameters for time distribution (2)
     - match:  (?i)\s*(t-type)(\s+=\s+)([0-6])  
       captures: 
-        1: support.constant.source_type
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.type.time_distribution
+        3: constant.numeric.option.type.time_distribution 
 
-    - match:  (?i)\s*(t0|tw|tn|td|tc|ntt)(\s+=\s+)([0-6])  
+    - match:  (?i)\s*(t0|tw|tn|td|tc|ntt|ll|tg1|tg2)(\s+=\s+)()  
       captures: 
-        1: support.constant.source_type
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.time_distribution
+        3: constant.numeric.option.card.time_distribution 
 
     - match:  (?i)\s*(h\(x\))(\s+=\s+)()  
       captures: 
-        1: support.constant.source_type
-        3: constant.numeric.parameters.card.input_output_filename 
+        1: support.constant.time_distribution
+        3: constant.numeric.parameters.card.time_distribution
+
+  duct_source_option:
+    # Table 5.80: Parameters for duct source options
+    - match:  (?i)\s*(dl0|dl1|dl2|dpf|drd|dxw|dyw)(\s+=\s+)()  
+      captures: 
+        1: support.constant.duct_source_option
+        3: constant.numeric.option.card.duct_source_option 
 
 
-    # - match: (?i)(=\s*)(c[1-9][0-9]*)          TODO
-    #   captures: 
-    #     2: constant.numeric.card.source_shape
+
+
 
 ############################################################################################
 # [ M a t e r i a l ]
@@ -783,7 +772,8 @@ contexts:
     - include: comments
     - include: begin_section      
     - include: set_parameter      
-    - include: intrinsic_functions   
+    - include: intrinsic_functions  
+    - include: include_file 
 
     - include: material_definition
     - include: material_thermal_scattering
@@ -793,13 +783,13 @@ contexts:
   material_definition: 
     - match: (?i)\s*(mat)\[\s*([1-9][0-9]*)\s*\]             # format MAT[1]
       captures:
-        1: support.constant.source.card.multi_source
+        1: support.constant.source.card.material_definition
         2: variable.language.card.material_definition
     
     - match: (?i)\s*(m)([1-9][0-9]*)
       captures:
-        1: support.constant.source.card.multi_source
-        2: variable.language.card.material_number       
+        1: support.constant.source.card.material_definition
+        2: variable.language.card.material_number.material_definition       
 
   material_thermal_scattering:
     - match: (?i)(al-27|d-d2o|fe-56|grph|grph10|grph30|h-h2o|h-luci|h-poly|h-yh2|h-zrh|o-d2o|)(.40t)
@@ -855,6 +845,7 @@ contexts:
 
     - include: set_parameter     
     - include: intrinsic_functions   
+    - include: include_file
 
     # 1 <= surface number <= 99 999 999
     - match: '(^\s{0,4}0*[1-9][0-9]{0,7})\s+({{surface_mnemonic}})'      # surface no transformation
@@ -881,6 +872,7 @@ contexts:
 
     - include: set_parameter     
     - include: intrinsic_functions   
+    - include: include_file
 
     - include: set_parameter
 
@@ -945,6 +937,7 @@ contexts:
 
     - include: set_parameter     
     - include: intrinsic_functions   
+    - include: include_file
 
     - include: set_parameter
 
@@ -963,6 +956,7 @@ contexts:
 
     - include: set_parameter     
     - include: intrinsic_functions   
+    - include: include_file
 
     - include: set_parameter
 
@@ -981,6 +975,7 @@ contexts:
 
     - include: set_parameter     
     - include: intrinsic_functions   
+    - include: include_file
 
     - include: set_parameter
 
@@ -1002,6 +997,7 @@ contexts:
 
     - include: set_parameter     
     - include: intrinsic_functions   
+    - include: include_file
 
     - include: set_parameter
 
@@ -1019,6 +1015,7 @@ contexts:
     - include: comments
     - include: begin_section
     - include: intrinsic_functions   
+    - include: include_file
 
     # - match: (?i)\s*(part)\s*=\s*({{particles}})  
     - match: (?i)\s*(part)\s*=\s*(({{particles}}\s*)*)   
@@ -1056,6 +1053,7 @@ contexts:
 
     - include: set_parameter     
     - include: intrinsic_functions   
+    - include: include_file
 
 ############################################################################################
 #  [ Forced Collisions ]
@@ -1064,6 +1062,7 @@ contexts:
     - meta_scope: forced_collisions_section
     - include: comments
     - include: begin_section
+    - include: include_file
 
     - match: (?i)\s*(part)\s*=\s*((?:(?:{{particles}})\s+)*) # part = neutron proton alpha
       captures:
@@ -1092,6 +1091,8 @@ contexts:
     - include: comments
     - include: begin_section
     - include: set_parameter
+    - include: intrinsic_functions  
+    - include: include_file
 
 ############################################################################################
 # [ M u l t i p l i e r ]  
@@ -1101,6 +1102,7 @@ contexts:
     - include: comments
     - include: begin_section
     - include: intrinsic_functions   
+    - include: include_file
 
     - match: (?i)\s*(part|interpolation)\s*=\s*({{particles}}|log)     
       captures:
@@ -1126,7 +1128,8 @@ contexts:
     - include: comments
     - include: begin_section      
     - include: colume_name      
-    - include: mat_name_color      
+    - include: mat_name_color     
+    - include: include_file 
 
   colume_name:
     - match: (?i)\s*(mat)\s+(name)\s+(color)
@@ -1189,15 +1192,19 @@ contexts:
     - meta_scope: tally_common_parameters
     - include: comments
     - include: begin_section
-    - include: tally_geometrical_mesh
-    - include: tally_energy_mesh
-    - include: tally_let_mesh
-    - include: tally_angle_mesh
-    - include: tally_particle_parameter
-    - include: tally_axis_parameter
 
-    - include: tally_common_parameter_others
+
+    - include: tally_mesh_type
+    - include: tally_energy_mesh_type
+    - include: tally_let_mesh_type
+    - include: tally_time_mesh_type
+    - include: tally_angle_mesh_type
+    - include: tally_mesh_definition
+
+
+    - include: tally_other_parameters
     - include: intrinsic_functions   
+    - include: set_parameter
 
     - match: (?i)\s*(title)\s*=\s*(.*)(#.*) # have a comment at the end of line
       captures:
@@ -1211,44 +1218,64 @@ contexts:
         2: entity.other.inherited-class.tally_title
         3: comment
 
-    - match: (?i)\s*(file)\s*=\s*(.*)(#.*) # have a comment at the end of line
-      captures:
-        1: support.constant.filename
-        2: entity.other.inherited-class.filename
-        3: comment
+    
 
-    - match: (?i)\s*(file)\s*=\s*(.*)    # no comment at the end of line
-      captures:
-        1: support.constant.filename
-        2: entity.other.inherited-class.filename
-
-  tally_geometrical_mesh:
+  tally_mesh_type:
+    # mesh type
     - match: (?i)\s*(mesh)\s*=\s*(reg|r-z|xyz) 
       captures:
         1: support.constant.tally_geometrical_mesh
         2: variable.parameter.tally_geometrical_mesh
 
-    - match: (?i)\s*(x-type|y-type|z-type|r-type|nx|ny|nz|nr|xmin|xmax|ymin|rmin|ymax|zmin|zmax|rmax) 
+    - match: (?i)\s*(reg)\s*=\s*
       captures:
         1: support.constant.tally_energy_mesh
 
-  tally_energy_mesh:
+    # Definition of the region and volume for repeated structures and lattices
+    - match: (?i)\s*(volume)
+      captures:
+        1: variable.parameter.tally_geometrical_mesh
+        # 2: variable.parameter.tally_geometrical_mesh
+
+    - match: (?i)\s*\b(non|reg|vol)\b
+      captures:
+        1: constant.numeric.parameters.card.input_output_filename
+        # 2: variable.parameter.tally_geometrical_mesh
+
+    - match: (?i)\b(all)\b
+      captures:
+        1: constant.numeric.parameters.card.input_output_filename
+        # 2: variable.parameter.tally_geometrical_mesh
+
+    # r-z mesh  xyz mesh
+    - match: (?i)\s*(x-type|y-type|z-type|r-type)\s*=\s*([1-5]) 
+      captures:
+        1: support.constant.tally_energy_mesh
+        2: constant.numeric.tally_angle_mesh
+
+  tally_energy_mesh_type:
     - match: (?i)\s*(e-type)\s*=\s*([1-5]) 
       captures:
         1: support.constant.tally_energy_mesh
         2: constant.numeric.tally_energy_mesh
 
-    - match: (?i)\s*(ne|emin|emax|edel)\s*= 
-      captures:
-        1: support.constant.tally_energy_mesh
+    # - match: (?i)\s*(ne|emin|emax|edel)\s*= 
+    #   captures:
+    #     1: support.constant.tally_energy_mesh
 
-  tally_let_mesh:
+  tally_let_mesh_type:
     - match: (?i)\s*(l-type)\s*=\s*([1-5]) 
       captures:
         1: support.constant.tally_let_mesh
         2: constant.numeric.tally_let_mesh
 
-  tally_angle_mesh:
+  tally_time_mesh_type:
+    - match: (?i)\s*(t-type)\s*=\s*([1-5]) 
+      captures:
+        1: support.constant.tally_let_mesh
+        2: constant.numeric.tally_let_mesh
+
+  tally_angle_mesh_type:
     - match: (?i)\s*(a-type)\s*=\s*(-*[1-5]) 
       captures:
         1: support.constant.tally_angle_mesh
@@ -1263,25 +1290,117 @@ contexts:
       captures:
         1: support.constant.tally_energy_mesh
 
+  tally_mesh_definition:
+    - match: (?i)\s*(ne|edel|emin|emax) 
+      captures:
+        1: support.constant.tally_energy_mesh
+
+    - match: (?i)\s*(ne|nx|ny|nz|nr) 
+      captures:
+        1: support.constant.tally_energy_mesh
+
+    - match: (?i)\s*(xmin|xmax|ymin|ymax|zmin|zmax|rmin|rmax) 
+      captures:
+        1: support.constant.tally_energy_mesh
+
+  tally_other_parameters:
+    - include: tally_particle_parameter
+    - include: tally_axis_parameter
+    # - include: tally_samepage_parameter
+    - include: tally_file_parameter
+    - include: tally_resfile_parameter
+
+
+    - match: (?i)\s*(multiplier)\s*=\s*(all)
+      captures:
+        1: support.constant.tally_particle_parameter
+        2: constant.numeric.tally_particle_parameter
+
+    # - match: (?i)\s*(reg|unit|output|material|multiplier|factor|gshow|rshow|resol|width|epsout|x-txt|y-txt|z-txt|2D-type|trcl|vtkout)\s*=
+    #   captures:
+    #     1: support.constant.tally_particle_parameter
+
   tally_particle_parameter:
-    - match: (?i)\s*(part)\s*=\s*(({{particles}}\s*)*)
+    - match: (?i)\s*(part)\s*=\s*\b(({{particles}}\s*)*)\b
     # - match: (?i)\s*(part)\s*=\s*((?:(?:{{particles}})\s+)*) # part = neutron proton alpha
     # - match: (?i)\s*(part)\s*=\s*.*(all|neutron|alpha|photon|ptoton)\s* # part = neutron proton alpha
       captures:
         1: support.constant.tally_particle_parameter
         2: constant.numeric.tally_particle_parameter
-        3: constant.numeric.tally_particle_parameter
+        # 3: constant.numeric.tally_particle_parameter
 
   tally_axis_parameter:
-    # - match: (?i)\s*(axis)\s*=\s*(((eng|eng|reg|x|y|z|r|t|xy|yz|zx|rz,cos|the|mass|charge|chart|dchainlet|t-eng|eng-t|t-e1|e1-t|t-e2|e2-t|e12|e21))*) 
-    - match: (?i)\s*(axis)\s*=
-      captures:
-        1: support.constant.tally_particle_parameter
+    # - match: (?i)\s*(axis)\s*=\s*((\b(eng|reg|x|y|z|r|t|xy|yz|zx|rz|cos|the|mass|charge|chart|dchain|let|t-eng|eng-t|t-e1|e1-t|t-e2|e2-t|e12|e21)\b\s*)*)
+    #   captures:
+    #     1: support.constant.tally_particle_parameter
+    #     2: constant.numeric.tally_particle_parameter
 
-  tally_common_parameter_others:
-    - match: (?i)\s*(reg|unit|output|material|multiplier|factor|gshow|rshow|resol|width|epsout|x-txt|y-txt|z-txt|2D-type|trcl|vtkout)\s*=
+    - match: (?i)\s*(axis)
+      scope: support.constant.tally_particle_parameter
+      push: tally_axis_parameter_option
+
+  # TODO
+  tally_axis_parameter_option:
+
+    # - include: tally_axis_parameter
+    - match: (?i)\s(t-eng|eng-t|t-e1|e1-t|t-e2|e2-t)
+      scope: constant.numeric.tally_particle_parameter
+
+    - match: (?i)\b(eng|reg|x|y|z|r|t|xy|yz|zx|rz|cos|the|mass|charge|chart|dchain|let|e12|e21)\b
+      scope: constant.numeric.tally_particle_parameter
+
+    - match: '\n'
+      pop: true
+
+    - match: (#|\s*\$)+
+      scope: punctuation.definition.comment
+      push:
+        - meta_scope: comment.inline 
+        - match: '\n'
+          pop: true
+        
+
+  # ???
+  # tally_samepage_parameter:
+
+  tally_file_parameter: 
+    - match: (?i)\s*(file)\s*=\s*(.*)([#|$].*) # have a comment at the end of line
       captures:
-        1: support.constant.tally_particle_parameter
+        1: support.constant.filename
+        2: entity.other.inherited-class.filename
+        3: comment
+
+    - match: (?i)\s*(file)\s*=\s*(.*)    # no comment at the end of line
+      captures:
+        1: support.constant.filename
+        2: entity.other.inherited-class.filename
+
+  tally_resfile_parameter: 
+    - match: (?i)\s*(resfile)\s*=\s*(.*)(#.*) # have a comment at the end of line
+      captures:
+        1: support.constant.filename
+        2: entity.other.inherited-class.filename
+        3: comment
+
+    - match: (?i)\s*(resfile)\s*=\s*(.*)    # no comment at the end of line
+      captures:
+        1: support.constant.filename
+        2: entity.other.inherited-class.filename
+
+  # tally_unit_parameter: iin each tally section
+
+  tally_factor_parameter:
+    - match: (?i)\s*(factor)\s*=()
+      captures:
+        1: support.constant.filename
+        2: entity.other.inherited-class.filename
+
+
+
+############################################################################################
+#  T a l l y - angle
+############################################################################################
+
 
 ############################################################################################
 #  [ T-Track ]
@@ -1334,7 +1453,7 @@ contexts:
     - include: comments
     
     - include: section_off
-    # - include: begin_section
+    - include: begin_section
 
     - include: tally_common_parameters
 
@@ -1342,7 +1461,7 @@ contexts:
 #  [ T - D e p o s i t 2 ]
 ############################################################################################
   tally_t_deposit2:
-    - meta_scope: tally_t_deposit2__section
+    - meta_scope: tally_t_deposit2_section
     - include: comments
     - include: begin_section
 
@@ -1391,7 +1510,7 @@ contexts:
     - match: (#|\s*\$)+
       scope: punctuation.definition.comment
       push:
-        - meta_scope: comment.line 
+        - meta_scope: comment.inline 
         - match: '\n'
           pop: true
 
@@ -1445,7 +1564,8 @@ contexts:
     - match:  (?i)(\[.*\]\s*off)           # off section 
       scope: punctuation.definition.comment
       push:
-        - meta_scope: message.error
+        # - meta_scope: message.error
+        - meta_scope: comment
         # - match: \s*(?:\[)
         - match: begin_section
           pop: true
@@ -1458,7 +1578,7 @@ contexts:
  
     - match: (?i)(c[0-9]+) 
       captures:
-        1: variable.language.set_parameter
+        1: variable.language.user_parameter
 
   intrinsic_functions:
     - match: (?i)({{intrinsic_functions}})      

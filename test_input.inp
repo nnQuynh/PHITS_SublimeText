@@ -723,123 +723,128 @@
   icommat      =         2  # D = 0 1
 
 [ S o u r c e ]
- $ Table 5.38: Multi-source
-  totfact     =          0   
-  
-  iscorr      =          0  # D = 0 1 2 3
-  iscorr      =          1  # D = 0 1 2 3
-  iscorr      =          2  # D = 0 1 2 3
-  iscorr      =          3  # D = 0 1 2 3
-  iscorr      =          4  # D = 0 1 2 3
+ $ multi source
+  $ Table 5.38: Multi-source
+   totfact     =          0   
+   
+   iscorr      =          0  # D = 0 1 2 3
+   iscorr      =          1  # D = 0 1 2 3
+   iscorr      =          2  # D = 0 1 2 3
+   iscorr      =          3  # D = 0 1 2 3
+   iscorr      =          4  # D = 0 1 2 3
 
- $ Table 5.39: Common source parameters (1)
-  proj = all
-  proj = proton
-  proj = neutron
-  proj = electron
-  proj = positron
-  proj = photon
-  proj = photon electron triton
-  proj = photon electron triton
-  proj = (photon electron)   # TODO
+ $ common parameters for source
+  $ Table 5.39: Common source parameters (1)
+   proj = all
+   proj = proton
+   proj = neutron
+   proj = electron
+   proj = positron
+   proj = photon
+   proj = photon electron triton
+   proj = photon electron triton
+   proj = (photon electron)   # TODO
+ 
+   sx   = 0
+   sy   = 0
+   sz   = 0
+ 
+   reg  = all
+   reg  = 1
+ 
+   ntmax = 1000
+   trcl = 1
+   wgt = 1.0
+   factor = 1.0
+   izst = 1
+   
+   cnt(1)   = 1   # i integer
+   cnt(2)   = 1   # i integer
+   cnt(1.0) = 1   # i integer
+ 
+  $ Table 5.40: Common source parameters (2)
+   ispfs      =         0  # D = 0 1 2
+   ispfs      =         1  # D = 0 1 2
+   ispfs      =         2  # D = 0 1 2
+   ispfs      =         3  # D = 0 1 2
+ 
+   ibatch  = all
+   ibatch  = 1
+ 
+ $ source type
+   s-type  = 1    # Cylinder or circle source.
+   s-type  = 2    # Rectangular solid and rectangle source
+   s-type  = 3    # Gaussian source
+   s-type  = 7    # Generic parabola source
+   s-type  = 13   # Gaussian source
+   s-type  = 15   # Generic parabola source
+   s-type  = 9    # Sphere and spherical shell source
+   s-type  = 11   # Uniform distribution in a phase space vertical with beam direction
+   s-type  = 12   # Decay-turtle reading
+   s-type  = 18   # Cone shape
+   s-type  = 20   # Triangle prism shape
+   s-type  = 22   # xyz-mesh distribution source
+   s-type  = 24   # Tetra-mesh source
+   s-type  = 25   
+   s-type  = 26   # Surface source
+   s-type  = 17   # Reading dump file
+   s-type  = 100  # User definition source
+   s-type  = 4 
 
-  sx   = 0
-  sy   = 0
-  sz   = 0
-
-  reg  = all
-  reg  = 1
-
-  ntmax = 1000
-  trcl = 1
-  wgt = 1.0
-  factor = 1.0
-  izst = 1
-  
-  cnt(1)   = 1   # i integer
-  cnt(2)   = 1   # i integer
-  cnt(1.0) = 1   # i integer
+ $ common_parameters_source
+   $ Table 5.41: Parameters for cylinder source
+   $ Table 5.42: Parameters for rectangular solid source
+   $ Table 5.43: Parameters for Gaussian source
+   $ Table 5.44: Parameters for generic parabola distribution
+   $ Table 5.45: Parameters for Gaussian source
+   $ Table 5.46: Parameters for generic parabola distribution
+   $ Table 5.47: Parameters for sphere and spherical shell source
+   $ Table 5.48: Parameters for s-type=11
+   $ Table 5.49: Parameters for s-type=12
+   $ Table 5.50: Decay-turtle data
+   $ Table 5.51: Parameters for cone shape
+   $ Table 5.52: Parameters for triangle prism shape
 
 
- $ Table 5.40: Common source parameters (2)
-  ispfs      =         0  # D = 0 1 2
-  ispfs      =         1  # D = 0 1 2
-  ispfs      =         2  # D = 0 1 2
-  ispfs      =         3  # D = 0 1 2
-
-  ibatch  = all
-  ibatch  = 1
-
- $ Table 5.41: Parameters for cylinder source
- $ Table 5.42: Parameters for rectangular solid source
- $ Table 5.43: Parameters for Gaussian source
- $ Table 5.44: Parameters for generic parabola distribution
- $ Table 5.45: Parameters for Gaussian source
- $ Table 5.46: Parameters for generic parabola distribution
- $ Table 5.47: Parameters for sphere and spherical shell source
- $ Table 5.48: Parameters for s-type=11
- $ Table 5.49: Parameters for s-type=12
- $ Table 5.50: Decay-turtle data
- $ Table 5.51: Parameters for cone shape
- $ Table 5.52: Parameters for triangle prism shape
-
-  s-type  = 1    # Cylinder or circle source.
-  s-type  = 2    # Rectangular solid and rectangle source
-  s-type  = 3    # Gaussian source
-  s-type  = 7    # Generic parabola source
-  s-type  = 13   # Gaussian source
-  s-type  = 15   # Generic parabola source
-  s-type  = 9    # Sphere and spherical shell source
-  s-type  = 11   # Uniform distribution in a phase space vertical with beam direction
-  s-type  = 12   # Decay-turtle reading
-  s-type  = 18   # Cone shape
-  s-type  = 20   # Triangle prism shape
-  s-type  = 22   # xyz-mesh distribution source
-  s-type  = 24   # Tetra-mesh source
-  s-type  = 26   # Surface source
-  s-type  = 17   # Reading dump file
-  s-type  = 100  # User definition source
-  s-type  = 4
-
-  x0 = 0.0  
-  y0 = 0.0  
-  z0 = 0.0 
-  r0 = 0.0
-
-  x1 = 0.0  
-  y1 = 0.0  
-  z1 = 0.0 
-  r1 = 0.0
-
-  x2 = 0.0  
-  y2 = 0.0  
-  z2 = 0.0 
-  r2 = 0.0
-
-  rn = 0.0  
-  rx = 0.0  
-  ry = 0.0 
-  rz = 0.0
-
-  dir = 1.0
-  dir = all
-  
-  phi = none
-  phi = random
-
-  dom =  1.0
-
-  ag1 = 0.0  
-  ag2 = 0.0  
-  pg2 = 0.0 
-  isbias = 0.0
-  rx =  -0.50000        # phase space angle of x-axis [rad]
-  ry =   0.50000        # phase space angle of y-axis [rad]
-  wem = 0.0  
-  xmrad1 = 0.0  # 
-  ymrad1 = 0.0 
-  xmrad2 = 0.0
-  ymrad2 = 0.0
+   x0 = 0.0  
+   y0 = 0.0  
+   z0 = 0.0 
+   r0 = 0.0
+ 
+   x1 = 0.0  
+   y1 = 0.0  
+   z1 = 0.0 
+   r1 = 0.0
+ 
+   x2 = 0.0  
+   y2 = 0.0  
+   z2 = 0.0 
+   r2 = 0.0
+ 
+   rn = 0.0  
+   rx = 0.0  
+   ry = 0.0 
+   rz = 0.0
+ 
+   dir = 1.0
+   dir = all
+   
+   phi = none
+   phi = random
+ 
+   dom =  1.0
+ 
+   ag1 = 0.0  
+   ag2 = 0.0  
+   pg2 = 0.0 
+   isbias = 0.0
+   rx =  -0.50000        # phase space angle of x-axis [rad]
+   ry =   0.50000        # phase space angle of y-axis [rad]
+   wem = 0.0  
+   xmrad1 = 0.0  # 
+   ymrad1 = 0.0 
+   xmrad2 = 0.0
+   ymrad2 = 0.0
 
   file = filename   #  TODO
 
@@ -849,19 +854,19 @@
   e-type = 
 
 
- $ Table 5.53: Parameters for xyz-mesh distribution source
+  $ Table 5.53: Parameters for xyz-mesh distribution source
   isbias = 0 # D = 0 1 2
   isbias = 1 # D = 0 1 2
   isbias = 2 # D = 0 1 2
   isbias = 3 # D = 0 1 2
 
- $ Table 5.53: Parameters for xyz-mesh distribution source
- $ Table 5.55: Parameters for surface definition source
+  $ Table 5.53: Parameters for xyz-mesh distribution source
+  $ Table 5.55: Parameters for surface definition source
   tetreg = 1  
   suf    = 2
 
- $ Table 5.56: Parameters for dump file source (1)
- $ Table 5.57: Parameters for dump file source (2)
+  $ Table 5.56: Parameters for dump file source (1)
+  $ Table 5.57: Parameters for dump file source (2)
   dump = 0
   jpsf = 1
   sx = 0.0
@@ -875,83 +880,193 @@
 
   dmpmulti = 1.0
 
-  e-type = 1.0
-
-  ne = 4
-  nm = 4
-  ni = 4
-  dtime = 4
-
-  eg1 = 4
-  eg2 = 4
-  ag1 = 4
-  ag2 = 4
-
-  p-type = 0 # D = 0 1
-  p-type = 1 # D = 0 1
-  p-type = 2 # D = 0 1
   
-  icenv = 1
-  actlow = 1.0e-10
-  norm   = 0    
-  iaugers = 1
-  iannih = 1
-  icharctx = 1
-  icenv = 0
-  solarmod = 0
-  icyear   = 2009
-  icmonth  = 10
-  icday  = 20
-  depatom = 1033
-  alti   = 0
+
+
+ $ energy_distribution
+  $ energy distribution type
+   e-type = 1
+   e-type = 11
+   e-type = 4
+   e-type = 14
+   e-type = 21
+   e-type = 31
+   e-type = 8
+   e-type = 18
+   e-type = 22
+   e-type = 32
+   e-type = 23
+   e-type = 33
+   e-type = 2
+   e-type = 12
+   e-type = 3
+   e-type = 7
+   e-type = 5
+   e-type = 15
+   e-type = 6
+   e-type = 16
+   e-type = 28
+   e-type = 29
+   e-type = 20
+   e-type = 25
+   e-type = 26
+
+   e-type = 9
+   e-type = 27
+
+  $ energy distribution parameter
+   ne = 4
+   nm = 4
+   ni = 4
+   dtime = 4
  
- $ Table 5.74: Parameters for source energy distribution (13)
-  rigid = 1
-  environ = 123  # ???
-  glat = 33.36  $ Latitude (deg)
-  glong = 130.25  $ Longitude (deg)
+   eg1 = 4
+   eg2 = 4
+   ag1 = 4
+   ag2 = 4
+ 
+   p-type = 0 # D = 0 1
+   p-type = 1 # D = 0 1
+   p-type = 2 # D = 0 1
+   
+   $ Table 5.69: Parameters for source energy distribution (8)
+    icenv = 1
+    actlow = 1.0e-10
+    norm   = 0    
+    iaugers = 1
+    iannih = 1
+    icharctx = 1
+    icenv = 0
+    solarmod = 0
+    icyear   = 2009
+    icmonth  = 10
+    icday  = 20
+    depatom = 1033
+    alti   = 0
+ 
+   $ Table 5.74: Parameters for source energy distribution (13)
+    rigid = 1
+    environ = 123  # ???
+    glat = 33.36  $ Latitude (deg)
+    glong = 130.25  $ Longitude (deg)
 
- $ Table 5.75: Parameters for source angular distribution (1)
- $ Table 5.76: Parameters for source angular distribution (2)
-  a-type = 1
 
-  q-type = 0   # D = 0 1
-  q-type = 1   # D = 0 1
-  q-type = 2   # D = 0 1
+ $ angular distribution
+  $ angular distribution type
+   a-type = 1
+   a-type = 11
+   a-type = 4
+   a-type = 14
+   a-type = 5
+   a-type = 15
+   a-type = 6
+   a-type = 16
 
-  na = 3     # 
-  
-  nn = 1     
+   a-type = 2
+   a-type = 12
+   a-type = 7
+   a-type = 19
 
-  g(x) = exp(-c1*x**2)
+  $ angular distribution parameter
+   $ Table 5.75: Parameters for source angular distribution (1)
+   $ Table 5.76: Parameters for source angular distribution (2)
+   q-type = 0   # D = 0 1
+   q-type = 1   # D = 0 1
+   q-type = 2   # D = 0 1
+ 
+   na = 3     # 
+   nn = 1     
+ 
+   g(x) = exp(-c1*x**2)
 
- $ Table 5.77: Parameters for time distribution (1)
- $ Table 5.78: Parameters for time distribution (2)
-  t-type = 0    # D = 0-6
-  t-type = 1    # D = 0-6
-  t-type = 2    # D = 0-6
-  t-type = 3    # D = 0-6
-  t-type = 4    # D = 0-6
-  t-type = 5    # D = 0-6
-  t-type = 6    # D = 0-6
-  t-type = 7    # D = 0-6
+ $ time distribution
+  $ time distribution type
+    t-type = 0    # D = 0-6
+    t-type = 1    # D = 0-6
+    t-type = 2    # D = 0-6
+    t-type = 3    # D = 0-6
+    t-type = 4    # D = 0-6
+    t-type = 5    # D = 0-6
+    t-type = 6    # D = 0-6
+    t-type = 7    # D = 0-6
 
-  t0 = 0.0
-  tw = 2.0
-  tn = 14
-  td = 10.0
-  tc = 1.0
-  ntt = 10
-  
+  $ time distribution parameters
+   $ Table 5.77: Parameters for time distribution (1)
+   $ Table 5.78: Parameters for time distribution (2)
+    t0 = 0.0
+    tw = 2.0
+    tn = 14
+    td = 10.0
+    tc = 1.0
+    ntt = 10
+ 
+    h(x) = exp(-c1*x**2)
 
-  h(x) = exp(-c1*x**2)
+    ll  = 10     ???
+    tg1 = ???    # tg1 Minimum cut off for time distribution [ns].
+    tg2 = ??     # tg2 Maximum cut off for time distribution [ns].
 
-  # ll  = 10     ???
-  # tg1 ???
-  # tg2 ??
-  # tg1 Minimum cut off for time distribution [ns].
-  # tg2 Maximum cut off for time distribution [ns].
-  
+ $ Table 5.80: Parameters for duct source options
+    dl0  = 10     ???
+    dl1  = 10     ???
+    dl2  = 10     ???
+    dpf  = 10     ???
+    drd  = 10     ???
+    dxw  = 10     ???
+    dyw  = 10     ???
+    
+ $ example of ulti source
+   totfact = 3
+   <source> = 9.72
+    s-type = 1
+      proj = proton
+      z0 = 2
+      z1 = 29
+      r0 = 5
+      r1 = 4
+      dir = 0.0
+    e-type = 6
+      eg1 = 1.e-6
+      eg2 = 1.e-3
+      nm = -200
+      set: c10[1.e-4]
+      f(x) = x**(1.5)*exp(-x/c10)
+   
+   <source> = 1
+    s-type = 1
+     proj = photon
+     z0 = 1
+     z1 = 2
+     r0 = 5
+     dir = -1
+    e-type = 5
+     eg1 = 1.e-3
+     eg2 = 5.e-1
+     nm = 200
+     set: c10[1.e-1]
+     set: c20[1.e-1/2.35482]
+     f(x) = exp(-(x-c10)**2/2/c20**2)
+
+   <source> = 1
+    s-type = 1
+     proj = neutron
+     z0 = 29
+     z1 = 30
+     r0 = 5
+    e-type = 6
+     eg1 = 1.e-2
+     eg2 = 1.e+3
+     nm = -200
+     set: c10[92.469]
+     set: c20[5.644e+10]
+     f(x) = c10/c20*exp(-sqrt(x*(x+1876))/c10)*(x+938)/sqrt(x*(x+1876))
+     dir = data
+    a-type = 5
+     ag1 = 0
+     ag2 = 1
+     nn = 200
+     g(x) = exp(-(x-1)**2/0.3**2)
+
 [ M a t e r i a l ]
  m1 80196.49c c1
     80198.49c c2
@@ -1135,13 +1250,13 @@
 
  $ Neutron
     reg    typ   gap         mgf       trcl polar time
-    1      60    0.00000     35000.0   3 non non
-    2      61    0.00000     35000.0   1 1 non
-    3      106    5.00000     7130.0   0 0 non
-    4      104    0.00000     3.5      0 non 5.0
-    5      102    0.00000     0.20     0 non non
-    6      101    3.00000     7130.0   2 1 non
-    7      103    0.00000     35000.0   0 -1 non
+    1      60    0.00000     35000.0   3    non   non
+    2      61    0.00000     35000.0   1    1     non
+    3      106    5.00000     7130.0   0    0     non
+    4      104    0.00000     3.5      0    non   5.0
+    5      102    0.00000     0.20     0    non   non
+    6      101    3.00000     7130.0   2    1     non
+    7      103    0.00000     35000.0  0    -1    non
 
 [ Electro Magnetic Field ]
  reg elf mgf trcle trclm  trcletrclm
@@ -1178,6 +1293,140 @@
 
 $ tally common
 [ T-Track ] 
+ $ Mesh type
+  $ Region mesh
+   mesh = reg
+   reg = 1 2 { 3 - 5 } all
+   
+
+  $ Definition of the region and volume for repeated structures and lattices
+   reg = ( 301 < 101[0 0 0] )
+      mesh = reg # mesh type is region-wise
+   reg = ( all ) ( { 201 - 205 } ) ( 161 < 160[ 1:2 3:6 1:1 ] ) ( (
+   { 201 - 204 } ) < ( { 161 - 163 } ) ) ( ( 90 100 ) 120 < 61
+   ( 62 63 ) )
+   volume # combined, lattice or level structure
+   non reg vol # reg definition
+   1 10001 8.1000E+01 # ( all )
+   2 10002 5.0000E+00 # ( { 201 - 205 } )
+   3 10003 1.0000E+00 # ( 161 < 160[ 1 3 1 ] )
+
+   mesh = reg
+   reg = 1 2 3 4 ( 5 < 12 ) ( {13 - 17} )
+   volume
+   reg    vol
+   1      1.0000
+   2      5.0000
+   3      6.0000
+   4      1.0000
+   10001  6.0000
+
+  $ r-z mesh
+    mesh = r-z
+    x0 = 1.0
+    y0 = 2.0
+
+    r-type = 1   # D = 1 - 5 
+    r-type = 2   # D = 1 - 5 
+    r-type = 3   # D = 1 - 5 
+    r-type = 4   # D = 1 - 5 
+    r-type = 5   # D = 1 - 5 
+    r-type = 6   # D = 1 - 5 
+
+    z-type = 1   # D = 1 - 5 
+    z-type = 2   # D = 1 - 5 
+    z-type = 3   # D = 1 - 5 
+    z-type = 4   # D = 1 - 5 
+    z-type = 5   # D = 1 - 5 
+    z-type = 6   # D = 1 - 5 
+
+  $ xyz mesh
+    mesh = xyz
+    reg = ( 201 202 < 101 )
+
+    x-type = 1   # D = 1 - 5 
+    x-type = 2   # D = 1 - 5 
+    x-type = 3   # D = 1 - 5 
+    x-type = 4   # D = 1 - 5 
+    x-type = 5   # D = 1 - 5 
+    x-type = 6   # D = 1 - 5 
+
+    y-type = 1   # D = 1 - 5 
+    y-type = 2   # D = 1 - 5 
+    y-type = 3   # D = 1 - 5 
+    y-type = 4   # D = 1 - 5 
+    y-type = 5   # D = 1 - 5 
+    y-type = 6   # D = 1 - 5
+
+    z-type = 1   # D = 1 - 5 
+    z-type = 2   # D = 1 - 5 
+    z-type = 3   # D = 1 - 5 
+    z-type = 4   # D = 1 - 5 
+    z-type = 5   # D = 1 - 5 
+    z-type = 6   # D = 1 - 5
+
+ $ energy mesh type
+  e-type = 1    # D = 1 - 5
+  e-type = 2    # D = 1 - 5
+  e-type = 3    # D = 1 - 5
+  e-type = 4    # D = 1 - 5
+  e-type = 5    # D = 1 - 5
+  e-type = 6    # D = 1 - 5
+
+ $ let mesh type
+  l-type = 1    # D = 1 - 5
+  l-type = 2    # D = 1 - 5
+  l-type = 3    # D = 1 - 5
+  l-type = 4    # D = 1 - 5
+  l-type = 5    # D = 1 - 5
+  l-type = 6    # D = 1 - 5
+
+ $ time mesh type
+  t-type = 1    # D = 1 - 5
+  t-type = 2    # D = 1 - 5
+  t-type = 3    # D = 1 - 5
+  t-type = 4    # D = 1 - 5
+  t-type = 5    # D = 1 - 5
+  t-type = 6    # D = 1 - 5
+
+ $ mesh definition
+  ne = 2
+  nx =   100
+  ny =   100
+  nz =   100
+  xmin =  -c1           
+  xmax =   c1            # maximum value of x-mesh points
+  ymin =  -10            # minimum value of y-mesh points
+  ymax =   10            # maximum value of y-mesh points
+  zmin =  -c1            # minimum value of z-mesh points
+  zmax =   c1            # maximum value of z-mesh points
+
+
+ $ other parameter
+  $ particle parameter
+   part = photon neutron electron proton all 
+   part = photonn neutronn electronn protonn all 
+
+  $ axis parameter # TODO
+   axis = reg eng
+   axis = x y z r t xy yz zx rz 
+   axis = cos the
+   axis = mass  charge chart dchain let    # comment
+   axis = t-eng
+   axis = t-eng  eng-t t-e1 e1-t t-e2 e2-t  # comment
+   zmax =   c1 
+   axis = e12 e21
+
+   axis = costhe
+   axis = t-engt-e1 t-e1e1-t
+
+   zmax =   c1 
+   part = photon neutron electron proton all 
+
+  $ file parameter
+   file = file.001 file.002 file.003 # comment 
+   file = file.001                   $ comment
+
 
 [ T-Track ] 
 
