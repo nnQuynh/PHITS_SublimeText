@@ -13,10 +13,11 @@ scope: source.inp
 
 
 variables:
-  decimal: '\+?[0-9]+\.*[0-9]*'
-  neg_decimal: '-{1}[0-9]+\.*[0-9]*'
-  blank_line: ^\s*\n
+  float: '\+?[0-9]+\.*[0-9]*'
+  neg_float: '-{1}[0-9]+\.*[0-9]*'
   pos_int: '[0-9]*[1-9][0-9]*'
+  blank_line: ^\s*\n
+  
 
   surface_mnemonic: (?i)\b(p|px|py|pz|so|s|sx|sy|sz|c/x|c/y|c/z|cx|cy|cz|k/x|k/y|k/z|kx|ky|kz|sq|gq|tx|ty|tz|xyzp|box|rpp|sph|rcc|rhp|hex|rec|trc|ell|wed|arb)\b
   color_name: (?i)(white|darkred|darkbrown|purple|orange|bluegreen)
@@ -879,13 +880,13 @@ contexts:
 
 
       #          (  group1          )   (  group 2 )   ( group 3                   )      
-    - match: (?i)(^\s{0,4}[0-9]{1,8})\s+({{pos_int}})\s+({{decimal}}|{{neg_decimal}})   # cell with material
+    - match: (?i)(^\s{0,4}[0-9]{1,8})\s+({{pos_int}})\s+({{float}}|{{neg_float}})   # cell with material
       captures:
         1: entity.name.cellNumber
         2: support.constant.mat.number
         3: support.constant.density.mcnp
 
-    - match: (?i)(^\s{0,4}[0-9]{1,8})\s+({{pos_int}})\s+[-+ ](c[0-9]+|{{neg_decimal}})   # cell with material
+    - match: (?i)(^\s{0,4}[0-9]{1,8})\s+({{pos_int}})\s+[-+ ](c[0-9]+|{{neg_float}})   # cell with material
       captures:
         1: entity.name.cellNumber
         2: support.constant.mat.number
@@ -1006,6 +1007,20 @@ contexts:
 
     - match: (?i)\b(non)\b  
       scope: constant.numeric.parameters.card.input_output_filename
+
+
+############################################################################################
+# [ Data Max ]
+############################################################################################
+  data_max_section:
+    - meta_scope: data_max_section
+
+    - include: comments
+    - include: begin_section 
+
+    - include: set_parameter     
+    - include: intrinsic_functions  
+
 
 ############################################################################################
 # [I m p o r t a n c e]
@@ -1206,20 +1221,6 @@ contexts:
     - include: intrinsic_functions   
     - include: set_parameter
 
-    - match: (?i)\s*(title)\s*=\s*(.*)(#.*) # have a comment at the end of line
-      captures:
-        1: support.constant.tally_title
-        2: entity.other.inherited-class.tally_title
-        3: comment
-
-    - match: (?i)\s*(title)\s*=\s*(.*)      # no comment at the end of line
-      captures:
-        1: support.constant.tally_title
-        2: entity.other.inherited-class.tally_title
-        3: comment
-
-    
-
   tally_mesh_type:
     # mesh type
     - match: (?i)\s*(mesh)\s*=\s*(reg|r-z|xyz) 
@@ -1281,7 +1282,7 @@ contexts:
         1: support.constant.tally_angle_mesh
         2: constant.numeric.tally_angle_mesh
 
-    - match: (?i)\s*(na)\s*=\s* 
+    - match: (?i)\s*(na|amin|amax)\s*=\s* 
       captures:
         1: support.constant.tally_angle_mesh
         2: constant.numeric.tally_angle_mesh
@@ -1301,24 +1302,33 @@ contexts:
 
     - match: (?i)\s*(xmin|xmax|ymin|ymax|zmin|zmax|rmin|rmax) 
       captures:
-        1: support.constant.tally_energy_mesh
+        1: support.constant.tally_mesh_definition
 
   tally_other_parameters:
     - include: tally_particle_parameter
     - include: tally_axis_parameter
-    # - include: tally_samepage_parameter
     - include: tally_file_parameter
     - include: tally_resfile_parameter
+    - include: tally_factor_parameter
+    - include: tally_info_parameters
+    - include: tally_title_parameter
+    - include: tally_angle_parameter
+    - include: tally_sangel_parameter
+    - include: tally_2d_type_parameter
+    - include: tally_gshow_parameter
+    - include: tally_rshow_parameter
+    - include: tally_xyz_txt_parameter
+    - include: tally_volmat_parameter
+    - include: tally_epsout_parameter
+    - include: tally_resolution_parameter
+    - include: tally_coordinate_transformation_parameter
+    - include: tally_dump_parameter
 
 
     - match: (?i)\s*(multiplier)\s*=\s*(all)
       captures:
         1: support.constant.tally_particle_parameter
         2: constant.numeric.tally_particle_parameter
-
-    # - match: (?i)\s*(reg|unit|output|material|multiplier|factor|gshow|rshow|resol|width|epsout|x-txt|y-txt|z-txt|2D-type|trcl|vtkout)\s*=
-    #   captures:
-    #     1: support.constant.tally_particle_parameter
 
   tally_particle_parameter:
     - match: (?i)\s*(part)\s*=\s*\b(({{particles}}\s*)*)\b
@@ -1336,12 +1346,10 @@ contexts:
     #     2: constant.numeric.tally_particle_parameter
 
     - match: (?i)\s*(axis)
-      scope: support.constant.tally_particle_parameter
+      scope: support.constant.tally_axis_parameter
       push: tally_axis_parameter_option
 
-  # TODO
   tally_axis_parameter_option:
-
     # - include: tally_axis_parameter
     - match: (?i)\s(t-eng|eng-t|t-e1|e1-t|t-e2|e2-t)
       scope: constant.numeric.tally_particle_parameter
@@ -1357,11 +1365,9 @@ contexts:
       push:
         - meta_scope: comment.inline 
         - match: '\n'
-          pop: true
+          pop: 2
         
-
-  # ???
-  # tally_samepage_parameter:
+  # tally_samepage_parameter:  ???
 
   tally_file_parameter: 
     - match: (?i)\s*(file)\s*=\s*(.*)([#|$].*) # have a comment at the end of line
@@ -1376,7 +1382,7 @@ contexts:
         2: entity.other.inherited-class.filename
 
   tally_resfile_parameter: 
-    - match: (?i)\s*(resfile)\s*=\s*(.*)(#.*) # have a comment at the end of line
+    - match: (?i)\s*(resfile)\s*=\s*(.*)([#|$].*) # have a comment at the end of line
       captures:
         1: support.constant.filename
         2: entity.other.inherited-class.filename
@@ -1387,7 +1393,7 @@ contexts:
         1: support.constant.filename
         2: entity.other.inherited-class.filename
 
-  # tally_unit_parameter: iin each tally section
+  # tally_unit_parameter: in each tally section
 
   tally_factor_parameter:
     - match: (?i)\s*(factor)\s*=()
@@ -1395,6 +1401,106 @@ contexts:
         1: support.constant.filename
         2: entity.other.inherited-class.filename
 
+  # output parameter  : in each tally section
+
+  tally_info_parameters:
+    - match: (?i)\s*(info)\s*=\s*(0|1)
+      captures:
+        1: support.constant.tally_info_parameters
+        2: constant.numeric.tally_info_parameters
+
+  tally_title_parameter: 
+    - match: (?i)\s*(title)\s*=\s*(.*)([#|$].*) # have a comment at the end of line
+      captures:
+        1: support.constant.tally_title_parameter
+        2: entity.other.inherited-class.tally_title_parameter
+        3: comment
+
+    - match: (?i)\s*(title)\s*=\s*(.*)    # no comment at the end of line
+      captures:
+        1: support.constant.tally_title_parameter
+        2: entity.other.inherited-class.tally_title_parameter
+
+  tally_angle_parameter:
+    - match: (?i)\s*(angel)
+      scope: support.constant.tally_angle_parameter
+      push: tally_angle_parameter_option
+
+  tally_angle_parameter_option: 
+    # - include: comments
+    - match: (xmin|xmax|ymin|ymax|xlin|xlog|ylin|ylog|xdec|xexp|ydec|yexp|cmin|cmax|cmnm|cmum|cmmm|cmmt|cmkm|nsps|nsus|nsms|nssc|scmn|schr|scdy|scyr|cmap|ndis)
+      scope: constant.numeric.tally_angle_parameter_option
+
+    - match: '\n'
+      pop: true
+
+    - match: (#|\s*\$)+
+      scope: punctuation.definition.comment
+      push:
+        - meta_scope: comment.inline 
+        - match: '\n'
+          pop: 2
+
+  tally_sangel_parameter:
+    - match: (?i)\s*(sangel)\s*=\s*()
+      captures:
+        1: support.constant.tally_info_parameters
+        2: constant.numeric.tally_info_parameters
+
+  tally_2d_type_parameter:
+    - match: (?i)\s*(2d-type)\s*=\s*([1-7])
+      captures:
+        1: support.constant.tally_2d_type_parameter
+        2: constant.numeric.tally_2d_type_parameter
+
+  tally_gshow_parameter:
+    - match: (?i)\s*(gshow)\s*=\s*([0-4])
+      captures:
+        1: support.constant.tally_gshow_parameter
+        2: constant.numeric.tally_gshow_parameter
+
+  tally_rshow_parameter:
+    - match: (?i)\s*(rshow)\s*=\s*([1-3])
+      captures:
+        1: support.constant.tally_rshow_parameter
+        2: constant.numeric.tally_rshow_parameter
+
+  tally_xyz_txt_parameter:
+    - match: (?i)\s*(x-txt|y-txt|z-txt)\s*=\s*(.*)([#|$].*) # have a comment at the end of line
+      captures:
+        1: support.constant.tally_xyz_txt_parameter
+        2: entity.other.inherited-class.tally_xyz_txt_parameter
+        3: comment
+
+    - match: (?i)\s*(x-txt|y-txt|z-txt)\s*=\s*(.*)    # no comment at the end of line
+      captures:
+        1: support.constant.tally_xyz_txt_parameter
+        2: entity.other.inherited-class.tally_xyz_txt_parameter
+
+  tally_volmat_parameter:
+    - match: (?i)\s*(volmat)\s*=\s*()
+      captures:
+        1: support.constant.tally_volmat_parameter
+
+  tally_epsout_parameter:
+    - match: (?i)\s*(epsout)\s*=\s*()
+      captures:
+        1: support.constant.tally_epsout_parameter
+  
+  tally_resolution_parameter:
+    - match: (?i)\s*(resol|width)\s*=\s*()
+      captures:
+        1: support.constant.tally_resolution_parameter
+
+  tally_coordinate_transformation_parameter:
+    - match: (?i)\s*(trcl)\s*=\s*()
+      captures:
+        1: support.constant.tally_coordinate_transformation_parameter
+
+  tally_dump_parameter:
+    - match: (?i)\s*(dump)\s*=\s*()
+      captures:
+        1: support.constant.tally_dump_parameter
 
 
 ############################################################################################
@@ -1643,6 +1749,10 @@ contexts:
     - match:  (?i)(^\s*)(\[\s*E\s*l\s*e\s*c\s*t\s*r\s*o\s+M\s*a\s*g\s*n\s*e\s*t\s*i\s*c\s+F\s*i\s*e\s*l\s*d\s*\]\s*\n)
       scope: keyword.section_title
       set: electro_magnetic_field_section
+
+    - match:  (?i)(^\s*)(\[\s*d\s*a\s*t\s*a\s*m\s*a\s*x\s*]\s*\n)
+      scope: keyword.section_title
+      set: data_max_section
 
 
     - match:  (?i)(^\s*)(\[\s*I\s*m\s*p\s*o\s*r\s*t\s*a\s*n\s*c\s*e\s*\]\s*\n)

@@ -1427,6 +1427,87 @@ $ tally common
    file = file.001 file.002 file.003 # comment 
    file = file.001                   $ comment
 
+  $ resfile parameter
+   resfile = resfile.001 resfile.002   # comment 
+   resfile = file.001                   $ comment
+  
+  $ factor parameter
+   factor = 2.3 1.2e-3    # comment
+   factor = 2.3 1.2e-3    $ comment
+
+  $ info parameter
+   info = 0    # D = 0 1
+   info = 1    $ D = 0 1
+   
+   info = 2    $ D = 0 1
+
+  $ title parameter
+   title = tile 01 # comment 
+   title = file.001     $ comment
+
+  $ Table 6.3: ANGEL parameter
+  angel = xmin(1.0) ymin(1.3e-8) xlin xlog  
+  angel = xmin(1.0) ymin(1.3e-8) xlin xlog  # TODO comment 
+  angel = xmin(1.0) ymin(1.3e-8) xlin xlog  
+  title = file.001     $ comment
+  angel = xdec  xexp  ydec  yexp  cmin  cmax
+  angel = cmnm  cmum  cmmm  cmmt  cmkm  nsps  nsus nsms  
+  angel = nssc  scmn  schr  scdy  scyr  cmap  ndis
+
+  $ sangel parameter
+   sangel = 2    $ comment
+
+  $ 2d-type parameter
+   2d-type = 1    #  D = 1, 2, 3, 4, 5, 6, 7
+   2d-type = 2    #  D = 1, 2, 3, 4, 5, 6, 7
+   2d-type = 3    #  D = 1, 2, 3, 4, 5, 6, 7
+   2d-type = 4    #  D = 1, 2, 3, 4, 5, 6, 7
+   2d-type = 5    #  D = 1, 2, 3, 4, 5, 6, 7
+   2d-type = 6    #  D = 1, 2, 3, 4, 5, 6, 7
+   2d-type = 7    #  D = 1, 2, 3, 4, 5, 6, 7
+
+   2d-type = 8    #  D = 1, 2, 3, 4, 5, 6, 7
+
+  $ gshow parameter
+   gshow = 0    #  D = 0, 1, 2, 3, 4
+   gshow = 1    #  D = 0, 1, 2, 3, 4
+   gshow = 2    #  D = 0, 1, 2, 3, 4
+   gshow = 3    #  D = 0, 1, 2, 3, 4
+   gshow = 4    #  D = 0, 1, 2, 3, 4
+
+   gshow = 5    #  D = 0, 1, 2, 3, 4
+
+
+  $ rshow parameter
+   rshow = 1    #  D = 1, 2, 3
+   rshow = 2    #  D = 1, 2, 3
+   rshow = 3    #  D = 1, 2, 3
+
+   rshow = 4    #  D = 1, 2, 3
+
+  $ x-txt, y-txt, z-txt parameter
+   x-txt = x axis title   
+   y-txt = y axis title     # comment
+   z-txt = z axis title
+
+  $ volmat parameter
+   volmat = 1  
+   volmat = 2  # comment
+
+  $ epsout parameter
+   epsout = 1  
+   epsout = 2  # comment
+
+  $ resolution parameter
+   resol = 1  
+   width = 2  # comment
+
+  $ coordinate transformation
+   trcl = 2
+
+  $ dump transformation
+   dump = 2
+
 
 [ T-Track ] 
 
