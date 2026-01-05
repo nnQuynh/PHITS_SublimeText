@@ -1389,6 +1389,15 @@ $ tally common
   t-type = 5    # D = 1 - 5
   t-type = 6    # D = 1 - 5
 
+ $ angle mesh type
+  a-type = 1    # D = 1 2 -1 2
+  a-type = 2    # D = 1 2 -1 2
+  a-type = -1   # D = 1 2 -1 2
+  a-type = -2   # D = 1 2 -1 2
+
+  a-type = 3    # D = 1 2 -1 2
+  a-type = 6    # D = 1 2 -1 2
+
  $ mesh definition
   ne = 2
   nx =   100
@@ -1510,6 +1519,174 @@ $ tally common
 
 
 [ T-Track ] 
+  $ Table 7.1: [t-track]parameters (1)
+   mesh = reg 
+   mesh = r-z 
+   mesh = xyz 
+   mesh = tet 
+   mesh = reg 
+
+   reg = 100
+   reg = ( 201 202 < 101 )
+   volume = 1.2
+   
+   iechrl = 72
+
+   e-type = 1  $ D = 1 2 3 4 5
+   e-type = 2  $ D = 1 2 3 4 5
+   e-type = 3  $ D = 1 2 3 4 5
+   e-type = 4  $ D = 1 2 3 4 5
+   e-type = 5  $ D = 1 2 3 4 5
+
+   t-type = 1  $ D = 1 2 3 4 5
+   t-type = 2  $ D = 1 2 3 4 5
+   t-type = 3  $ D = 1 2 3 4 5
+   t-type = 4  $ D = 1 2 3 4 5
+   t-type = 5  $ D = 1 2 3 4 5
+
+   a-type = 1   $ D = 1 2 -1 -2
+   a-type = 2   $ D = 1 2 -1 -2
+   a-type = -1  $ D = 1 2 -1 -2
+   a-type = -2  $ D = 1 2 -1 -2
+
+  $ Table 7.2: [t-track]parameters (2)
+    part = all photon neutron proton electron
+    axis = eng  reg  x  y  z  r 
+    axis = tet 
+    axis = rad  deg
+    axis = xy  yz  xz  rz
+    axis = t
+
+    samepage = 2   $ ???
+
+    file = file name
+
+    unit = 1    $ 1, 2, 3, 4, 11, 12, 13, 14
+    unit = 2    $ 1, 2, 3, 4, 11, 12, 13, 14
+    unit = 3    $ 1, 2, 3, 4, 11, 12, 13, 14
+    unit = 4    $ 1, 2, 3, 4, 11, 12, 13, 14
+    unit = 11    $ 1, 2, 3, 4, 11, 12, 13, 14
+    unit = 12    $ 1, 2, 3, 4, 11, 12, 13, 14
+    unit = 13    $ 1, 2, 3, 4, 11, 12, 13, 14
+    unit = 14    $ 1, 2, 3, 4, 11, 12, 13, 14
+
+    unit = 5    $ 1, 2, 3, 4, 11, 12, 13, 14
+    unit = 15    $ 1, 2, 3, 4, 11, 12, 13, 14
+
+
+    factor = 1.0 
+
+  $ Table 7.3: [t-track]parameters (3)
+    title = title
+    angel = 
+    sangel =
+    2d-type = 1
+
+    gshow = 0 
+    rshow = 1
+
+    gslat = 0  $ 0 1 2 3
+    gslat = 1  $ 0 1 2 3
+    gslat = 2  $ 0 1 2 3
+    gslat = 3  $ 0 1 2 3
+
+    gslat = 4  $ 0 1 2 3
+
+    x-txt = x axis title
+    y-txt = y axis title
+    z-txt = z axis title
+
+    resol = 1 
+    width = 0.5
+    trcl = 1
+
+  $ Table 7.4: [t-track]parameters (4)
+    material = all
+    material = 2
+               3 4
+
+    volmat = 9
+    multiplier = 2
+
+    epsout = 0
+    epsout = 1
+    epsout = 2
+
+    epsout = 3
+
+    bmpout = 0
+    bmpout = 1
+
+    vtkout = 0
+    vtkout = 1
+
+    vtkfmt = 0
+    vtkfmt = 1
+
+    foamout = 0
+    foamout = 1
+    foamout = 2
+
+    maxangel = 2 $ ???
+
+  $ Table 7.5: [t-track]parameters (5)
+    ctmin(1) = -9999
+    ctmax(1) =  9999
+    chmin(2) = -9999
+    chmax(2) =  9999
+
+    iextstat = 0 $ 0,1,2
+    iextstat = 1 $ 0,1,2
+    iextstat = 2 $ 0,1,2
+
+    stdcut   = -1
+    prodenmn = -1
+    prodenmx = -1
+    nbproden = -1
+
+
+    title = Track Detection in reg mesh
+    mesh =  reg            # mesh type is region-wise
+    reg = 100
+   volume                   # combined, lattice or level structure 
+   non     reg      vol     # reg definition
+    1      100   4/3*pi*10**3
+   e-type =    3            # e-mesh is log given by emin, emax and ne
+     emin =   1.000000      # minimum value of e-mesh points
+     emax =   200.0000      # maximum value of e-mesh points
+       ne =   50            # number of e-mesh points
+     unit =    2            # unit is [1/cm^2/MeV/source]
+     axis =   eng            # axis of output
+     file = track_reg.out  # file name of output for the above axis
+     part =  all      
+    gshow =    1            # 0: no 1:bnd, 2:bnd+mat, 3:bnd+reg 4:bnd+lat
+   epsout =    1            # (D=0) generate eps file by ANGEL
+
+
+    title = Track Detection in xyz mesh
+     mesh =  xyz            # mesh type is xyz scoring mesh
+   x-type =    2            # x-mesh is linear given by xmin, xmax and nx
+       nx =   25            # number of x-mesh points
+     xmin =  -25.           # minimum value of x-mesh points
+     xmax =   25.           # maximum value of x-mesh points
+   y-type =    2            # y-mesh is linear given by ymin, ymax and ny
+       ny =   25            # number of y-mesh points
+     ymin =  -25.           # minimum value of y-mesh points
+     ymax =   25.           # maximum value of y-mesh points
+   z-type =    1            # z-mesh is given by the below data
+       nz =    1            # number of z-mesh points
+           -5.0  5.0
+   e-type =    1            # e-mesh is given by the below data
+       ne =    1            # number of e-mesh points
+            0.0  5000.0
+     unit =    1            # unit is [1/cm^2/source]
+     axis =   xy            # axis of output
+     file = track_xyz-xy.out  # file name of output for the above axis
+     part =  all      
+    gshow =    1            # 0: no 1:bnd, 2:bnd+mat, 3:bnd+reg 4:bnd+lat
+   epsout =    1            # (D=0) generate eps file by ANGEL
+
+
 
 [ T-Cross ]
 
