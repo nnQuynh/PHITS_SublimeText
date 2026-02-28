@@ -3,7 +3,7 @@
 
  PHITS version 3.5
 
-[ P a r a m e t e r s ]
+[ P a r a m e t e r s ] 
  $ Table 5.1: icntl parameter  
   icntl    =           0     # D = 0 - 17
   icntl    =           2     
@@ -680,7 +680,7 @@
   file(4)  = error
   file(5)  = error
   file(6)  = phits.out) Summary output file name.
-  file(7)  = file(1)/data/xsdir.jnd) Cross section directory file name.
+  file(7)  = file(1)/data/xsdir.jnd) Cross section directory file name.   TODO
   file(8)  = error
   file(9)  = error
   file(11) = nuclcal.out) Nuclear reaction output file name.
@@ -1571,7 +1571,7 @@ $ tally common
     unit = 14    $ 1, 2, 3, 4, 11, 12, 13, 14
 
     unit = 5    $ 1, 2, 3, 4, 11, 12, 13, 14
-    unit = 15    $ 1, 2, 3, 4, 11, 12, 13, 14
+    unit = 15    $ 1, 2, 3, 4, 11, 12, 13, 14  TODO
 
 
     factor = 1.0 
