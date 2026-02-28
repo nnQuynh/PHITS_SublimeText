@@ -1323,7 +1323,7 @@ $ tally common
 
   $ r-z mesh
     mesh = r-z
-    x0 = 1.0
+    x0 = 1.0               # TODO
     y0 = 2.0
 
     r-type = 1   # D = 1 - 5 
