@@ -1,7 +1,7 @@
 [Title]
 Neutron dose rate from 400MeV proton incident reaction on Cu
 
-[Parameters]
+[Parameters] off
  icntl    =           8    # (D=0) 3:ECH 5:NOR 6:SRC 7,8:GSH 11:DSH 12:DUMP
  maxcas   =        1000    # (D=10) number of particles per one batch
  maxbch   =          10    # (D=10) number of batches
@@ -14,7 +14,7 @@ $ infl: {WWG.out}          # output file from [t-WWG]
  set:c2[50]  $ thickness of concrete shield
  set:c3[15]  $ radius of ditector
  
-[ S o u r c e ] 
+[ S o u r c e ]  
    totfact = 250e3/400e6/1.602e-19    $ convert (/source) to (/sec)
    s-type =   1             # axial source with energy spectrum
      proj =  proton         # kind of incident particle         
@@ -26,14 +26,14 @@ $ infl: {WWG.out}          # output file from [t-WWG]
       dir =   1           # z-direction of beam [cosine]
          e0 = 400
 
-[ S o u r c e ] off
+[ S o u r c e ] 
 s-type =  17
 file =  cross_neutron_dmp.out
     idmpmode = 1
 dump =   -11
     1  2  3  4  5  6  7  8  9 18 19
 
-[Material]
+[Material] off    
 $   Concrete   2.302 g/cm^3, taken from ANL-5800 Type 02-a
 $   Note: 2.302 g/cm^3 is US standard. 
 
@@ -55,13 +55,13 @@ m2        N   4.0586E-05
 
 m3  Cu    1.0
 
-[ Mat Name Color ]
+[ Mat Name Color ] off
     mat   name      color
      1    Concrete    gray
      2    Air         pastelblue
      3    Copper      red
 
-[Surface] 
+[Surface]  off
    1   rpp  -c1/2   c1/2     -c1/2    c1/2    -c1/2 c1/2
    2   cz    c1/2 
    3   pz   -c1/2
@@ -74,7 +74,7 @@ m3  Cu    1.0
 
    99  so  1000
 
-[Cell] 
+[Cell]  off
    1    3 -8.90          -1  
    2    0          -2 4  -3
    3    2 -1.21e-3 -5 #1 #2
@@ -154,8 +154,10 @@ $  (pSv/sec) (Sv/sec)
 mat mset1 
 all ( 1e-12 -202 ) 
 
+output = flux            # surface crossing flux
 
-[ T - C r o s s ] off
+
+[ T - C r o s s ] 
     title = dump file generation
      mesh =  reg            # mesh type is region-wise
       reg =    1            # number of crossing regions
@@ -175,7 +177,7 @@ all ( 1e-12 -202 )
    dump =   -11
 1  2  3  4  5  6  7  8  9 18 19
 
-[ T - C r o s s ] off
+[ T - C r o s s ] 
     title = Energy distribution in region mesh
      mesh =  reg            # mesh type is region-wise
       reg =    1            # number of crossing regions

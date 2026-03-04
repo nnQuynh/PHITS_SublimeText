@@ -1,0 +1,10 @@
+
+
+- In "\phits\sample\benchmark\Iwamoto-JNST2017\Shielding-RCNP.inp"
+  s-type =   4             # cylindrical source
+- In manual 3.35: 
+  s-type = 1  $ Cylinder or circle source
+  s-type = 4  $ not existed
+
+
+  
