@@ -1,0 +1,85 @@
+[ T i t l e ]
+ Syntax highlight for PHITS code
+
+[ P a r a m e t e r s ]
+ icntl    =           0     $ valid value
+ icntl    =           18    $ invalid value
+c line comment
+ emin(1)    =     1.0e-3   # Comment begin with #
+ emin(21)   =     1.0e-3   $ Comment begin with $
+
+ set: c20[30]    
+ set: c21[cos(c20/180*pi)] 
+ set: c22[sin(c20/180*pi)]
+
+[ C e l l ]  
+  1  0         -99 #100 #101   $ # is operator
+  2  1 -c14     -11 12 -13     $ user-variable
+  3  2 -1.20e-3  #1 -999       $ Air
+
+ 10  0  -922   921  -924  lat= 1   u= 901
+ 11  0  -922   921  -924  
+        lat= 1   u= 901
+        fill=0:298  0:136  0:347
+
+ 20 LIKE 2 BUT TRCL=1
+ 22 LIKE 2 BUT TRCL=2 MAT=2
+
+[ S u r f a c e ] 
+  1   p   5 0 0  0 5 0  0 0 c20
+  2   px  10.
+  4 1 pz  10
+ 24   gq  c21**2 0. c22**2  0. 0. -2*c21*c22 -c22 0 -c21 0
+
+[ S o u r c e ]
+ proj = (photon electron) 
+ reg  = all
+
+[ M a t e r i a l ]
+ m1 80196.49c c1
+    80198.49c c2
+
+ m3 4009.37c 1.2362E-1
+ mt3 be.01
+
+[ T-Track ] 
+ title = Track Detection in reg mesh
+  mesh =  reg            # mesh type 
+   reg = 100
+   volume                   # combined, lattice or level structure 
+   non     reg      vol     # reg definition
+    1      100   4/3*pi*10**3
+ e-type =    3            # e-mesh is log given by emin, emax and ne
+   emin =   1.000000      # minimum value of e-mesh points
+   emax =   200.0000      # maximum value of e-mesh points
+     ne =   50            # number of e-mesh points
+   unit =    2            # unit is [1/cm^2/MeV/source]
+   axis =   eng            # axis of output
+   file = track_reg.out  # file name 
+   part =  all      
+  gshow =    1            # 0: no 1:bnd, 2:bnd+mat, 3:bnd+reg 4:bnd+lat
+ epsout =    1            # (D=0) generate eps file by ANGEL
+
+[ T-Track ]  off
+ title = Track Detection in reg mesh
+  mesh =  reg            # mesh type is region-wise
+   reg = 100
+   volume                   # combined, lattice or level structure 
+   non     reg      vol     # reg definition
+    1      100   4/3*pi*10**3
+
+[ T-Cross ]
+  mesh = reg
+  reg = number of crossing surfaces
+   r-from r-to area
+    2 8 10.0
+    3 8 5.0
+  part = photon neutron
+  mesh =  reg            # mesh type is region-wise
+  reg =    9            # number of crossing regions
+  non     r-in   r-out    area
+    1     10     2       c61   $ 1st angel
+    2     10     3       c62   $ 2nd angel
+
+[END]
+ ignore text 

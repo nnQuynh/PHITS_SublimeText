@@ -1,8 +1,10 @@
 # Syntax highlight for PHITS code
 Syntax highlight for PHITS code
 
+![Screenshot](/images/Sample.png) 
+
 ## Compatability Notes
-* Syntax based on PHITS manucal version 3.35
+* Syntax based on PHITS manual version 3.35
 * Color scheme Monokai
 * Default file extension: `.inp`
 
