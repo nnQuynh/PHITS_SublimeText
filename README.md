@@ -2,13 +2,19 @@
 Syntax highlight for PHITS code
 
 ## Compatability Notes
+* Syntax based on PHITS manucal version 3.35
+* Color scheme Monokai
+* Default file extension: `.inp`
 
 ## Manual Installation
 1.  Open Sublime Text.
-2.  Go to **Preferences** > **Browse Packages...** [13].
-3.  Inside the Packages folder, create a new folder named `YourPackageName`.
-4.  Copy the package files into this new folder.
+2.  Go to **Preferences** > **Browse Packages...** .
+3.  Inside the **User** folder, create a new folder named `PHITS`.
+4.  Copy file `PHITS.sublime-syntax` into this new folder.
 5.  Restart Sublime Text.
+
+
+
 
 ## TODO
 * [ ] Implementation section
