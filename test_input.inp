@@ -1310,13 +1310,43 @@
    30.0 7.020
    50.0 18.50
 
+
+   multiplier = all     # test comment
+   multiplier = 2        # test comment 
+   part = neutron
+   emax = 1000
+   mat mset1 mset2
+   all ( 1 -201 ) ( 2 -202 )
+
 [ Mat Name Color ]
 
 [ Reg Name ]
+  reg    name     size
+   1     cover      1
+   2     body      0.5
+   3     {cell 2}   2
 
 [ Counter ]
+  counter = 1.3
+    part = neutron proton
+    reg in out coll ref
+    1 1 10000 0 0
+    11 1 10000 0 0
+  counter = 2
+    *part = proton deuteron triton 3he alpha nucleus
+    reg               in out coll
+    ( { 2 - 5 } 8 9 ) -1  0   1
+  counter = 3
+    part = 208Pb
+    reg                 coll
+    ( 11 12 15 )        5
+    ( 6<10[1 0 0]<u=3 ) 100
 
 [ Timer ]
+  reg in out coll ref
+  1   0  -1   0   0
+  11  1   0   0   0
+
 
 [ User Defined Interaction ]
 
@@ -2336,8 +2366,212 @@ $ tally common
    stdcut = -1
 
 [ T-Heat ]
+ $ Table 7.22: [t-heat] parameters (1)
+   mesh = reg, r-z, xyz
+
+   axis = reg  x  y  z  r  
+   axis = xy  yz  xz  rz 
+
+   samepage = all
+
+   file = file name
+   resfile = (optional, D=file)
+
+   material = all
+   material = 3
+
+   output = heat
+   output = simple
+   output = all
+
+ $ Table 7.23: [t-heat] parameters (2)
+   part = photon
+
+   unit = 0
+   unit = 1
+   unit = 2
+   unit = 3    $ expected not highlight
+   unit = 11   $ expected not highlight
+
+   factor = 1.0 
+   title = (optional) Title
+
+   gshow = 0 
+   gshow = 1 
+   gshow = 2 
+   gshow = 3 
+   gshow = 4 
+   gshow = 5    $ only in [ T - Heat ]
+   gshow = 6    $ expected not highlight
+   gshow = 22   $ expected not highlight 
+
+
+   rshow = 0
+   rshow = 1
+   rshow = 2
+   rshow = 3
+   rshow = 4    $ expected not highlight
+   rshow = 11   $ expected not highlight
+
+   resol = 1
+   width = 0.5
+
+ $ Table 7.24: [t-heat] parameters (3)
+   volume
+   reg vol
+    1   1
+
+   iechrl = 72 
+   volmat = 9
+
+   epsout = 0
+   epsout = 1
+   epsout = 2
+   epsout = 3     $ expected not highlight
+   epsout = 11    $ expected not highlight
+
+   bmpout = 0 
+   bmpout = 1 
+   bmpout = 2     $ expected not highlight
+   bmpout = 11    $ expected not highlight 
+
+   vtkout = 0 
+   vtkout = 1 
+   vtkout = 2     $ expected not highlight
+   vtkout = 11    $ expected not highlight 
+
+   vtkfmt = 0 
+   vtkfmt = 1 
+   vtkfmt = 2     $ expected not highlight
+   vtkfmt = 11    $ expected not highlight
+
+   electron = 0 
+   electron = 1 
+   electron = 2     $ expected not highlight
+   electron = 11    $ expected not highlight
+
+   ctmin(i) = -999 
+   ctmax(i) = 999 
+   chmin(i) =  -9999
+   chmax(i) = 9999
+
+   trcl = 1
+
+   gslat = 1
+   gslat = 0
+   gslat = 2    $ expected not highlight
+
+   stdcut = -1
 
 [ T-Yield ]
+ $ Table 7.26: [t-yield]parameters (1)
+   mesh = reg
+   mesh = r-z
+   mesh = xyz
+   mesh = tet
+
+   volume
+   reg vol
+
+   iechrl = 72
+   part = all photon
+
+   axis = reg, x, y, z, r
+   axis = tet
+   axis = xy, yz, xz, rz
+   axis = mass
+
+   axis = mass
+   axis = chart
+   axis = dchain
+
+   info = 0
+   info = 1
+   info = 2
+
+   file = file name 
+   resfile = (optional, D=file
+
+ $ Table 7.27: [t-yield]parameters (2)
+   unit = 1
+   unit = 2
+   unit = 3   $ expected not highlight
+   unit = 11  $ expected not highlight
+
+   factor = 1.0
+
+   output = product   # test comment
+   output = cutoff    $ test comment
+
+   mother = all
+   mother = 2
+
+   nucleus = all
+   nucleus = 2
+
+   elastic = 1
+   elastic = 0
+   elastic = -1
+   elastic = -0
+   elastic = 11
+   elastic = -11
+
+   mxnuclei = 3000
+
+ $ Table 7.28: [t-yield]parameters (3)
+   title = (optional) Title
+
+   gslat = 0
+   gslat = 1
+   gslat = 2  
+   gslat = 3  
+   gslat = 4     $ expected not highlight     
+
+
+ $ Table 7.29: [t-yield]parameters (4)   
+   material = all
+   material = 3
+
+   volmat = 9
+
+   epsout = 0
+   epsout = 1
+   epsout = 2
+   epsout = 3     $ expected not highlight
+   epsout = 11    $ expected not highlight
+
+   bmpout = 0 
+   bmpout = 1 
+   bmpout = 2     $ expected not highlight
+   bmpout = 11    $ expected not highlight 
+
+   vtkout = 0 
+   vtkout = 1 
+   vtkout = 2     $ expected not highlight
+   vtkout = 11    $ expected not highlight 
+
+   vtkfmt = 0 
+   vtkfmt = 1 
+   vtkfmt = 2     $ expected not highlight
+   vtkfmt = 11    $ expected not highlight
+
+   foamout = 0 
+   foamout = 1 
+   foamout = 2     
+   foamout = 3    $ expected not highlight
+
+   maxangel = 2
+
+ $ Table 7.30: [t-yield]parameters (5)
+   stdcut = -1 
+   special = 0
+    
+   data = 0
+   data = 1
+   data = 2
+   data = 3
+   data = 4    $ expected not highlight
+   data = 11   $ expected not highlight
 
 [ T-Product ]
 

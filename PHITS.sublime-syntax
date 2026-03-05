@@ -16,14 +16,16 @@ variables:
   float: '\+?[0-9]+\.*[0-9]*'
   neg_float: '-{1}[0-9]+\.*[0-9]*'
   pos_int: '[0-9]*[1-9][0-9]*'
+  # pos_int: '\+?[0-9]+'
   scientific: -?\d+(?:\.\d+)?[eE][+-]?\d
+
   blank_line: ^\s*\n
   
 
   surface_mnemonic: (?i)\b(p|px|py|pz|so|s|sx|sy|sz|c/x|c/y|c/z|cx|cy|cz|k/x|k/y|k/z|kx|ky|kz|sq|gq|tx|ty|tz|xyzp|box|rpp|sph|rcc|rhp|hex|rec|trc|ell|wed|arb)\b
   color_name: (?i)\b(white|darkred|darkbrown|purple|orange|bluegreen|lightgray|orangeyellow)\b  # TODO add more color
   intrinsic_functions: (?i)\b(pi|FLOAT|INT|ABS|EXP|LOG|LOG10|MAX|MIN|MOD|NINT|SIGN|SQRT|ACOS|ASIN|ATAN|ATAN2|COS|COSH|SIN|SINH|TAN|TANH|ge|gt|eq|lt|le)\b
-  particles: (all|proton|neutron|electron|positron|photon|alpha|triton|3he|deuteron|pion+)
+  particles: (all|proton|neutron|electron|positron|photon|alpha|triton|3he|deuteron|pion+|nucleus)
   
 
 contexts:
@@ -1533,7 +1535,7 @@ contexts:
         1: support.constant.source.card.multiplier_section
         2: variable.language.card.multiplier_section
 
-    - match: (?i)\s*\b(lagrange|ne|epsout)\b\s*=\s*
+    - match: (?i)\s*\b(lagrange|ne|epsout|emax)\b\s*=\s*
       captures:
         1: support.constant.source.card.multiplier_section
         2: variable.language.card.multiplier_section
@@ -1548,6 +1550,20 @@ contexts:
       captures:
         1: support.constant.filename.multiplier_section
         2: entity.other.inherited-class.filename.multiplier_section
+
+    - match: (?i)\s*\b(multiplier)\b\s*=\s*(all|)
+      captures:
+        1: support.constant.multiplier_section
+        2: constant.numeric.multiplier_section
+
+    - match: (?i)\s*\b(mat|mset[1-9])\b
+      captures:
+        1: support.constant.multiplier_section
+
+    # should be at the end
+    - match: (?i)\s*\b(all)\b\s* 
+      captures:
+        1: constant.numeric.multiplier_section
 
 ############################################################################################
 # [ M a t  N a m e  C o l o r ]
@@ -1585,24 +1601,35 @@ contexts:
     - meta_scope: reg_name_section
 
     - include: comments
-    # - include: section_off
     - include: begin_section 
-
     - include: set_parameter     
     - include: intrinsic_functions 
+
+    - match: (?i)\s*\b(reg|name|size)\b
+      captures:
+        1: support.constant.keyword.reg_name_section
 
 ############################################################################################
 # [ Counter ]
 ############################################################################################
   counter_section:
     - meta_scope: counter_section
-
     - include: comments
-    # - include: section_off
     - include: begin_section 
-
     - include: set_parameter     
     - include: intrinsic_functions 
+
+    - match: (?i)\s*(counter)\s*=\s*(\b{{pos_int}}\b)
+      captures:
+        1: support.constant.counter_section
+        2: variable.parameter.counter_section
+
+    - match: (?i)\s*\b(reg|in|out|coll|ref)\b
+      captures:
+        1: support.constant.event_type.counter_section
+        # 2: variable.parameter.tally_geometrical_mesh
+
+    - include: tally_particle_parameter
 
 ############################################################################################
 # [ Timer ]
@@ -1611,11 +1638,13 @@ contexts:
     - meta_scope: timer_section
 
     - include: comments
-    # - include: section_off
     - include: begin_section 
-
     - include: set_parameter     
     - include: intrinsic_functions 
+
+    - match: (?i)\s*\b(reg|in|out|coll|ref)\b
+      captures:
+        1: support.constant.event_type.timer_section
 
 ############################################################################################
 # [ User Defined Interaction ]
@@ -1905,7 +1934,7 @@ contexts:
 
   # 6.7.15
   tally_rshow_parameter:
-    - match: (?i)\s*(rshow)\s*=\s*\b([1-3])\b
+    - match: (?i)\s*(rshow)\s*=\s*\b([0-3])\b
       captures:
         1: support.constant.tally_rshow_parameter
         2: constant.numeric.tally_rshow_parameter
@@ -1956,6 +1985,38 @@ contexts:
     - match: (?i)\s*(dump)\s*=\s*()
       captures:
         1: support.constant.tally_dump_parameter
+
+############################################################################################
+#  T a l l y - less common parameters 
+############################################################################################
+  # some keywords used in few tallys
+
+  tally_material_keyword:
+    - match: (?i)\s*(material)\s*=\s*() 
+      captures:
+        1: support.constant.material_keyword.tally_less_common_parameters
+
+  tally_iechrl_keyword:
+    - match: (?i)\s*(iechrl)\s*=\s*() 
+      captures:
+        1: support.constant.iechrl_keyword.tally_less_common_parameters
+
+  tally_stdcut_keyword:
+    - match: (?i)\s*(stdcut)\s*=\s*() 
+      captures:
+        1: support.constant.stdcut_keyword.tally_less_common_parameters
+
+  tally_bmpout_vtkout_vtkfmt_keyword:
+    - match: (?i)\s*(bmpout|vtkout|vtkfmt)\s*=\s*\b(0|1)\b
+      captures:
+        1: support.constant.bmpout_vtkout_vtkfmt_keyword.tally_less_common_parameters
+
+  tally_foamout_keyword:
+    - match: (?i)\s*(foamout)\s*=\s*\b(0|1|2)\b
+      captures:
+        1: support.constant.foamout_keyword.tally_less_common_parameters
+
+
 
 ############################################################################################
 #  [ T-Track ]
@@ -2294,7 +2355,124 @@ contexts:
     - include: begin_section
 
 
+    - match: (?i)\s*(material)\s*=\s*(all|)
+      captures:
+        1: support.constant.tally_t_heat
+        2: constant.numeric.tally_t_heat
+
+    - match: (?i)\s*(output)\s*=\s*(all|heat|simple)
+      captures:
+        1: support.constant.tally_t_heat
+        2: constant.numeric.tally_t_heat
+
+    - match: (?i)\s*(unit)\s*=\s*\b(0|1|2)\b
+      captures:
+        1: support.constant.tally_t_heat
+        2: constant.numeric.tally_t_heat
+
+    - match: (?i)\s*(gshow)\s*=\s*\b(5)\b
+      captures:
+        1: support.constant.tally_t_heat
+        2: constant.numeric.tally_t_heat
+
+    # Table 7.24: [t-heat] parameters (3)
+    - match: (?i)\s*(iechrl|stdcut)\s*=\s*()
+      captures:
+        1: support.constant.tally_t_heat
+
+    - match: (?i)\s*(bmpout|vtkout|vtkfmt|electron|gslat)\s*=\s*\b(0|1)\b
+      captures:
+        1: support.constant.tally_t_heat
+        2: constant.numeric.tally_t_heat
+
     - include: tally_common_parameters
+
+############################################################################################
+#  [T-Yield]
+############################################################################################
+  tally_t_yield:
+    - meta_scope: tally_t_yield_section
+    - include: comments
+    - include: begin_section
+
+ # tally_material_keyword:
+ #  tally_iechrl_keyword:
+ #  tally_stdcut_keyword:
+ #  tally_bmpout_vtkout_vtkfmt_keyword:
+
+
+    # Table 7.26: [t-yield]parameters (1)
+    - include: tally_iechrl_keyword
+
+    # Table 7.27: [t-yield]parameters (2)
+    - match: (?i)\s*(unit)\s*=\s*\b(1|2)\b
+      captures:
+        1: support.constant.tally_t_yield
+        2: constant.numeric.tally_t_yield
+
+    - match: (?i)\s*(output)\s*=\s*\b(product|cutoff)\b
+      captures:
+        1: support.constant.tally_t_yield
+        2: constant.numeric.tally_t_yield
+
+    - match: (?i)\s*(mother|nucleus)\s*=\s*\b(all|)\b
+      captures:
+        1: support.constant.tally_t_yield
+        2: constant.numeric.tally_t_yield
+
+    - match: (?i)\s*(elastic)\s*=\s*(-\b1\b|0|\b1\b)
+      captures:
+        1: support.constant.tally_t_yield
+        2: constant.numeric.tally_t_yield
+
+    - match: (?i)\s*(mxnuclei)\s*=\s*()
+      captures:
+        1: support.constant.tally_t_yield
+        2: constant.numeric.tally_t_yield
+
+    # Table 7.28: [t-yield]parameters (3)
+    - match: (?i)\s*(gslat)\s*=\s*\b(0|1|2|3)\b
+      captures:
+        1: support.constant.tally_t_yield
+        2: constant.numeric.tally_t_yield
+
+    # Table 7.29: [t-yield]parameters (4)
+    - include: tally_material_keyword
+    - include: tally_bmpout_vtkout_vtkfmt_keyword
+    - include: tally_foamout_keyword
+
+    - match: (?i)\s*(maxangel)\s*=\s*()
+      captures:
+        1: support.constant.tally_t_yield
+        2: constant.numeric.tally_t_yield
+
+    # Table 7.30: [t-yield]parameters (5)
+    - include: tally_stdcut_keyword
+
+    - match: (?i)\s*(special)\s*=\s*()
+      captures:
+        1: support.constant.tally_t_yield
+        2: constant.numeric.tally_t_yield
+
+    - match: (?i)\s*(data)\s*=\s*\b(0|1|2|3)\b
+      captures:
+        1: support.constant.tally_t_yield
+        2: constant.numeric.tally_t_yield
+
+
+    - include: tally_common_parameters
+
+############################################################################################
+#  [T-Product]
+############################################################################################
+  tally_t_product:
+    - meta_scope: tally_t_product_section
+    - include: comments
+    - include: begin_section
+
+    - include: tally_common_parameters
+
+
 
 ############################################################################################
 #  [ T-DPA ]
@@ -2439,25 +2617,7 @@ contexts:
 
     - include: tally_common_parameters
 
-############################################################################################
-#  [T-Product]
-############################################################################################
-  tally_t_product:
-    - meta_scope: tally_t_product_section
-    - include: comments
-    - include: begin_section
 
-    - include: tally_common_parameters
-
-############################################################################################
-#  [T-Yield]
-############################################################################################
-  tally_t_yield:
-    - meta_scope: tally_t_yield_section
-    - include: comments
-    - include: begin_section
-
-    - include: tally_common_parameters
 
 ############################################################################################
 #  [ T - 3Dshow ]
