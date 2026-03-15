@@ -11,9 +11,9 @@
         <array>
             <dict>
                 <key>begin</key>
-                <string>keyword.begin.section.phits</string>
+                <string>keyword.section_title</string>
                 <key>end</key>
-                <string>keyword.begin.section.phits</string>
+                <string>keyword.section_title</string>
             </dict>
 
 
