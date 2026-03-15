@@ -1491,7 +1491,7 @@ $ tally common
 
   $ r-z mesh
     mesh = r-z
-    x0 = 1.0               # TODO
+    x0 = 1.0               
     y0 = 2.0
 
     r-type = 1   # D = 1 - 5 
@@ -1582,7 +1582,7 @@ $ tally common
  $ other parameter
   $ particle parameter
    part = photon neutron electron proton all 
-   part = photonn neutronn electronn protonn all    $ TODO:  expected fail 
+   part = photonn neutronn electronn protonn all    $  expected fail 
 
    part = ( neutron    photon   ) 
    part = neutron    photon
@@ -1599,8 +1599,8 @@ $ tally common
    zmax =   c1 
    axis = e12 e21
 
-   axis = costhe              $ expected fail   TODO
-   axis = t-engt-e1 t-e1e1-t  $ expected fail   TODO
+   axis = costhe              $ expected fail   
+   axis = t-engt-e1 t-e1e1-t  $ expected fail    
 
    zmax =   c1 
    part = photon neutron electron proton all 
