@@ -1307,7 +1307,8 @@
  
  101 0 -26 25 -22 21 lat=1 u=1
           fill=-1:1 -1:1 0:0
-   2 2 3 2 3 2 3 2 2             $ TODO: expected not highlight
+    2 2 3 2 3 2 3 2 2             $ TODO: expected not highlight
+     2 2 3 2 3 2 3 2 2             $ begin at 6th column
 
 [ T r a n s f o r m ] 
  set: c10[90] $ angle of around Z (degree)
