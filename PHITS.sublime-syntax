@@ -17,7 +17,7 @@ variables:
   neg_float: '-{1}[0-9]+\.*[0-9]*'
   pos_int: '[0-9]*[1-9][0-9]*'
   # pos_int: '\+?[0-9]+'
-  scientific: -?\d+(?:\.\d+)?[eE][+-]?\d
+  scientific: -?\d+(?:\.\d+)?[eE][+-]?\d+    #-?\d+(?:\.\d+)?[eE][+-]?\d
 
   blank_line: ^\s*\n
   
@@ -475,7 +475,7 @@ contexts:
   calculation_mode:   
 
     # Table 5.1: icntl parameter
-    - match: (?i)\s*(icntl)(\s+=\s+)([0-9]|1[0-7])\b
+    - match: (?i)\s*(icntl)(\s+=\s+)([0-9]|1[0-7])\b(?=\s*(?:[#$]|$))
       captures:
         1: support.constant.calculation_mode
         3: constant.numeric.parameters.calculation_mode
@@ -486,12 +486,12 @@ contexts:
       captures:
         1: support.constant.number_history_bank
 
-    - match: (?i)\s*(istdev)(\s+=\s+)(-2|-1|0|1|2)\b   
+    - match: (?i)\s*(istdev)(\s+=\s+)(-2|-1|0|1|2)\b(?=\s*(?:[#$]|$))   
       captures:
         1: support.constant.calculation-mode
         3: constant.numeric.parameters.number_history_bank
 
-    - match: (?i)\s*(italsh|ireschk|nrandgen)(\s+=\s+)(0|1)\b    
+    - match: (?i)\s*(italsh|ireschk|nrandgen)(\s+=\s+)(0|1)\b(?=\s*(?:[#$]|$))    
       captures:
         1: support.constant.calculation-mode
         3: constant.numeric.parameters.card.number_history_bank
@@ -611,9 +611,10 @@ contexts:
       captures:
         1: support.constant.stopping_power_models
 
+  # 5.2.6 Elastic scatterings, total cross sections, and reaction cross sections
   cross_section:
     # Table 5.11: Parameters for elastic scatterings, total cross sections, and reaction cross sections
-    - match: (?i)\s*(ielas|icrhi)(\s+=\s+)(0|1|2)  
+    - match: (?i)\s*(ielas|icxsni|icrhi)(\s+=\s+)(0|1|2)  
       captures:
         1: support.constant.cross_section
         3: constant.numeric.parameters.card.input_output_filename
@@ -1695,9 +1696,9 @@ contexts:
 
   tally_mesh_type:
     # mesh type
-    - match: (?i)\s*(mesh)\s*=\s*(reg|r-z|xyz|tet) 
+    - match: (?i)\s*(mesh)\s*=\s*(reg|xyz|r-z)(?=\s*(?:[#$]|$)) # TODO: use this partern (?=\s*(?:[#$]|$))
       captures:
-        1: support.constant.tally_geometrical_mesh
+        1: support.constant.tally_geometrical_mesh 
         2: variable.parameter.tally_geometrical_mesh
 
     - match: (?i)\s*(x0|y0)\s*=\s*() 
@@ -1726,13 +1727,13 @@ contexts:
         # 2: variable.parameter.tally_geometrical_mesh
 
     # r-z mesh  xyz mesh
-    - match: (?i)\s*(x-type|y-type|z-type|r-type)\s*=\s*([1-5]) 
+    - match: (?i)\s*(x-type|y-type|z-type|r-type)\s*=\s*([1-5])(?=\s*(?:[#$]|$))
       captures:
-        1: support.constant.tally_energy_mesh.tally_common_parameters
-        2: constant.numeric.tally_angle_mesh.tally_common_parameters
+        1: support.constant.mesh_type.tally_common_parameters
+        2: constant.numeric.mesh_type.tally_common_parameters
 
   tally_energy_mesh_type:
-    - match: (?i)\s*(e-type)\s*=\s*\b([1-5])\b
+    - match: (?i)\s*(e-type)\s*=\s*\b([1-5])\b(?=\s*(?:[#$]|$))
       captures:
         1: support.constant.tally_energy_mesh.tally_common_parameters
         2: constant.numeric.tally_energy_mesh.tally_common_parameters
@@ -1742,19 +1743,19 @@ contexts:
     #     1: support.constant.tally_energy_mesh
 
   tally_let_mesh_type:
-    - match: (?i)\s*(l-type)\s*=\s*([1-5]) 
+    - match: (?i)\s*(l-type)\s*=\s*([1-5])(?=\s*(?:[#$]|$)) 
       captures:
         1: support.constant.tally_let_mesh.tally_common_parameters
         2: constant.numeric.tally_let_mesh.tally_common_parameters
 
   tally_time_mesh_type:
-    - match: (?i)\s*(t-type)\s*=\s*\b([1-5])\b
+    - match: (?i)\s*(t-type)\s*=\s*\b([1-5])\b(?=\s*(?:[#$]|$))
       captures:
         1: support.constant.tally_time_mesh.tally_common_parameters
         2: constant.numeric.tally_time_mesh.tally_common_parameters
 
   tally_angle_mesh_type:
-    - match: (?i)\s*(a-type)\s*=\s*(-2|-1|1|2)
+    - match: (?i)\s*(a-type)\s*=\s*(-2|-1|1|2)(?=\s*(?:[#$]|$))
       captures:
         1: support.constant.tally_angle_mesh.tally_common_parameters
         2: constant.numeric.tally_angle_mesh.tally_common_parameters
@@ -1888,7 +1889,7 @@ contexts:
   # output parameter  : in each tally section
 
   tally_info_parameters:
-    - match: (?i)\s*(info)\s*=\s*(0|1)
+    - match: (?i)\s*(info)\s*=\s*(0|1)(?=\s*(?:[#$]|$)) 
       captures:
         1: support.constant.tally_info_parameters
         2: constant.numeric.tally_info_parameters
@@ -1933,23 +1934,23 @@ contexts:
         2: constant.numeric.tally_info_parameters
 
   tally_2d_type_parameter:
-    - match: (?i)\s*(2d-type)\s*=\s*\b([1-7])\b
+    - match: (?i)\s*(2d-type)\s*=\s*\b([1-7])\b(?=\s*(?:[#$]|$)) 
       captures:
-        1: support.constant.tally_2d_type_parameter
-        2: constant.numeric.tally_2d_type_parameter
+        1: support.constant.tally_2d_type_parameter.tally_common_parameters
+        2: constant.numeric.tally_2d_type_parameter.tally_common_parameters
 
   tally_gshow_parameter:
-    - match: (?i)\s*(gshow)\s*=\s*\b([0-4])\b
+    - match: (?i)\s*(gshow)\s*=\s*\b([0-4])\b(?=\s*(?:[#$]|$)) 
       captures:
-        1: support.constant.tally_gshow_parameter
-        2: constant.numeric.tally_gshow_parameter
+        1: support.constant.tally_gshow_parameter.tally_common_parameters
+        2: constant.numeric.tally_gshow_parameter.tally_common_parameters
 
   # 6.7.15
   tally_rshow_parameter:
-    - match: (?i)\s*(rshow)\s*=\s*\b([0-3])\b
+    - match: (?i)\s*(rshow)\s*=\s*\b([0-3])\b(?=\s*(?:[#$]|$))
       captures:
-        1: support.constant.tally_rshow_parameter
-        2: constant.numeric.tally_rshow_parameter
+        1: support.constant.tally_rshow_parameter.tally_common_parameters
+        2: constant.numeric.tally_rshow_parameter.tally_common_parameters
 
   tally_xyz_txt_parameter:
     - match: (?i)\s*(x-txt|y-txt|z-txt)\s*=\s*(.*)([#|$].*) # have a comment at the end of line
@@ -1962,7 +1963,8 @@ contexts:
       captures:
         1: support.constant.tally_xyz_txt_parameter
         2: entity.other.inherited-class.tally_xyz_txt_parameter
-
+  
+  # 6.7.17 volmat parameter
   tally_volmat_parameter:
     - match: (?i)\s*(volmat)\s*=\s*()
       captures:
@@ -1970,17 +1972,17 @@ contexts:
 
   # 6.7.18
   tally_epsout_parameter:
-    - match: (?i)\s*(epsout)\s*=\s*\b(0|1|2)\b
+    - match: (?i)\s*(epsout)\s*=\s*\b(0|1|2)\b(?=\s*(?:[#$]|$))
       captures:
-        1: support.constant.tally_epsout_parameter
-        2: constant.numeric.tally_epsout_parameter
+        1: support.constant.tally_epsout_parameter.tally_common_parameters
+        2: constant.numeric.tally_epsout_parameter.tally_common_parameters
   
   # 6.7.19
   tally_counter_parameter:
     - match: (?i)\s*(ctmin|ctmax|chmin|chmax)\(.*\)\s*=\s*() 
       captures:
-        1: support.constant.tally_counter_parameter
-        2: constant.numeric.tally_counter_parameter
+        1: support.constant.tally_counter_parameter.tally_common_parameters
+        2: constant.numeric.tally_counter_parameter.tally_common_parameters
 
   # 6.7.20
   tally_resolution_parameter:
@@ -2019,15 +2021,15 @@ contexts:
         1: support.constant.stdcut_keyword.tally_less_common_parameters
 
   tally_bmpout_vtkout_vtkfmt_keyword:
-    - match: (?i)\s*(bmpout|vtkout|vtkfmt)\s*=\s*\b(0|1)\b
+    - match: (?i)\s*(bmpout|vtkout|vtkfmt)\s*=\s*\b(0|1)\b(?=\s*(?:[#$]|$))
       captures:
         1: support.constant.bmpout_vtkout_vtkfmt_keyword.tally_less_common_parameters
+        2: constant.numeric.bmpout_vtkout_vtkfmt_keyword.tally_less_common_parameters
 
   tally_foamout_keyword:
     - match: (?i)\s*(foamout)\s*=\s*\b(0|1|2)\b
       captures:
         1: support.constant.foamout_keyword.tally_less_common_parameters
-
 
 
 ############################################################################################
@@ -2061,7 +2063,7 @@ contexts:
         1: support.constant.tally_t_track
         2: constant.numeric.tally_t_track
 
-    - match: (?i)\s*(bmpout|vtkout|vtkfmt)\s*=\s*\b(0|1)\b 
+    - match: (?i)\s*(bmpout|vtkout|vtkfmt)\s*=\s*\b(0|1)\b(?=\s*(?:[#$]|$))
       captures:
         1: support.constant.tally_t_track
         2: constant.numeric.tally_t_track
@@ -2125,7 +2127,7 @@ contexts:
         2: constant.numeric.tally_t_cross
 
     # Table 7.8: [t-cross] parameters (3)
-    - match: (?i)\s*(output)\s*=\s*\b(flux|current|f-curr|b-curr|o-curr|of-curr|ob-curr|a-curr|oa-curr|a-flux|oa-flux)\b
+    - match: (?i)\s*(output)\s*=\s*\b(flux|current|f-curr|b-curr|o-curr|of-curr|ob-curr|a-curr|oa-curr|a-flux|oa-flux)\b(?=\s*(?:[#$]|$))
       captures:
         1: support.constant.tally_t_cross
         2: constant.numeric.tally_t_cross
@@ -2392,7 +2394,7 @@ contexts:
       captures:
         1: support.constant.tally_t_heat
 
-    - match: (?i)\s*(bmpout|vtkout|vtkfmt|electron|gslat)\s*=\s*\b(0|1)\b
+    - match: (?i)\s*(bmpout|vtkout|vtkfmt|electron|gslat)\s*=\s*\b(0|1)\b(?=\s*(?:[#$]|$))
       captures:
         1: support.constant.tally_t_heat
         2: constant.numeric.tally_t_heat
@@ -2466,7 +2468,7 @@ contexts:
         1: support.constant.tally_t_yield
         2: constant.numeric.tally_t_yield
 
-    - match: (?i)\s*(data)\s*=\s*\b(0|1|2|3)\b
+    - match: (?i)\s*(data)\s*=\s*\b(0|1|2|3)\b(?=\s*(?:[#$]|$))
       captures:
         1: support.constant.tally_t_yield
         2: constant.numeric.tally_t_yield

@@ -5,32 +5,35 @@
 
 [ P a r a m e t e r s ] 
  $ Table 5.1: icntl parameter  
-  icntl    =           0     # D = 0 - 17
-  icntl    =           2     
-  icntl    =           17    
-  icntl    =           18    $ expected not highlight
-  icntl    =           20    $ expected not highlight    
+  icntl  =    0     # D = 0 - 17
+   icntl    =    2     
+  icntl   =    17    
+  icntl  =    1 3   $ expected not highlight, many values
+  icntl   =    18    $ expected not highlight, invalid value
+  icntl  =    20    $ expected not highlight, invalid value
 
  $ Table 5.2: Parameters for number of history and bank
-  maxcas   =       10000     # (D=10) number of particles per one batch
-  maxbch   =           2     # (D=10) number of batches
-  maxbnk   =       10000     # Maximum number of secondary particles
-  iwwbnk   =           1
-  igeomem  =       10000
-  xsmemory =          1.0
-  timeout  =         -1.0
+  maxcas   = 10000     # (D=10) number of particles per one batch
+  maxbch   = 2     # (D=10) number of batches
+  maxbnk   = 10000     # Maximum number of secondary particles
+  iwwbnk   = 1
+  igeomem  = 10000
+  xsmemory = 1.0
+  timeout  = -1.0
  
   istdev   =           0    # statistical uncertainty calculation type and restart mode
   istdev   =          -2    # D = -2 -1 0 1 2
   istdev   =          -1
   istdev   =           1
   istdev   =           2
-  istdev   =           3    $ expected not highlight
-  istdev   =          05    $ expected not highlight
+  istdev   =           3    $ expected not highlight, invalid value
+  istdev   =          05    $ expected not highlight, invalid value
  
   italsh   =           0
   italsh   =           1
-  italsh   =           3    $ expected not highlight
+  italsh   =          1 1  $ expected not highlight, many values
+  italsh   =          11   $ expected not highlight, invalid value
+  italsh   =           3   $ expected not highlight, invalid value
         
   ireschk   =          0
   ireschk   =          1
@@ -1462,6 +1465,7 @@
 
 $ tally common
 [ T-Track ] 
+
  $ Mesh type
   $ Region mesh
    mesh = reg
@@ -1500,14 +1504,16 @@ $ tally common
     r-type = 3   # D = 1 - 5 
     r-type = 4   # D = 1 - 5 
     r-type = 5   # D = 1 - 5 
-    r-type = 6    $ expected not highlight  
+    r-type = 1 2 $ expected not highlight, many values
+    r-type = 6   $ expected not highlight, invalid value  
 
     z-type = 1   # D = 1 - 5 
     z-type = 2   # D = 1 - 5 
     z-type = 3   # D = 1 - 5 
     z-type = 4   # D = 1 - 5 
     z-type = 5   # D = 1 - 5 
-    z-type = 6    $ expected not highlight  
+    z-type = 1 2 $ expected not highlight, many values
+    z-type = 6   $ expected not highlight, invalid value
 
   $ xyz mesh
     mesh = xyz
@@ -1518,21 +1524,28 @@ $ tally common
     x-type = 3   # D = 1 - 5 
     x-type = 4   # D = 1 - 5 
     x-type = 5   # D = 1 - 5 
-    x-type = 6   # D = 1 - 5 
+    x-type = 1 2 $ expected not highlight, many values
+    x-type = 6   $ expected not highlight, invalid value
 
     y-type = 1   # D = 1 - 5 
-    y-type = 2   # D = 1 - 5 
+    y-type = 2    
     y-type = 3   # D = 1 - 5 
     y-type = 4   # D = 1 - 5 
     y-type = 5   # D = 1 - 5 
-    y-type = 6   # D = 1 - 5
+    y-type = 1 2 $ expected not highlight, many values
+    y-type = 6   $ expected not highlight, invalid value
 
     z-type = 1   # D = 1 - 5 
     z-type = 2   # D = 1 - 5 
-    z-type = 3   # D = 1 - 5 
-    z-type = 4   # D = 1 - 5 
+    z-type = 3   
+    z-type = 4    
     z-type = 5   # D = 1 - 5 
-    z-type = 6   # D = 1 - 5
+    z-type = 1 3 $ expected not highlight, many values
+    z-type = 6   $ expected not highlight, invalid value
+
+  $ tet mesh
+    mesh = tet   # TODO: "6.1.5 tet mesh" ???
+
 
  $ energy mesh type
   e-type = 1    # D = 1 - 5
@@ -1540,7 +1553,8 @@ $ tally common
   e-type = 3    # D = 1 - 5
   e-type = 4    # D = 1 - 5
   e-type = 5    # D = 1 - 5
-  e-type = 6    # D = 1 - 5
+  e-type = 1 2  $ expected not highlight, many values
+  e-type = 6    $ expected not highlight, invalid value
 
  $ let mesh type
   l-type = 1    # D = 1 - 5
@@ -1548,7 +1562,8 @@ $ tally common
   l-type = 3    # D = 1 - 5
   l-type = 4    # D = 1 - 5
   l-type = 5    # D = 1 - 5
-  l-type = 6    # D = 1 - 5
+  l-type = 5 3  $ expected not highlight, many values
+  l-type = 6    $ expected not highlight, invalid value
 
  $ time mesh type
   t-type = 1    # D = 1 - 5
@@ -1556,16 +1571,18 @@ $ tally common
   t-type = 3    # D = 1 - 5
   t-type = 4    # D = 1 - 5
   t-type = 5    # D = 1 - 5
-  t-type = 6    # D = 1 - 5
+  t-type =  2 3 $ expected not highlight, many values
+  t-type = 6    $ expected not highlight, invalid value
 
  $ angle mesh type
   a-type = 1    # D = 1 2 -1 2
   a-type = 2    # D = 1 2 -1 2
   a-type = -1   # D = 1 2 -1 2
   a-type = -2   # D = 1 2 -1 2
-
-  a-type = 3    $ expected not highlight
-  a-type = 6    $ expected not highlight
+  a-type = 1 2  $ expected not highlight, many values
+  a-type =-1 2  $ expected not highlight, many values
+  a-type = 3    $ expected not highlight, invalid value
+  a-type = 6    $ expected not highlight, invalid value
 
  $ mesh definition
   ne = 2
@@ -1573,11 +1590,11 @@ $ tally common
   ny =   100
   nz =   100
   xmin =  -c1           
-  xmax =   c1            # maximum value of x-mesh points
-  ymin =  -10            # minimum value of y-mesh points
-  ymax =   10            # maximum value of y-mesh points
-  zmin =  -c1            # minimum value of z-mesh points
-  zmax =   c1            # maximum value of z-mesh points
+  xmax =   c1     # maximum value of x-mesh points
+  ymin =  -10     # minimum value of y-mesh points
+  ymax =   10     # maximum value of y-mesh points
+  zmin =  -c1     # minimum value of z-mesh points
+  zmax =   c1     # maximum value of z-mesh points
 
 
  $ other parameter
@@ -1621,8 +1638,10 @@ $ tally common
   $ info parameter
    info = 0    # D = 0 1
    info = 1    $ D = 0 1
+
+   info = 0 1  $ expected not highlight, many values
+   info = 2    $ expected not highlight, invalid value
    
-   info = 2    $ D = 0 1
 
   $ title parameter
    title = tile 01 # comment 
@@ -1642,14 +1661,15 @@ $ tally common
 
   $ 2d-type parameter
    2d-type = 1    #  D = 1, 2, 3, 4, 5, 6, 7
-   2d-type = 2    #  D = 1, 2, 3, 4, 5, 6, 7
-   2d-type = 3    #  D = 1, 2, 3, 4, 5, 6, 7
-   2d-type = 4    #  D = 1, 2, 3, 4, 5, 6, 7
+   2d-type = 2    $  D = 1, 2, 3, 4, 5, 6, 7
+   2d-type = 3     
+   2d-type = 4     
    2d-type = 5    #  D = 1, 2, 3, 4, 5, 6, 7
    2d-type = 6    #  D = 1, 2, 3, 4, 5, 6, 7
    2d-type = 7    #  D = 1, 2, 3, 4, 5, 6, 7
-
-   2d-type = 8    $ expected not highlight
+   2d-type = 19   $ expected not highlight, invalid value
+   2d-type = 1 3  $ expected not highlight, many values
+   2d-type = 8    $ expected not highlight, invalid value
 
   $ gshow parameter
    gshow = 0    #  D = 0, 1, 2, 3, 4
@@ -1657,29 +1677,37 @@ $ tally common
    gshow = 2    #  D = 0, 1, 2, 3, 4
    gshow = 3    #  D = 0, 1, 2, 3, 4
    gshow = 4    #  D = 0, 1, 2, 3, 4
-
-   gshow = 5    $ expected not highlight
+   gshow = 0 3  $ expected not highlight, invalid value
+   gshow = 5    $ expected not highlight, invalid value
+   gshow = 15   $ expected not highlight, invalid value
 
 
   $ rshow parameter
-   rshow = 1    #  D = 1, 2, 3
+   rshow = 0    #  rshow=0 means no rshow option
+   rshow = 1     
    rshow = 2    #  D = 1, 2, 3
-   rshow = 3    #  D = 1, 2, 3
+   rshow = 3    $  D = 1, 2, 3
 
-   rshow = 4    $ expected not highlight
+   rshow = 1 3 $ expected not highlight,  many values
+   rshow = 4   $ expected not highlight, invalid value
+   rshow = 14  $ expected not highlight, invalid value
 
   $ x-txt, y-txt, z-txt parameter
    x-txt = x axis title   
    y-txt = y axis title     # comment
    z-txt = z axis title
 
-  $ volmat parameter
+  $ 6.7.17: volmat parameter
    volmat = 1  
    volmat = 2  # comment
 
   $ epsout parameter
    epsout = 1  
    epsout = 2  # comment
+
+   epsout = 1 2  $ expected not highlight, many values
+   epsout = 3    $ expected not highlight, invalid value
+   epsout = 3    $ expected not highlight, invalid value
 
   $ resolution parameter
    resol = 1  
@@ -1711,11 +1739,13 @@ $ tally common
    
    iechrl = 72
 
-   e-type = 1  $ D = 1 2 3 4 5
-   e-type = 2  $ D = 1 2 3 4 5
-   e-type = 3  $ D = 1 2 3 4 5
-   e-type = 4  $ D = 1 2 3 4 5
-   e-type = 5  $ D = 1 2 3 4 5
+   e-type = 1    $ D = 1 2 3 4 5
+   e-type = 2    $ D = 1 2 3 4 5
+   e-type = 3    $ D = 1 2 3 4 5
+   e-type = 4    $ D = 1 2 3 4 5
+   e-type = 5    $ D = 1 2 3 4 5
+   e-type = 1 2  $ expected not highlight, many values
+   e-type = 6    $ expected not highlight, invalid value
 
    t-type = 1  $ D = 1 2 3 4 5
    t-type = 2  $ D = 1 2 3 4 5
@@ -1876,20 +1906,20 @@ $ tally common
 
 [ T-Cross ]
  $ Table 7.6: [t-cross] parameters (1)
-   mesh = reg
-   mesh = r-z
-   mesh = xyz
-   mesh = reg xyz   # TODO
-   mesh = xyz reg   # TODO
+   mesh = reg       
+   mesh = r-z      $ comment
+   mesh = xyz      # comment
+   mesh = reg xyz   # not match
+   mesh = xyz reg   # not match
 
    part = all photon 
    part = electronn
 
-   e-type = 1
-   e-type = 5
-   e-type = 18       $ expected not highlight 
-   e-type = 1 2 3   # TODO
-
+   e-type = 1      
+   e-type = 5      $ match
+   e-type = 18     $ expected not match, invalid value
+   e-type = 1 2 3  # expected not match, many values
+ 
    eng2let = 0 
    eng2let = 1 
    eng2let = 2
@@ -1899,21 +1929,21 @@ $ tally common
 
    t-type = 1
    t-type = 5
-   t-type = 18       $ expected not highlight 
-   t-type = 1 2 3    # TODO
+   t-type = 18       $ expected not match, invalid value
+   t-type = 1 2 3    # expected not match, many values
 
-   a-type = -1      # TODO
+   a-type = -1       
    a-type = 2
-   a-type = 18       $ TODO: expected not highlight 
-   a-type = 1 2    # TODO
+   a-type = 18       $ expected not highlight, invaid value
+   a-type = 1 2      # expected not match, many values
 
-
+  
    iangform = 0      # D = 0,1,2,3
    iangform = 1      # D = 0,1,2,3
    iangform = 2      # D = 0,1,2,3 
    iangform = 3      # D = 0,1,2,3
-   iangform = 4      $ expected not highlight
-   iangform = 22     $ expected not highlight
+   iangform = 4      $ expected not match, invalid value
+   iangform = 22     $ expected not match, invalid value
 
  $ Table 7.7: [t-cross] parameters (2) 
    unit = 1   
@@ -1953,11 +1983,11 @@ $ tally common
    2d-type = 5 
    2d-type = 6
    2d-type = 7 
-   2d-type = 8        $ expected not highlight
-   2d-type = 14       $ expected not highlight
+   2d-type = 8        $ expected not match, invalid value
+   2d-type = 14       $ expected not match, invalid value
 
  $ Table 7.8: [t-cross] parameters (3)
-   output = flux
+   output = flux      # expected match
    output = current
    output = f-curr
    output = b-curr
@@ -1968,8 +1998,8 @@ $ tally common
    output = oa-curr
    output = a-flux
    output = oa-flux
-   output = fflux         $ expected not highlight
-   output = flux current  $ TODO:  expected not highlight
+   output = fflux         $ expected not match, invalid value
+   output = flux current  $ expected not match, many values
 
    x-txt = (optional)     # test comment 
    y-txt = (optional)      # test comment 
@@ -2477,7 +2507,7 @@ $ tally common
 
 [ T-Heat ]
  $ Table 7.22: [t-heat] parameters (1)
-   mesh = reg, r-z, xyz
+   mesh = reg, r-z, xyz   # TODO
 
    axis = reg  x  y  z  r  
    axis = xy  yz  xz  rz 
@@ -2533,17 +2563,19 @@ $ tally common
 
    iechrl = 72 
    volmat = 9
-
-   epsout = 0
+ 
+   epsout = 0     $ comment
    epsout = 1
    epsout = 2
-   epsout = 3     $ expected not highlight
-   epsout = 11    $ expected not highlight
+   epsout = 1 2   $ expected not highlight, many values
+   epsout = 3     $ expected not highlight, invalid value
+   epsout = 11    $ expected not highlight, invalid value
 
    bmpout = 0 
    bmpout = 1 
-   bmpout = 2     $ expected not highlight
-   bmpout = 11    $ expected not highlight 
+   bmpout = 1 0   $ expected not highlight, many values
+   bmpout = 2     $ expected not highlight, invalid value
+   bmpout = 11    $ expected not highlight , invalid value
 
    vtkout = 0 
    vtkout = 1 
@@ -2578,7 +2610,7 @@ $ tally common
    mesh = reg
    mesh = r-z
    mesh = xyz
-   mesh = tet
+   mesh = tet  
 
    volume
    reg vol
@@ -2647,13 +2679,15 @@ $ tally common
    epsout = 0
    epsout = 1
    epsout = 2
-   epsout = 3     $ expected not highlight
-   epsout = 11    $ expected not highlight
+   epsout = 2 3   $ expected not highlight, many values
+   epsout = 3     $ expected not highlight, invalid value
+   epsout = 11    $ expected not highlight, invalid value
 
    bmpout = 0 
    bmpout = 1 
-   bmpout = 2     $ expected not highlight
-   bmpout = 11    $ expected not highlight 
+   bmpout = 0 1   $ expected not highlight, many values
+   bmpout = 2     $ expected not highlight, invalid value
+   bmpout = 11    $ expected not highlight, invalid value 
 
    vtkout = 0 
    vtkout = 1 
@@ -2676,12 +2710,13 @@ $ tally common
    stdcut = -1 
    special = 0
     
-   data = 0
-   data = 1
+   data = 0     $ comment
+   data = 1     # comment
    data = 2
    data = 3
-   data = 4    $ expected not highlight
-   data = 11   $ expected not highlight
+   data = 2 3  # expected not highlight, many values
+   data = 4    $ expected not highlight, invalid value
+   data = 11   $ expected not highlight, invalid value
 
 [ T-Product ]
 

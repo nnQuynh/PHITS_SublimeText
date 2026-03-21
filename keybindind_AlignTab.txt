@@ -1,0 +1,21 @@
+[
+
+    // must install align_tab package
+    {
+        "keys": ["ctrl+shift+a"], 
+        "command": "align_tab", 
+        "args": {
+            "user_input": "[=#|=$]/l1r1l10l1l"
+        }
+    },
+
+    {
+        "keys": ["ctrl+shift+s"], 
+        "command": "align_tab", 
+        "args": {
+            "user_input": "[=#|=$]/l1r1l10l1l"
+        }
+    },
+
+
+]
