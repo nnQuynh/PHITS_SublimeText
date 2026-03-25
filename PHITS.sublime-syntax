@@ -698,10 +698,10 @@ contexts:
     - match: (?i)\s*(emcpf)()()  
       scope: support.constant.photon_PHITS_model
 
-    - match: (?i)\s*(nocoh|xnum)(\s+=\s+)(0|1)  
+    - match: (?i)\s*(nocoh|xnum)(\s+=\s+)            #(0|1)  
       captures:
         1: support.constant.photon_PHITS_model
-        3: constant.numeric.parameters.card.photon_PHITS_model 
+        # 3: constant.numeric.parameters.card.photon_PHITS_model 
 
 
   EGS5_parameters:
@@ -1826,7 +1826,7 @@ contexts:
     #     1: support.constant.tally_particle_parameter
     #     2: constant.numeric.tally_particle_parameter
 
-    - match: (?i)\s*(axis)
+    - match: (?i)\s*\b(axis)\b
       scope: support.constant.tally_axis_parameter.tally_other_parameters
       push: tally_axis_parameter_option
 
@@ -1855,19 +1855,19 @@ contexts:
   # tally_samepage_parameter:  ???
 
   tally_file_parameter: 
-    - match: (?i)\s*(file)\s*=\s*(.*)([#|$].*) # have a comment at the end of line
+    - match: (?i)\s*\b(file)\b\s*=\s*(.*)([#|$].*) # have a comment at the end of line
       captures:
         1: support.constant.filename
         2: entity.other.inherited-class.filename
         3: comment
 
-    - match: (?i)\s*(file)\s*=\s*(.*)    # no comment at the end of line
+    - match: (?i)\s*\b(file)\b\s*=\s*(.*)    # no comment at the end of line
       captures:
         1: support.constant.filename
         2: entity.other.inherited-class.filename
 
   tally_resfile_parameter: 
-    - match: (?i)\s*(resfile)\s*=\s*(.*)([#|$].*) # have a comment at the end of line
+    - match: (?i)\s*\b(resfile)\b\s*=\s*(.*)([#|$].*) # have a comment at the end of line
       captures:
         1: support.constant.filename
         2: entity.other.inherited-class.filename
@@ -1881,7 +1881,7 @@ contexts:
   # tally_unit_parameter: in each tally section
 
   tally_factor_parameter:
-    - match: (?i)\s*(factor)\s*=()
+    - match: (?i)\s*\b(factor)\b\s*=()
       captures:
         1: support.constant.filename
         2: entity.other.inherited-class.filename
@@ -1889,7 +1889,7 @@ contexts:
   # output parameter  : in each tally section
 
   tally_info_parameters:
-    - match: (?i)\s*(info)\s*=\s*(0|1)(?=\s*(?:[#$]|$)) 
+    - match: (?i)\s*\b(info)\b\s*=\s*(0|1)(?=\s*(?:[#$]|$)) 
       captures:
         1: support.constant.tally_info_parameters
         2: constant.numeric.tally_info_parameters
@@ -2006,7 +2006,7 @@ contexts:
   # some keywords used in few tallys
 
   tally_material_keyword:
-    - match: (?i)\s*(material)\s*=\s*() 
+    - match: (?i)\s*\b(material)\b\s*=\s*() 
       captures:
         1: support.constant.material_keyword.tally_less_common_parameters
 
@@ -2041,29 +2041,29 @@ contexts:
     - include: begin_section
 
     # Table 7.1: [t-track]parameters (1)
-    - match: (?i)\s*(volume|iechrl)\s*=\s*
+    - match: (?i)\s*\b(volume|iechrl)\b\s*=\s*
       captures:
         1: support.constant.tally_t_track
 
     # Table 7.2: [t-track]parameters (2)
-    - match: (?i)\s*(unit)\s*=\s*\b(11|12|13|14|1|2|3|4)\b
+    - match: (?i)\s*\b(unit)\b\s*=\s*\b(11|12|13|14|1|2|3|4)\b
       captures:
         1: support.constant.tally_t_track
         2: constant.numeric.tally_t_track
 
     # Table 7.3: [t-track]parameters (3)
-    - match: (?i)\s*(gslat)\s*=\s*\b(0|1|2|3)\b
+    - match: (?i)\s*\b(gslat)\b\s*=\s*\b(0|1|2|3)\b
       captures:
         1: support.constant.tally_t_track
         2: constant.numeric.tally_t_track
 
     # Table 7.4: [t-track]parameters (4)
-    - match: (?i)\s*(material)\s*=\s*() 
+    - match: (?i)\s*\b(material)\b\s*=\s*() 
       captures:
         1: support.constant.tally_t_track
         2: constant.numeric.tally_t_track
 
-    - match: (?i)\s*(bmpout|vtkout|vtkfmt)\s*=\s*\b(0|1)\b(?=\s*(?:[#$]|$))
+    - match: (?i)\s*\b(bmpout|vtkout|vtkfmt)\b\s*=\s*\b(0|1)\b(?=\s*(?:[#$]|$))
       captures:
         1: support.constant.tally_t_track
         2: constant.numeric.tally_t_track
@@ -2073,7 +2073,7 @@ contexts:
         1: support.constant.tally_t_track
         2: constant.numeric.tally_t_track
 
-    - match: (?i)\s*(maxangel)\s*=\s*() 
+    - match: (?i)\s*\b(maxangel)\b\s*=\s*() 
       captures:
         1: support.constant.tally_t_track
         2: constant.numeric.tally_t_track
@@ -2084,12 +2084,12 @@ contexts:
     #     1: support.constant.tally_t_track
     #     2: constant.numeric.tally_t_track
 
-    - match: (?i)\s*(iextstat)\s*=\s*\b(0|1|2)\b
+    - match: (?i)\s*\b(iextstat)\b\s*=\s*\b(0|1|2)\b
       captures:
         1: support.constant.tally_t_track
         2: constant.numeric.tally_t_track
 
-    - match: (?i)\s*(stdcut|prodenmn|prodenmx|nbproden|multiplier)\s*=\s*() 
+    - match: (?i)\s*\b(stdcut|prodenmn|prodenmx|nbproden|multiplier)\b\s*=\s*() 
       captures:
         1: support.constant.tally_t_track
         2: constant.numeric.tally_t_track
@@ -2106,11 +2106,11 @@ contexts:
 
 
     # Table 7.6: [t-cross] parameters (1)
-    - match: (?i)\s*(volume|iechrl)\s*=\s*
+    - match: (?i)\s*\b(volume|iechrl)\b\s*=\s*
       captures:
         1: support.constant.tally_t_cross
 
-    - match: (?i)\s*(eng2let)\s*=\s*\b(0|1|2)\b
+    - match: (?i)\s*\b(eng2let)\b\s*=\s*\b(0|1|2)\b
       captures:
         1: support.constant.tally_t_cross
         2: constant.numeric.tally_t_cross
